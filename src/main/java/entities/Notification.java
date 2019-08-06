@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "notifications")
-@NoArgsConstructor
 public class Notification {
 
     @Id
