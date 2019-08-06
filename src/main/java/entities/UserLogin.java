@@ -1,7 +1,12 @@
 package entities;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
+@Entity
+@Table(name = "user_login")
 public class UserLogin {
 
     @Id
@@ -14,4 +19,9 @@ public class UserLogin {
 
     @OneToOne
     private User user;
+
+    public UserLogin(String password){
+
+        this.password = password;
+    }
 }

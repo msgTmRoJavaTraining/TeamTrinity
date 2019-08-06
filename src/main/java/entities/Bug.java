@@ -1,9 +1,16 @@
 package entities;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Entity
+@Data
+@Table(name = "bugs")
+@NoArgsConstructor
 public class Bug {
 
     @Id
@@ -31,4 +38,14 @@ public class Bug {
     @OneToMany(mappedBy = "bug", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     private List<Attachment> attachments;
 
+
+    public Bug(String title, String description, String revision, LocalDate targetData, User createdBy, int status, User assignedTo) {
+        this.title = title;
+        this.description = description;
+        this.revision = revision;
+        this.targetData = targetData;
+        this.createdBy = createdBy;
+        this.status = status;
+        this.assignedTo = assignedTo;
+    }
 }

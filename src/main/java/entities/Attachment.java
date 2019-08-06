@@ -1,6 +1,7 @@
 package entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "attachments")
+@NoArgsConstructor
 public class Attachment {
 
     @Id

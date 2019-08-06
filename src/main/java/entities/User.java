@@ -2,6 +2,7 @@ package entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "user")
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -21,6 +23,10 @@ public class User {
     private String email;
 
     private boolean isActive;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
 
     @OneToMany(mappedBy = "assignedTo")
     @EqualsAndHashCode.Exclude
@@ -37,6 +43,17 @@ public class User {
     @OneToOne
     private UserLogin userLogin;
 
+    @ManyToMany
+    @OrderBy("created DESC")
+    @EqualsAndHashCode.Exclude
+    private List<Notification> notifications = new ArrayList<>();
 
 
+    public User(String name, String email, List<Role> roles,String phoneNumber,UserLogin userLogin) {
+        this.name = name;
+        this.email = email;
+        this.roles = roles;
+        this.phoneNumber = phoneNumber;
+        this.userLogin = userLogin;
+    }
 }
