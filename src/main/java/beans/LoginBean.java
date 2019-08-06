@@ -17,7 +17,7 @@ public class LoginBean implements Serializable {
 
     public String performLogin() {
         if(username.equals("username") && password.equals("password")) {
-            return "homepage";
+            return "";
         } else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Date incorecte", "Email sau parola incorecte."));
             return "";
