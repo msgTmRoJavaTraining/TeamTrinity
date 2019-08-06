@@ -1,13 +1,16 @@
 package entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "user_login")
-public class UserLogin {
+@NoArgsConstructor
+public class UserLogin implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
