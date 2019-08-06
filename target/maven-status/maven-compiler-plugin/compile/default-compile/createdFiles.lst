@@ -1,8 +1,8 @@
 beans\LoginBean.class
+entities\Notification.class
 entities\UserLogin.class
 entities\Attachment.class
 entities\Right.class
 entities\Bug.class
 entities\Role.class
 entities\User.class
-beans\WebHelper.class
