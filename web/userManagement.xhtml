@@ -36,16 +36,16 @@
                 <p:dataTable var="user" value="#{loginBean}">
 
                     <p:column headerText="Name">
-                        <h:outputText value="#{loginBean.username}" />
+                        <h:outputText value="#{userBackingBean.name}" />
                     </p:column>
                     <p:column headerText="Mobile Number">
-                        <h:outputText />
+                        <h:outputText value="#{userBackingBean.phoneNumber}"/>
                     </p:column>
                     <p:column headerText="Email">
-                        <h:outputText />
+                        <h:outputText value="#{userBackingBean.email}"/>
                     </p:column>
                     <p:column headerText="Role">
-                        <h:outputText  />
+                        <h:outputText value="#{userBackingBean.roles}" />
                     </p:column>
 
 

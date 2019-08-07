@@ -8,7 +8,6 @@
           <element id="module-output" name="JBugger" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="module" name="Maven: com.sun:tools-jar:1" module-name="JBugger" />
           <element id="library" level="project" name="Maven: org.primefaces:primefaces:6.2" />
         </element>
       </element>
