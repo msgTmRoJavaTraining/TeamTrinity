@@ -45,7 +45,6 @@
         <setting name="validation-enabled" value="true" />
         <datasource-mapping>
           <factory-entry name="Entities" />
-          <factory-entry name="Student_details" />
           <factory-entry name="java.training" />
         </datasource-mapping>
         <naming-strategy-map />
