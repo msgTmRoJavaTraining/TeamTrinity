@@ -8,34 +8,29 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@Data
-@Named
-@ApplicationScoped
-@NoArgsConstructor
-@AllArgsConstructor
+@Stateless
 public class DatabaseBugEJB {
 
     @PersistenceContext(unitName = "java.training")
     private EntityManager entityManager;
 
-    public Bug createBug(String title, String description, String revision, String fixedInVersion,
-                         StatusName status, User assignedTo) {
+    public Bug createBug(String title, String description, String revision, String fixedInVersion,String createdBy,
+                          String assignedTo) {
 
         Bug bug = new Bug();
         bug.setTitle(title);
         bug.setDescription(description);
         bug.setRevision(revision);
         bug.setFixedInVersion(fixedInVersion);
-        /*
-        * should be transformed into enum until tomorrow night
-        * */
-        bug.setStatus(status);
-        bug.setAssignedTo(assignedTo);
+        bug.setStatus(StatusName.NEW);
+        bug.setAssignedTo(entityManager.find(User.class,assignedTo));
+        bug.setCreatedBy(entityManager.find(User.class,createdBy));
         entityManager.persist(bug);
 
         return bug;

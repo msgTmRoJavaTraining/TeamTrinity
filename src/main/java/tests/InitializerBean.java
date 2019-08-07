@@ -1,3 +1,5 @@
+package tests;
+
 import entities.Bug;
 
 import javax.annotation.PostConstruct;
