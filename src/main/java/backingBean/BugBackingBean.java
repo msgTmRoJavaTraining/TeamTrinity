@@ -19,14 +19,13 @@ public class BugBackingBean {
     private String fixedInVersion;
     private LocalDate targetDate;
     private String createdBy;
-    private String assignetTo;
+    private String assignedTo;
 
 
     @Inject
     private DatabaseBugEJB bugEJB;
 
-    public void addBug(String title, String description, String revision, String fixedInVersion,String createdBy,
-                       String assignedTo){
+    public void addBug(){
 
         bugEJB.createBug(title,description,revision,fixedInVersion,createdBy,assignedTo);
     }

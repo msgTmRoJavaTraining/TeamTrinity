@@ -40,10 +40,11 @@
                         <h:outputText value="#{loginBean.username}" />
                     </p:column>
                     <p:column headerText="Permission">
-                        <p:selectCheckboxMenu id="permission" label="Select Permission" style="width:150px" multiple="true">
-                            <!--                            <p:ajax listener="#{dropdownView.onCountryChange}" update="city" />-->
-                            <f:selectItem itemLabel="User Management" itemValue="USER MANAGEMENT" noSelectionOption="true" />
-                            <!--                            <f:selectItems value="#{dropdownView.countries}" />-->
+
+                        <p:selectCheckboxMenu label="Permissions" id="menu" multiple="true">
+                            <f:selectItem itemLabel="Permission Management" noSelectionOption="true" />
+                            <f:selectItem itemLabel="User Management" noSelectionOption="true" />
+                            <f:selectItem itemLabel="Bug Management" noSelectionOption="true" />
                         </p:selectCheckboxMenu>
                     </p:column>
 

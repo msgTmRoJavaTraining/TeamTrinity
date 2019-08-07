@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <h:head>
+        <title>Add Bug</title>
+        <h:outputStylesheet library="css" name="myStyle.css"/>
+    </h:head>
+    <h:body>
+        <p:growl id="growl" sticky="false" showDetail="true" life="3000"/>
+
+
+        <h:form>
+            <p:growl id="messages"/>
+
+            <p:menubar>
+                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" rendered="#{homeBean.admin}"/>
+                <p:menuitem value="User Management" url="userManagement.xhtml" icon="fa fa-fw fa-users"/>
+                <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"/>
+                <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
+
+                <f:facet name="options">
+                    <p:selectOneMenu id="console" value="language" style="margin-right: 10px;">
+                        <f:selectItem itemLabel="EN" itemValue="en" />
+                        <f:selectItem itemLabel="RO" itemValue="ro" />
+                    </p:selectOneMenu>
+                    <p:commandButton value="Logout" ajax="false" action="loginPage" icon="fa fa-fw fa-power-off"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+
+
+        <div class="centered" >
+            <h:form id="addBugForm" scrollable="true" >
+                <h3 class="title">Add Bug</h3>
+                <h:outputText styleClass="myFont" value="Title" style="display:block;"/>
+                <p:inputText id="title" value = "#{bugBackingBean.title}" required="true" label="title"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Description" style="display:block;"/>
+                <p:inputText id="despription" value = "#{bugBackingBean.description}" required="true" label="description"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Revision/Version" style="display:block;"/>
+                <p:inputText id="revisionVersion" value = "#{bugBackingBean.revision}" required="true" label="revisionVersion"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Vixed in version" style="display:block;"/>
+                <p:inputText id="fixedInVersion" value = "#{bugBackingBean.fixedInVersion}" required="true" label="fixedInVersion"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Target Date" style="display:block;"/>
+                <p:inputText id="targetDate" value = "#{bugBackingBean.targetDate}" required="true" label="targetDate"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
+                <p:inputText id="severity" required="false" label="severity"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Created by" style="display:block;"/>
+                <p:inputText id="createdBy" value = "#{bugBackingBean.createdBy}" required="true" label="createdBy"/>
+                <br/><br/>
+
+
+                <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
+                <p:inputText id="assignedTo" value = "#{bugBackingBean.assignedTo}" required="true" label="assignedTo"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
+                <p:inputText id="attachment" required="false" label="attachment"/>
+                <br/><br/>
+
+                <p:commandButton value="Add"
+                                 action="#{bugBackingBean.addBug}"
+                                 ajax="false"
+                                 styleClass="aButton"/>
+                <br/>
+                <p:commandButton value="Dezactivate"
+                                 ajax="false"
+                                 styleClass="aButton"/>
+                <br/>
+
+            </h:form>
+        </div>
+    </h:body>
+</f:view>
+</html>
