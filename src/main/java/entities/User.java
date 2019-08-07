@@ -45,7 +45,6 @@ public class User implements Serializable {
     private UserLogin userLogin;
 
     @ManyToMany
-    @OrderBy("created DESC")
     @EqualsAndHashCode.Exclude
     private List<Notification> notifications = new ArrayList<>();
 

@@ -1,6 +1,7 @@
 package backingBean;
 
 
+import Enums.StatusName;
 import entities.Bug;
 import entities.User;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class DatabaseBugEJB {
     private EntityManager entityManager;
 
     public Bug createBug(String title, String description, String revision, String fixedInVersion,
-                         int status, User assignedTo) {
+                         StatusName status, User assignedTo) {
 
         Bug bug = new Bug();
         bug.setTitle(title);
