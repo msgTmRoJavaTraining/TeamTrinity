@@ -19,7 +19,7 @@
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
-                <p:password id="password" value="#{loginBean.password}" required="true" label="password"/>
+                <p:inputText id="password" value="#{loginBean.password}" required="true" label="password"/>
                 <br/><br/>
 
                 <p:commandButton value="Login" action="#{loginBean.performLogin}"
