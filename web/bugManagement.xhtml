@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <h:head>
+        <title>Rights Management</title>
+        <h:outputStylesheet library="css" name="myStyle.css"/>
+    </h:head>
+    <h:body>
+
+        <h:form>
+            <p:growl id="messages"/>
+
+            <p:menubar>
+                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" rendered="#{homeBean.admin}"/>
+                <p:menuitem value="User Management" url="userManagement.xhtml" icon="fa fa-fw fa-users"/>
+                <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"/>
+                <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
+
+                <f:facet name="options">
+                    <p:selectOneMenu id="console" value="language" style="margin-right: 10px;">
+                        <f:selectItem itemLabel="EN" itemValue="en" />
+                        <f:selectItem itemLabel="RO" itemValue="ro" />
+                    </p:selectOneMenu>
+                    <p:commandButton value="Logout" ajax="false" action="loginPage" icon="fa fa-fw fa-power-off"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+
+        <h:form id="bugForm">
+            <div class="centered">
+
+                <p:dataTable var="user" value="#{loginBean}" tableStyle="table-layout: auto;" resizableColumns="true" style="width: content-box">
+
+
+                    <p:column  headerText="Id">
+                        <h:outputText  />
+                    </p:column>
+                    <p:column headerText="Title">
+                        <h:outputText  />
+                    </p:column>
+                    <p:column headerText="Description">
+                        <h:outputText />
+                    </p:column>
+                    <p:column headerText="Revision/Version">
+                        <h:outputText />
+                    </p:column>
+                    <p:column headerText="Fixed in version">
+                        <h:outputText />
+                    </p:column>
+                    <p:column headerText="Target date">
+                        <h:outputText />
+                    </p:column>
+                    <p:column headerText="Severity">
+                        <h:outputText />
+                    </p:column>
+                    <p:column headerText="Created By">
+                        <h:outputText />
+                    </p:column>
+                    <p:column headerText="Status">
+                        <h:outputText />
+                    </p:column>
+                    <p:column headerText="Assigned to">
+                        <h:outputText />
+                    </p:column>
+                    <p:column headerText="Attachments">
+                        <h:outputText />
+                    </p:column>
+
+                </p:dataTable>
+
+                <br/>
+
+                                <p:commandButton value="Add Bug" ajax="false" action="#{loginBean.navigateTo('addBug')}"/>
+                <br/>
+                <!--                <p:outputLabel id="outputLabel" value="#{myDataTableBackingBean.outputMessage}"/>-->
+            </div>
+        </h:form>
+    </h:body>
+</f:view>
+
+
+
+</html>
