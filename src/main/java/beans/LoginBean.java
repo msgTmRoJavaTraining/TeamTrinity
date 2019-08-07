@@ -17,10 +17,14 @@ public class LoginBean implements Serializable {
 
     public String performLogin() {
         if(username.equals("username") && password.equals("password")) {
-            return "permissionManagement";
+            return "homepage";
         } else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Date incorecte", "Email sau parola incorecte."));
             return "";
         }
+    }
+
+    public String navigateTo(String page){
+        return page;
     }
 }

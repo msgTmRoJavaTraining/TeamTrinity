@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <h:head>
+        <title>User Management</title>
+        <h:outputStylesheet library="css" name="myStyle.css"/>
+    </h:head>
+    <h:body>
+
+        <h:form>
+            <p:growl id="messages"/>
+
+            <p:menubar>
+                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" rendered="#{homeBean.admin}"/>
+                <p:menuitem value="User Management" url="userManagement.xhtml" icon="fa fa-fw fa-users"/>
+                <p:menuitem value="Bug Management" url="homepage.xhtml" icon="fa fa-fw fa-bug"/>
+                <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
+
+                <f:facet name="options">
+                    <p:selectOneMenu id="console" value="language" style="margin-right: 10px;">
+                        <f:selectItem itemLabel="EN" itemValue="en" />
+                        <f:selectItem itemLabel="RO" itemValue="ro" />
+                    </p:selectOneMenu>
+                    <p:commandButton value="Logout" ajax="false" action="loginPage" icon="fa fa-fw fa-power-off"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+
+        <h:form id="form1">
+            <div class="centered">
+
+                <p:dataTable var="user" value="#{loginBean}">
+
+                    <p:column headerText="Role">
+                        <h:outputText value="#{loginBean.username}" />
+                    </p:column>
+                    <p:column headerText="Permission">
+                        <p:selectCheckboxMenu id="permission" label="Select Permission" style="width:150px" multiple="true">
+                            <!--                            <p:ajax listener="#{dropdownView.onCountryChange}" update="city" />-->
+                            <f:selectItem itemLabel="User Management" itemValue="USER MANAGEMENT" noSelectionOption="true" />
+                            <!--                            <f:selectItems value="#{dropdownView.countries}" />-->
+                        </p:selectCheckboxMenu>
+                    </p:column>
+
+
+                </p:dataTable>
+
+                <br/>
+
+                <p:commandButton value="Add User" ajax="false" action="#{loginBean.navigateTo('addUser')}"/>
+                <br/>
+                <!--                <p:outputLabel id="outputLabel" value="#{myDataTableBackingBean.outputMessage}"/>-->
+            </div>
+        </h:form>
+    </h:body>
+</f:view>
+</html>
+
+
+
