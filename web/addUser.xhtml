@@ -11,6 +11,27 @@
     </h:head>
     <h:body>
         <p:growl id="growl" sticky="false" showDetail="true" life="3000"/>
+
+
+        <h:form>
+            <p:growl id="messages"/>
+
+            <p:menubar>
+                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" rendered="#{homeBean.admin}"/>
+                <p:menuitem value="User Management" url="userManagement.xhtml" icon="fa fa-fw fa-users"/>
+                <p:menuitem value="Bug Management" url="homepage.xhtml" icon="fa fa-fw fa-bug"/>
+                <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
+
+                <f:facet name="options">
+                    <p:selectOneMenu id="console" value="language" style="margin-right: 10px;">
+                        <f:selectItem itemLabel="EN" itemValue="en" />
+                        <f:selectItem itemLabel="RO" itemValue="ro" />
+                    </p:selectOneMenu>
+                    <p:commandButton value="Logout" ajax="false" action="loginPage" icon="fa fa-fw fa-power-off"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+
         <div class="centered">
             <h:form id="registerForm">
                 <h3 class="title">Add User</h3>

@@ -11,21 +11,22 @@
     </h:head>
     <h:body>
         <p:growl id="growl" sticky="false" showDetail="true" life="3000"/>
+
+
         <div class="centered">
             <h:form id="loginForm">
-                <h3 class="title">Perform Login</h3>
+                <h3 class="title">JBugger</h3>
                 <h:outputText styleClass="myFont" value="Username" style="display:block;"/>
                 <p:inputText id="username" value="#{loginBean.username}" required="true" label="username"/>
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
-                <p:inputText id="password" value="#{loginBean.password}" required="true" label="password"/>
+                <p:password id="password" value="#{loginBean.password}" required="true" label="password"/>
                 <br/><br/>
 
                 <p:commandButton value="Login" action="#{loginBean.performLogin}"
                                  ajax="false"
                                  styleClass="aButton"/>
-                <br/>
             </h:form>
         </div>
     </h:body>
