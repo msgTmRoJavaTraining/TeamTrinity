@@ -23,4 +23,8 @@ public class LoginBean implements Serializable {
             return "";
         }
     }
+
+    public String navigateTo(String page){
+        return page;
+    }
 }
