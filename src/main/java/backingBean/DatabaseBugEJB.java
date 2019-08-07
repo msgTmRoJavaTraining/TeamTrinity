@@ -29,8 +29,7 @@ public class DatabaseBugEJB {
         bug.setRevision(revision);
         bug.setFixedInVersion(fixedInVersion);
         bug.setStatus(StatusName.NEW);
-        bug.setAssignedTo(entityManager.find(User.class,assignedTo));
-        bug.setCreatedBy(entityManager.find(User.class,createdBy));
+
         entityManager.persist(bug);
 
         return bug;
