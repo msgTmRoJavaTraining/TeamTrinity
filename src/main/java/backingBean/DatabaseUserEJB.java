@@ -2,50 +2,51 @@ package backingBean;
 
 import entities.Role;
 import entities.User;
+import entities.UserLogin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 
-@Data
-@Named
-@ApplicationScoped
-@NoArgsConstructor
-@AllArgsConstructor
+@Stateless
 public class DatabaseUserEJB implements Serializable {
 
-    @PersistenceContext(unitName = "java.training")
+    @PersistenceContext(name = "java.training")
     private EntityManager entityManager;
 
-    public User createUser(String name, String email, String phoneNumber, List<Role> roles) {
+    public void createUser(String firstName,String lastName, String email, String phoneNumber, List<Role> roles,String password) {
 
         User user = new User();
-        user.setName(name);
+        UserLogin userLogin = new UserLogin();
+        userLogin.setPassword(password);
+        entityManager.persist(userLogin);
+        user.setName(firstName + lastName);
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         user.setRoles(roles);
+        user.setUserLogin(userLogin);
         entityManager.persist(user);
 
-        return user;
     }
 
-    public void deleteUser(String name) {
+    public void deleteUser(String firstName,String lastName) {
 
-        User user = entityManager.find(User.class,name);
+        User user = entityManager.find(User.class,firstName+lastName);
         entityManager.remove(user);
 
     }
 
-    public User readUser(String name){
+    public User readUser(String firstName,String lastName){
 
-        User user = entityManager.find(User.class,name);
+        User user = entityManager.find(User.class,firstName+lastName);
 
         return user;
     }
