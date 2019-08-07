@@ -4,13 +4,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Data
 @Entity
 @Table(name = "attachments")
 @NoArgsConstructor
-public class Attachment {
+public class Attachment implements Serializable {
 
     @Id
     @GeneratedValue

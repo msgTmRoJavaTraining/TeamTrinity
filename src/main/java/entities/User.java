@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 @NoArgsConstructor
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,7 +45,6 @@ public class User {
     private UserLogin userLogin;
 
     @ManyToMany
-    @OrderBy("created DESC")
     @EqualsAndHashCode.Exclude
     private List<Notification> notifications = new ArrayList<>();
 

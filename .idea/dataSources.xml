@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="jbugger@localhost" uuid="02633ca5-46f5-4e07-bf19-ce24bdd1240c">
+    <data-source source="LOCAL" name="java_training@localhost" uuid="bdc59d94-b933-4167-aa88-7c01e48c187b">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/jbugger</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/java_training</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="CONVERT_TO_NULL" />
