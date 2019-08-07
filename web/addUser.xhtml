@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+    <h:head>
+        <title>Register</title>
+        <h:outputStylesheet library="css" name="myStyle.css"/>
+    </h:head>
+    <h:body>
+        <p:growl id="growl" sticky="false" showDetail="true" life="3000"/>
+
+
+        <h:form>
+            <p:growl id="messages"/>
+
+            <p:menubar>
+                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"/>
+                <p:menuitem value="User Management" url="userManagement.xhtml" icon="fa fa-fw fa-users"/>
+                <p:menuitem value="Bug Management" url="homepage.xhtml" icon="fa fa-fw fa-bug"/>
+                <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
+
+                <f:facet name="options">
+                    <p:selectOneMenu id="console" value="language" style="margin-right: 10px;">
+                        <f:selectItem itemLabel="EN" itemValue="en" />
+                        <f:selectItem itemLabel="RO" itemValue="ro" />
+                    </p:selectOneMenu>
+                    <p:commandButton value="Logout" ajax="false" action="loginPage" icon="fa fa-fw fa-power-off"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+
+        <div class="centered">
+            <h:form id="registerForm">
+                <h3 class="title">Add User</h3>
+                <h:outputText styleClass="myFont" value="First Name" style="display:block;"/>
+                <p:inputText id="firstName" required="true" label="firstName"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Last Name" style="display:block;"/>
+                <p:inputText id="lastName" required="true" label="lastName"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Mobile Number" style="display:block;"/>
+                <p:inputText id="number" required="true" label="number"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Email" style="display:block;"/>
+                <p:inputText id="email" required="true" label="email"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Role" style="display:block;"/>
+                <p:inputText id="role" required="true" label="role"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
+                <p:inputText id="password" required="true" label="password"/>
+                <br/><br/>
+
+                <p:commandButton value="Add"
+                                 ajax="false"
+                                 styleClass="aButton"/>
+                <br/>
+                <p:commandButton value="Dezactivate"
+                                 ajax="false"
+                                 styleClass="aButton"/>
+                <br/>
+
+            </h:form>
+        </div>
+    </h:body>
+</f:view>
+</html>

@@ -18,32 +18,32 @@ import java.util.List;
 public class LoginBean implements Serializable {
     private String username;
     private String password;
-    private User loggedInUser = new User();
-
-    @PostConstruct
-    public void init() {
-        List<Right> rights = new ArrayList<>();
-        rights.add(new Right("RIGHT_MANAGEMENT"));
-
-        List<Role> roles = new ArrayList<>();
-        Role role = new Role();
-        role.setId(1);
-        role.setRights(rights);
-        role.setRoleName("ADMINISTRATOR");
-        role.setUser(null);
-
-        roles.add(role);
-        
-        loggedInUser.setActive(false);
-        loggedInUser.setAssignedBuggs(null);
-        loggedInUser.setEmail("user@mail.msg.group.com");
-        loggedInUser.setId(1);
-        loggedInUser.setRoles(roles);
-        loggedInUser.setName("FirstName LastName");
-        loggedInUser.setNotifications(null);
-        loggedInUser.setPhoneNumber("12397234");
-        loggedInUser.setUserLogin(null);
-    }
+//    private User loggedInUser = new User();
+//
+//    @PostConstruct
+//    public void init() {
+//        List<Right> rights = new ArrayList<>();
+//        rights.add(new Right("RIGHT_MANAGEMENT"));
+//
+//        List<Role> roles = new ArrayList<>();
+//        Role role = new Role();
+//        role.setId(1);
+//        role.setRights(rights);
+//        role.setRoleName("ADMINISTRATOR");
+//        role.setUser(null);
+//
+//        roles.add(role);
+//
+//        loggedInUser.setActive(false);
+//        loggedInUser.setAssignedBuggs(null);
+//        loggedInUser.setEmail("user@mail.msg.group.com");
+//        loggedInUser.setId(1);
+//        loggedInUser.setRoles(roles);
+//        loggedInUser.setName("FirstName LastName");
+//        loggedInUser.setNotifications(null);
+//        loggedInUser.setPhoneNumber("12397234");
+//        loggedInUser.setUserLogin(null);
+//    }
 
     public String performLogin() {
         if (username.equals("username") && password.equals("password")) {
@@ -85,7 +85,7 @@ public class LoginBean implements Serializable {
 //    }
 
 
-    public User getLoggedInUser() {
-        return loggedInUser;
-    }
+//    public User getLoggedInUser() {
+//        return loggedInUser;
+//    }
 }

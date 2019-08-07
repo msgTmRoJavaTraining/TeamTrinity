@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "rights")
 @NoArgsConstructor
-public class Right {
+public class Right implements Serializable {
 
     @Id
     @GeneratedValue

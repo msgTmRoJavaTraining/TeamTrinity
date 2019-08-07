@@ -16,15 +16,15 @@ import java.util.logging.Logger;
 @ManagedBean(name = "homeBean")
 @ApplicationScoped
 public class HomeBean implements Serializable {
-    @Inject
-    private LoginBean loginBean;
+    private String userName = "HelloFromHell";
+//    @Inject
+//    private LoginBean loginBean;
+//
+//    private boolean isAdmin = false;    //Facem sa dispara butonul de Rights Management
+//    private User loggedInUser = loginBean.getLoggedInUser();
+//    private List<Role> userRoles = loggedInUser.getRoles();
 
-    private boolean isAdmin = false;    //Facem sa dispara butonul de Rights Management
-    private User loggedInUser = loginBean.getLoggedInUser();
-    private List<Role> userRoles = loggedInUser.getRoles();
-
-    @PostConstruct
-    public void init() {
-        System.out.println("USER NAME IS: " + loggedInUser.getName());
+    public String getUserName() {
+        return userName;
     }
 }
