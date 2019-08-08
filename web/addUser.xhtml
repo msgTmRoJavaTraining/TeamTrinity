@@ -34,36 +34,40 @@
 
         <div class="centered">
             <h:form id="registerForm">
-                <h:panelGrid columns="2" columnClasses="label, value">
-
+                <h3 class="title">Add User</h3>
                 <h:outputText styleClass="myFont" value="First Name" style="display:block;"/>
-                <p:inputText id="firstName" value="#{userBackingBean.firstName}" required="true" label="firstName"/>
-
+                <p:inputText id="firstName" value="#{userBackingBean.firstName}" required="true" label="firstName" />
+                <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Last Name" style="display:block;"/>
                 <p:inputText id="lastName" value="#{userBackingBean.lastName}" required="true" label="lastName"/>
-
+                <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Mobile Number" style="display:block;"/>
                 <p:inputText id="number" value="#{userBackingBean.phoneNumber}" required="true" label="number"/>
-
+                <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Email" style="display:block;"/>
                 <p:inputText id="email" value="#{userBackingBean.email}" required="true" label="email"/>
-
+                <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Role" style="display:block;"/>
-                <p:inputText id="role" value="#{userBackingBean.roles}" required="false" label="role"/>
-
+                <p:selectCheckboxMenu label="Role" id="menu" multiple="true" value="#{userBackingBean.selectedRoles_Strings}">
+                    <f:selectItems value="#{userBackingBean.systemRoles}" />
+                </p:selectCheckboxMenu>
+                <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
                 <p:inputText id="password" value="#{userBackingBean.password}" required="true" label="password"/>
                 <br/><br/>
-                </h:panelGrid>
 
-                <p:commandButton value="Add User"
+                <p:commandButton value="Add"
                                  ajax="false"
                                  action="#{userBackingBean.createUser}"
+                                 styleClass="aButton"/>
+                <br/>
+                <p:commandButton value="Dezactivate"
+                                 ajax="false"
                                  styleClass="aButton"/>
                 <br/>
 

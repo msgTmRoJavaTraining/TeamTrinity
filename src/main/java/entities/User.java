@@ -56,4 +56,13 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
         this.userLogin = userLogin;
     }
+
+    public String getRolesNames(){
+
+        StringBuilder roleBuilder = new StringBuilder();
+
+        roles.forEach(role -> roleBuilder.append(role.getRoleName()));
+
+        return roleBuilder.toString();
+    }
 }
