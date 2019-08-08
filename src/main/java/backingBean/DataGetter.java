@@ -1,6 +1,7 @@
 package backingBean;
 
 
+import entities.Bug;
 import entities.User;
 
 import javax.ejb.Stateless;
@@ -18,6 +19,11 @@ public class DataGetter implements Serializable {
     public List<User> getUsers(){
         return entityManager.createQuery("select user from User user",User.class).getResultList();
     }
+
+    public List<Bug> getBug(){
+        return entityManager.createQuery("select bug from Bug bug",Bug.class).getResultList();
+    }
+
 
 
 }
