@@ -17,7 +17,7 @@
             <p:growl id="messages"/>
 
             <p:menubar>
-                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" rendered="#{homeBean.admin}"/>
+                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"/>
                 <p:menuitem value="User Management" url="userManagement.xhtml" icon="fa fa-fw fa-users"/>
                 <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"/>
                 <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
@@ -33,37 +33,35 @@
         </h:form>
 
         <div class="centered">
-            <h:form id="addUser">
-                <h:panelGrid columns="2" columnClasses="label, value">
-
+            <h:form id="registerForm">
+                <h3 class="title">Add User</h3>
                 <h:outputText styleClass="myFont" value="First Name" style="display:block;"/>
-                <p:inputText id="firstName" required="true" label="firstName"/>
-
+                <p:inputText id="firstName" value="#{userBackingBean.firstName}" required="true" label="firstName"/>
+                <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Last Name" style="display:block;"/>
-                <p:inputText id="lastName" required="true" label="lastName"/>
-
+                <p:inputText id="lastName" value="#{userBackingBean.lastName}" required="true" label="lastName"/>
+                <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Mobile Number" style="display:block;"/>
-                <p:inputText id="number" required="true" label="number"/>
-
+                <p:inputText id="number" value="#{userBackingBean.phoneNumber}" required="true" label="number"/>
+                <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Email" style="display:block;"/>
-                <p:inputText id="email" required="true" label="email"/>
-
+                <p:inputText id="email" value="#{userBackingBean.email}" required="true" label="email"/>
+                <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Role" style="display:block;"/>
-                <p:inputText id="role" required="true" label="role"/>
-
+                <p:inputText id="role" value="#{userBackingBean.roles}" required="false" label="role"/>
+                <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
-                <p:inputText id="password" required="true" label="password"/>
-                    <br/><br/>
-
-                </h:panelGrid>
+                <p:inputText id="password" value="#{userBackingBean.password}" required="true" label="password"/>
+                <br/><br/>
 
                 <p:commandButton value="Add"
                                  ajax="false"
+                                 action="#{userBackingBean.createUser}"
                                  styleClass="aButton"/>
                 <br/>
                 <p:commandButton value="Dezactivate"
