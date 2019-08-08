@@ -38,13 +38,6 @@ public class RightsManagementBean {
         rightsManagementEJB.updateSelectedRoleRights(selectedRoleRights, updatedRole.getId());
     }
 
-//    public String saveRolesRightsChanges(Object... objects){
-//        for (Object o : objects) {
-//            System.out.println(o.toString());
-//        }
-//        return "rightsManagement";
-//    }
-
     public List<Role> getSystemRoles() {
         return systemRoles;
     }
