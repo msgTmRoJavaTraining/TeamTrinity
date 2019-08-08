@@ -31,7 +31,6 @@ public class RightsManagementBean {
     }
 
     public void onChangeSelectedRoleRights(List<Right> rightsList, Role updatedRole) {
-        System.out.println("SE APELEAZA ON CHANGE");
         selectedRoleRights = new ArrayList<>();
         selectedRoleRights = rightsList;
 

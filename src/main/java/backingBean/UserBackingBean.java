@@ -5,6 +5,7 @@ import entities.Right;
 import entities.Role;
 import entities.User;
 import lombok.Data;
+import org.primefaces.context.RequestContext;
 import validators.UserValidator;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +14,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.xml.bind.ValidationEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,10 +46,19 @@ public class UserBackingBean {
     }
 
     public void createUser() {
-        if (UserValidator.isValidEmail(email) && UserValidator.isValidPhoneNumber(phoneNumber)) {
-            userEJB.createUser(firstName, lastName, email, phoneNumber, selectedRoles_Strings, password);
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Date incorecte", "Email invalid"));
+        if (UserValidator.areInputFieldsValid(firstName, lastName, email, phoneNumber, selectedRoles_Strings, password)) {
+            if(userEJB.createUser(firstName, lastName, email, phoneNumber, selectedRoles_Strings, password)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"User added successfully", "Successfully added a new user in the system"));
+
+                try {
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("userManagement.xhtml");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Could not add user", "The user already exists"));
+            }
         }
     }
 

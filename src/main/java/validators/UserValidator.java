@@ -1,5 +1,8 @@
 package validators;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,5 +31,35 @@ public class UserValidator {
         Matcher gerMatcher = gerPattern.matcher(phoneNumber);
 
         return romMatcher.matches() || gerMatcher.matches();
+    }
+
+    public static boolean areInputFieldsValid(String firstName, String lastName, String email, String telephoneNumber, List<String> roleList, String password) {
+        if(!firstName.isEmpty()) {
+            if(!lastName.isEmpty()) {
+                if(isValidEmail(email)) {
+                    if(isValidPhoneNumber(telephoneNumber)) {
+                        if(roleList.size() > 0) {
+                            if(!password.isEmpty()) {
+                                return true;
+                            } else {
+                                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong password", "You must enter a password"));
+                            }
+                        } else {
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"User roles missing", "You must assign roles to a user"));
+                        }
+                    } else {
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong phone number", "You must enter a valid romanian or german phone number"));
+                    }
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong email address", "You must enter a valid email address(ends with @msggroup.com)"));
+                }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong last name", "You must enter a last name"));
+            }
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong first name", "You must enter a first name"));
+        }
+
+        return false;
     }
 }

@@ -6,19 +6,17 @@
       xmlns:p="http://primefaces.org/ui">
 <f:view>
     <h:head>
-        <title>Register</title>
+        <title>Create New User</title>
         <h:outputStylesheet library="css" name="myStyle.css"/>
     </h:head>
     <h:body>
-        <p:growl id="growl" sticky="false" showDetail="true" life="3000"/>
+        <p:growl id="growl" sticky="false" showDetail="true" life="9000"/>
 
 
         <h:form>
-            <p:growl id="messages"/>
-
             <p:menubar>
                 <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"/>
-                <p:menuitem value="User Management" url="userManagement.xhtml" icon="fa fa-fw fa-users"/>
+                <p:menuitem value="User Management" url="userManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-users"/>
                 <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"/>
                 <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
 
@@ -36,19 +34,19 @@
             <h:form id="registerForm">
                 <h3 class="title">Add User</h3>
                 <h:outputText styleClass="myFont" value="First Name" style="display:block;"/>
-                <p:inputText id="firstName" value="#{userBackingBean.firstName}" required="true" label="firstName" />
+                <p:inputText id="firstName" value="#{userBackingBean.firstName}" label="firstName" />
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Last Name" style="display:block;"/>
-                <p:inputText id="lastName" value="#{userBackingBean.lastName}" required="true" label="lastName"/>
+                <p:inputText id="lastName" value="#{userBackingBean.lastName}" label="lastName"/>
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Mobile Number" style="display:block;"/>
-                <p:inputText id="number" value="#{userBackingBean.phoneNumber}" required="true" label="number"/>
+                <p:inputText id="number" value="#{userBackingBean.phoneNumber}" label="number"/>
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Email" style="display:block;"/>
-                <p:inputText id="email" value="#{userBackingBean.email}" required="true" label="email"/>
+                <p:inputText id="email" value="#{userBackingBean.email}" label="email"/>
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Role" style="display:block;"/>
@@ -58,7 +56,7 @@
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
-                <p:inputText id="password" value="#{userBackingBean.password}" required="true" label="password"/>
+                <p:inputText id="password" value="#{userBackingBean.password}" label="password"/>
                 <br/><br/>
 
                 <p:commandButton value="Add"

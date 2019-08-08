@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,47 +33,60 @@ public class DatabaseUserEJB implements Serializable {
         return query.getSingleResult();
     }
 
-    //Pentru update roluri ...
-//    public void updateSelectedRoleRights(List<Role> selectedUserRoles, int userId) {
-//        User user = entityManager.find(User.class, userId);
-//        List<Role> newUserRoles = selectedUserRoles;
-//
-//        user.setRoles(newUserRoles);
-//
-//        for(Role r : newUserRoles) {
-//            List<User> existingUserRoles = r.getUser();
-//
-//            if (!existingUserRoles.contains(user)) {
-//                existingUserRoles.add(user);
-//            }
-//        }
-//
-//        entityManager.merge(user);
-//
-//        for(Role r : newUserRoles) {
-//            entityManager.merge(r);
-//        }
-//    }
+    //Verificare existenta utilizator
+    public boolean checkAlreadyExistingUser(String searchedForEmail, String searchedForPhone) {
+        TypedQuery<User> query = entityManager.createQuery("select user from User user where user.email = :mail and user.phoneNumber = :phone", User.class);
+        query.setParameter("mail", searchedForEmail);
+        query.setParameter("phone", searchedForPhone);
 
-    public void createUser(String firstName,String lastName, String email, String phoneNumber, List<String> selectedRoles_Strings,String password) {
-        List<Role> selectedRoles_Role = new ArrayList<>();
-        for(String selectedRole : selectedRoles_Strings) {
-            Role selectedRole_Role = getRoleByString(selectedRole);
-            selectedRoles_Role.add(selectedRole_Role);
+        return query.getResultList().size() == 0;
+    }
+
+    public boolean doesUsernameAlreadyExist(String generatedUserName) {
+        TypedQuery<UserLogin> query = entityManager.createQuery("select data from UserLogin data where data.username like :givenUserName", UserLogin.class);
+        query.setParameter("givenUserName", generatedUserName);
+
+        return query.getResultList().size() <= 0;
+    }
+
+    public String generateUsername(String firstName, String lastName) {
+        return "Hi there";
+    }
+
+    public boolean createUser(String firstName,String lastName, String email, String phoneNumber, List<String> selectedRoles_Strings,String password) {
+        if (checkAlreadyExistingUser(email, phoneNumber)) {
+            String username;
+
+            List<Role> selectedRoles_Role = new ArrayList<>();
+            for(String selectedRole : selectedRoles_Strings) {
+                Role selectedRole_Role = getRoleByString(selectedRole);
+                selectedRoles_Role.add(selectedRole_Role);
+            }
+
+            User user = new User();
+            UserLogin userLogin = new UserLogin();
+            userLogin.setPassword(HashingText.getMd5(password));
+
+            user.setName(firstName + lastName);
+            user.setEmail(email);
+            user.setPhoneNumber(phoneNumber);
+            user.setRoles(selectedRoles_Role);
+            user.setActive(true);
+            user.setUserLogin(userLogin);
+
+            do {
+                username = generateUsername(firstName, lastName);
+            } while(!doesUsernameAlreadyExist(username));
+
+            userLogin.setUsername(username);
+
+            entityManager.persist(userLogin);
+            entityManager.persist(user);
+
+            return true;
+        } else {
+            return false;
         }
-
-        User user = new User();
-        UserLogin userLogin = new UserLogin();
-        userLogin.setPassword(HashingText.getMd5(password));
-        entityManager.persist(userLogin);
-        user.setName(firstName + lastName);
-        user.setEmail(email);
-        user.setPhoneNumber(phoneNumber);
-        user.setRoles(selectedRoles_Role);
-        user.setActive(true);
-        user.setUserLogin(userLogin);
-        entityManager.persist(user);
-
     }
 
     public void deleteUser(String firstName,String lastName) {
@@ -82,17 +96,16 @@ public class DatabaseUserEJB implements Serializable {
 
     }
 
+    public User updateUser(){
+
+        return null;
+    }
+
     public User readUser(String firstName,String lastName){
 
         User user = entityManager.find(User.class,firstName+lastName);
 
         return user;
 
-    }
-
-    public User updateUser(){
-
-        //will be completed wednesday 08.08.2019
-        return null;
     }
 }

@@ -25,14 +25,6 @@ public class InitializerBean {
     public void onStartup() {
 //        addRights();
 //        addRoles();
-//        Role role = entityManager.find(Role.class, 1);
-//        Right right = entityManager.find(Right.class, 1);
-//
-//        role.setRights(Collections.singletonList(right));
-//        right.getRolesRight().add(role);
-//
-//        entityManager.persist(role);
-//        entityManager.persist(right);
     }
 
     private void addRights() {

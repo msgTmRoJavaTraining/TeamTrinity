@@ -41,7 +41,7 @@ public class User implements Serializable {
     @EqualsAndHashCode.Exclude
     private List<Role> roles = new ArrayList<Role>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private UserLogin userLogin;
 
     @ManyToMany
