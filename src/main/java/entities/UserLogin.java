@@ -21,7 +21,6 @@ public class UserLogin implements Serializable {
     private String password;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
     public UserLogin(String password){

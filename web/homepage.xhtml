@@ -8,7 +8,7 @@
       xmlns:p="http://primefaces.org/ui">
 <f:view>
     <h:head>
-        <title>My Login Page</title>
+        <title>Home</title>
         <h:outputStylesheet library="css" name="myStyle.css"/>
     </h:head>
     <h:body>
@@ -16,7 +16,7 @@
         <p:growl id="messages"/>
 
         <p:menubar>
-            <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" rendered="#{homeBean.admin}" />
+            <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" />
             <p:menuitem value="User Management" url="userManagement.xhtml" icon="fa fa-fw fa-users" />
             <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"/>
             <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
@@ -30,6 +30,8 @@
             </f:facet>
         </p:menubar>
     </h:form>
+
+        <h:outputText styleClass="myFont" value="#{homeBean.userName}" style="display:block;"/>
     </h:body>
 </f:view>
 </html>

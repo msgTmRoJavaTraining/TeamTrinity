@@ -42,7 +42,6 @@ public class User implements Serializable {
     private List<Role> roles = new ArrayList<Role>();
 
     @OneToOne
-    @JoinColumn(name = "user_id")
     private UserLogin userLogin;
 
     @ManyToMany

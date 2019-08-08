@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -17,7 +18,8 @@ public class DatabaseUserEJB implements Serializable {
     @PersistenceContext(name = "java.training")
     private EntityManager entityManager;
 
-    public void createUser(String firstName,String lastName, String email, String phoneNumber, List<Role> roles,String password) {
+
+    public User createUser(String firstName,String lastName, String email, String phoneNumber, List<Role> roles,String password) {
         User user = new User();
         UserLogin userLogin = new UserLogin();
         userLogin.setPassword(HashingText.getMd5(password));
@@ -29,8 +31,9 @@ public class DatabaseUserEJB implements Serializable {
         user.setActive(true);
         user.setUserLogin(userLogin);
         entityManager.persist(user);
-
+        return user;
     }
+
 
     public void deleteUser(String firstName,String lastName) {
 
