@@ -26,6 +26,7 @@ public class UserBackingBean {
     @Inject
     private DataGetter dataGetter;
 
+    private int id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -60,7 +61,7 @@ public class UserBackingBean {
     }
 
     public void deleteUser() {
-        userEJB.deleteUser(firstName, lastName);
+        userEJB.deleteUser(id);
     }
 
     public void readUser() {

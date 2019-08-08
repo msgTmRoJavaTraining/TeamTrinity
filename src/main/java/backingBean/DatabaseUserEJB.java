@@ -75,9 +75,9 @@ public class DatabaseUserEJB implements Serializable {
 
     }
 
-    public void deleteUser(String firstName,String lastName) {
+    public void deleteUser(int id) {
 
-        User user = entityManager.find(User.class,firstName+lastName);
+        User user = entityManager.find(User.class,id);
         user.setActive(false);
 
     }
