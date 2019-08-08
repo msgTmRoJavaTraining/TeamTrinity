@@ -33,31 +33,34 @@
         </h:form>
 
         <div class="centered">
-            <h:form id="registerForm">
-                <h3 class="title">Add User</h3>
+            <h:form id="addUser">
+                <h:panelGrid columns="2" columnClasses="label, value">
+
                 <h:outputText styleClass="myFont" value="First Name" style="display:block;"/>
                 <p:inputText id="firstName" required="true" label="firstName"/>
-                <br/><br/>
+
 
                 <h:outputText styleClass="myFont" value="Last Name" style="display:block;"/>
                 <p:inputText id="lastName" required="true" label="lastName"/>
-                <br/><br/>
+
 
                 <h:outputText styleClass="myFont" value="Mobile Number" style="display:block;"/>
                 <p:inputText id="number" required="true" label="number"/>
-                <br/><br/>
+
 
                 <h:outputText styleClass="myFont" value="Email" style="display:block;"/>
                 <p:inputText id="email" required="true" label="email"/>
-                <br/><br/>
+
 
                 <h:outputText styleClass="myFont" value="Role" style="display:block;"/>
                 <p:inputText id="role" required="true" label="role"/>
-                <br/><br/>
+
 
                 <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
                 <p:inputText id="password" required="true" label="password"/>
-                <br/><br/>
+                    <br/><br/>
+
+                </h:panelGrid>
 
                 <p:commandButton value="Add"
                                  ajax="false"

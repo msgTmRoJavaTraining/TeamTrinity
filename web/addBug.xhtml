@@ -36,8 +36,6 @@
         <div class="addBug" >
             <h:form id="addBugForm" scrollable="true" >
 
-                <h3 class="title">Add Bug</h3>
-
                 <h:panelGrid columns="2" columnClasses="label, value">
 
                     <h:outputText styleClass="myFont" value="Title"/>
@@ -83,14 +81,19 @@
                 </h:panelGrid>
 
 
-                <p:commandButton value="Add"
+                <p:commandButton value="Add Bug"
                                  ajax="false"
                                  styleClass="aButton"/>
                 <br/>
-                <p:commandButton value="Dezactivate"
+                <p:commandButton value="Export PDF"
                                  ajax="false"
                                  styleClass="aButton"/>
                 <br/>
+                <p:commandButton value="Export Excel"
+                                 ajax="false"
+                                 styleClass="aButton"/>
+                <br/>
+
 
             </h:form>
         </div>
