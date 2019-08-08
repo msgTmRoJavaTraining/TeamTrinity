@@ -36,7 +36,7 @@
             <h:form id="registerForm">
                 <h3 class="title">Add User</h3>
                 <h:outputText styleClass="myFont" value="First Name" style="display:block;"/>
-                <p:inputText id="firstName" value="#{userBackingBean.firstName}" required="true" label="firstName"/>
+                <p:inputText id="firstName" value="#{userBackingBean.firstName}" required="true" label="firstName" />
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Last Name" style="display:block;"/>
@@ -52,7 +52,9 @@
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Role" style="display:block;"/>
-                <p:inputText id="role" value="#{userBackingBean.roles}" required="false" label="role"/>
+                <p:selectCheckboxMenu label="Role" id="menu" multiple="true" value="#{userBackingBean.selectedRoles_Strings}">
+                    <f:selectItems value="#{userBackingBean.systemRoles}" />
+                </p:selectCheckboxMenu>
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
