@@ -36,7 +36,7 @@
                 <p:dataTable var="user" value="#{loginBean}" tableStyle="table-layout: auto;" resizableColumns="true" style="width: content-box">
 
                     <p:column headerText="Name">
-                        <h:outputText value="#{userBackingBean.name}" />
+                        <h:outputText value="#{userBackingBean.firstName+userBackingBean.lastName}" />
                     </p:column>
                     <p:column headerText="Mobile Number">
                         <h:outputText value="#{userBackingBean.phoneNumber}"/>

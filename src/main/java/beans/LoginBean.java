@@ -88,4 +88,7 @@ public class LoginBean implements Serializable {
 //    public User getLoggedInUser() {
 //        return loggedInUser;
 //    }
+    public String navigateTo(String page) {
+        return page;
+    }
 }

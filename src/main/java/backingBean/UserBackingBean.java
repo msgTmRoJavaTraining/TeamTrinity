@@ -3,38 +3,51 @@ package backingBean;
 
 import entities.Role;
 import lombok.Data;
+import validators.UserValidator;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-@Named
+@ManagedBean(name = "userBackingBean")
 @ApplicationScoped
 @Data
 public class UserBackingBean {
 
-    private String name;
+    private String firstName;
+    private String lastName;
     private String phoneNumber;
+
     private String email;
     private List<Role> roles;
+    private String password;
 
     @Inject
     private DatabaseUserEJB userEJB;
 
+        public void createUser() {
 
-    public void createUser(){
-        userEJB.createUser(name,phoneNumber,phoneNumber,roles);
+        if (UserValidator.isValidEmail(email) && UserValidator.isValidPhoneNumber(phoneNumber)){
+            userEJB.createUser(firstName, lastName, email, phoneNumber, roles, password);
+    }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Date incorecte", "Email invalid"));
+        }
     }
 
     public void updateUser(){}
 
     public void deleteUser(){
-        userEJB.deleteUser(name);
+        userEJB.deleteUser(firstName,lastName);
     }
 
     public void readUser(){
-        userEJB.readUser(name);
+        userEJB.readUser(firstName,lastName);
     }
 
 
