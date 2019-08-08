@@ -33,7 +33,12 @@
         <h:form id="form1">
             <div class="centered">
 
-                <p:dataTable var="user" value="#{userBackingBean.userList}" tableStyle="table-layout: auto;" resizableColumns="true" style="width: content-box">
+                <p:dataTable var="user"
+                             value="#{userBackingBean.userList}"
+                             tableStyle="table-layout: auto;"
+                             resizableColumns="true"
+                             style="width: content-box"
+                             >
 
                     <p:column headerText="Name">
                         <h:outputText value="#{user.name}" />
