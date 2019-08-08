@@ -2,18 +2,26 @@
     position: absolute !important;
     top: 50%;
     left: 50%;
-
     /* bring your own prefixes */
     transform: translate(-50%, -50%);
     margin: 0 auto;
+}
 
+.addBug{
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+
+    /* bring your own prefixes */
+    transform: translate(-50%, -35%);
+    margin: 0 auto;
 }
 
 html,body{
     width: 100%;
     height: 100%;
     margin:0;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
     background-color: #e6e6e6;
 }
 
@@ -41,6 +49,32 @@ form{
 
 #afisareListaFilmeDiv {
     margin: 16px;
+}
+
+.label {
+    width:20%;
+    padding:4px;
+}
+
+.value {
+    width:80%;
+    padding:4px;
+}
+.grid {
+    width:100%;
+}
+
+.error {
+    color: red;
+}
+
+.outputLabel {
+    font-weight: bold;
+}
+
+.grid {
+    width:33%;
+    padding:4px;
 }
 
 

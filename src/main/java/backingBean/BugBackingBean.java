@@ -1,5 +1,8 @@
 package backingBean;
 
+import Enums.SeverityName;
+import Enums.SeverityName;
+import Enums.StatusName;
 import entities.User;
 import lombok.Data;
 
@@ -17,8 +20,10 @@ public class BugBackingBean {
     private String description;
     private String revision;
     private String fixedInVersion;
-    private LocalDate targetDate;
+    private String targetDate;
     private String createdBy;
+    private String severity;
+    private String statusName;
     private String assignedTo;
 
 
@@ -27,6 +32,6 @@ public class BugBackingBean {
 
     public void addBug(){
 
-        bugEJB.createBug(title,description,revision,fixedInVersion,createdBy,assignedTo);
+        bugEJB.createBug(title,description,targetDate,revision,fixedInVersion,createdBy,assignedTo,severity);
     }
 }

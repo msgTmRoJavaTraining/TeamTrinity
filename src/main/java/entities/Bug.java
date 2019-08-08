@@ -1,5 +1,6 @@
 package entities;
 
+import Enums.SeverityName;
 import Enums.StatusName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,9 @@ public class Bug implements Serializable {
     @ManyToOne
     private User createdBy;
 
-    private StatusName status;
+    private String status;
+
+    private String severity;
 
     @ManyToOne
     private User assignedTo;
@@ -41,7 +44,7 @@ public class Bug implements Serializable {
     private List<Attachment> attachments;
 
 
-    public Bug(String title, String description, String revision, LocalDate targetData, User createdBy, StatusName status, User assignedTo) {
+    public Bug(String title, String description, String revision, LocalDate targetData, User createdBy, String status, User assignedTo) {
         this.title = title;
         this.description = description;
         this.revision = revision;
@@ -49,5 +52,8 @@ public class Bug implements Serializable {
         this.createdBy = createdBy;
         this.status = status;
         this.assignedTo = assignedTo;
+
     }
+
+
 }

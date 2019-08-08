@@ -33,45 +33,51 @@
         </h:form>
 
 
-        <div class="centered" >
-            <h:form id="addBugForm" scrollable="true"  style="text-align: center">
+        <div class="addBug" >
+            <h:form id="addBugForm" scrollable="true" >
+
                 <h3 class="title">Add Bug</h3>
-                <h:outputText styleClass="myFont" value="Title" style="display:block;"/>
-                <p:inputText id="title" value = "#{bugBackingBean.title}" required="true" label="title"/>
-                <br/><br/>
 
-                <h:outputText styleClass="myFont" value="Description" style="display:block;"/>
-                <p:inputText id="despription" value = "#{bugBackingBean.description}" required="true" label="description"/>
-                <br/><br/>
+                <h:panelGrid columns="2" columnClasses="label, value">
 
-                <h:outputText styleClass="myFont" value="Revision/Version" style="display:block;"/>
-                <p:inputText id="revisionVersion" value = "#{bugBackingBean.revision}" required="true" label="revisionVersion"/>
-                <br/><br/>
-
-                <h:outputText styleClass="myFont" value="Vixed in version" style="display:block;"/>
-                <p:inputText id="fixedInVersion" value = "#{bugBackingBean.fixedInVersion}" required="true" label="fixedInVersion"/>
-                <br/><br/>
-
-                <h:outputText styleClass="myFont" value="Target Date" style="display:block;"/>
-                <p:inputText id="targetDate" value = "#{bugBackingBean.targetDate}" required="false" label="targetDate"/>
-                <br/><br/>
-
-                <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
-                <p:inputText id="severity" required="false" label="severity"/>
-                <br/><br/>
-
-                <h:outputText styleClass="myFont" value="Created by" style="display:block;"/>
-                <p:inputText id="createdBy" value = "#{bugBackingBean.createdBy}" required="false" label="createdBy"/>
-                <br/><br/>
+                    <h:outputText styleClass="myFont" value="Title"/>
+                    <p:inputText id="title" value="#{bugBackingBean.title}" required="true" label="title"/>
 
 
-                <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
-                <p:inputText id="assignedTo" value = "#{bugBackingBean.assignedTo}" required="false" label="assignedTo"/>
-                <br/><br/>
+                    <h:outputText styleClass="myFont" value="Description" />
+                    <p:inputText id="description" value="#{bugBackingBean.description}" required="true" label="description"/>
 
-                <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
-                <p:inputText id="attachment" required="false" label="attachment"/>
-                <br/><br/>
+
+
+                    <h:outputText styleClass="myFont" value="RevisionVersion"/>
+                    <p:inputText id="RevisionVersion" value="#{bugBackingBean.revision}" required="true" label="RevisionVersion"/>
+
+
+                    <h:outputText styleClass="myFont" value="Vixed in version" style="display:block;"/>
+                    <p:inputText id="fixedInVersion" value="#{bugBackingBean.fixedInVersion}" required="true" label="fixedInVersion"/>
+
+
+                    <h:outputText styleClass="myFont" value="Target Date" style="display:block;"/>
+                    <p:inputText id="targetDate" value="#{bugBackingBean.targetDate}" required="false" label="targetDate"/>
+
+
+                    <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
+                    <p:inputText id="severity" value="#{bugBackingBean.severity}" required="false" label="severity"/>
+
+
+                    <h:outputText styleClass="myFont" value="Created by" style="display:block;"/>
+                    <p:inputText id="createdBy" value="#{bugBackingBean.createdBy}" required="false" label="createdBy"/>
+
+
+                    <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
+                    <p:inputText id="assignedTo" value="#{bugBackingBean.assignedTo}" required="false" label="assignedTo"/>
+
+
+                    <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
+                    <p:inputText id="attachment"  required="false" label="attachment"/>
+                    <br/><br/>
+                </h:panelGrid>
+
 
                 <p:commandButton value="Add"
                                  action="#{bugBackingBean.addBug}"

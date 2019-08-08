@@ -29,4 +29,12 @@ public class UserValidator {
 
         return romMatcher.matches() || gerMatcher.matches();
     }
+
+    public static String getUserName(String firstName,String lastName){
+
+        String tmpUsername = "";
+
+
+        return tmpUsername;
+    }
 }
