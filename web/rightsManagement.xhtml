@@ -34,7 +34,7 @@
         <h:form id="form1">
             <div class="centered">
 
-                <p:dataTable var="role" value="#{rightsManagementBean.systemRoles}">
+                <p:dataTable var="role" value="#{rightsManagementBean.systemRoles}" tableStyle="table-layout: auto;" resizableColumns="true" style="width: content-box">
 
                     <p:column headerText="Role">
                         <h:outputText value="#{role.roleName}" />
