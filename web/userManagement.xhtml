@@ -38,7 +38,12 @@
                              tableStyle="table-layout: auto;"
                              resizableColumns="true"
                              style="width: content-box"
-                             >
+
+                             selectionMode="single"
+                             selection="#{userBackingBean.selectedUser}"
+                             rowKey="#{user.name}">
+
+                    <p:ajax event="rowSelect" listener="#{userBackingBean.rowSelect}"/>
 
                     <p:column headerText="Name">
                         <h:outputText value="#{user.name}" />
@@ -50,7 +55,7 @@
                         <h:outputText value="#{user.email}"/>
                     </p:column>
                     <p:column headerText="Role">
-                        <h:outputText value="#{user.roles}" />
+                        <h:outputText value="#{user.rolesNames}" />
                     </p:column>
                     <p:column headerText="Active">
                         <h:outputText value="#{user.active}" />
@@ -63,6 +68,8 @@
                                 <p:commandButton value="Add User" ajax="false" action="#{loginBean.navigateTo('addUser')}"/>
                 <br/>
                 <!--                <p:outputLabel id="outputLabel" value="#{myDataTableBackingBean.outputMessage}"/>-->
+
+
             </div>
         </h:form>
     </h:body>

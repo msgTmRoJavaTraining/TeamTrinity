@@ -33,7 +33,17 @@
         <h:form id="bugForm">
             <div class="centered">
 
-                <p:dataTable var="bug" value="#{bugBackingBean.bugList}" tableStyle="table-layout: auto;" resizableColumns="true" style="width: content-box">
+                <p:dataTable var="bug"
+                             value="#{bugBackingBean.bugList}"
+                             tableStyle="table-layout: auto;"
+                             resizableColumns="false"
+                             style="width: content-box"
+
+                             selectionMode="single"
+                             selection="#{bugBackingBean.selectedBug}"
+                             rowKey="#{bug.title}">
+
+                    <p:ajax event="rowSelect" listener="#{bugBackingBean.rowSelect}"/>
 
                     <p:column headerText="Title">
                         <h:outputText value="#{bug.title}" />
@@ -51,16 +61,16 @@
                         <h:outputText value="#{bug.targetData}" />
                     </p:column>
                     <p:column headerText="Severity">
-                        <h:outputText />
+                        <h:outputText value="#{bug.severity}" />
                     </p:column>
                     <p:column headerText="Created By">
-                        <h:outputText value="#{bug.createdBy}" />
+                        <h:outputText value="#{bug.createdBy.name}" />
                     </p:column>
                     <p:column headerText="Status">
                         <h:outputText value="#{bug.status}" />
                     </p:column>
                     <p:column headerText="Assigned to">
-                        <h:outputText value="#{bug.assignedTo}" />
+                        <h:outputText value="#{bug.assignedTo.name}" />
                     </p:column>
                     <p:column headerText="Attachments">
                         <h:outputText />
@@ -71,6 +81,10 @@
                 <br/>
 
                 <p:commandButton value="Add Bug" ajax="false" action="#{loginBean.navigateTo('addBug')}"/>
+                <br/>
+                <p:commandButton value="Export PDF" ajax="false" action="#{loginBean.navigateTo('addBug')}"/>
+                <br/>
+                <p:commandButton value="Export Excel" ajax="false" action="#{loginBean.navigateTo('addBug')}"/>
                 <br/>
                 <!--                <p:outputLabel id="outputLabel" value="#{myDataTableBackingBean.outputMessage}"/>-->
             </div>
