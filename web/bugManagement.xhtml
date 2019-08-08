@@ -17,7 +17,7 @@
             <p:menubar>
                 <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" />
                 <p:menuitem value="User Management" url="userManagement.xhtml" icon="fa fa-fw fa-users"/>
-                <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"/>
+                <p:menuitem value="Bug Management" url="bugManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-bug"/>
                 <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
 
                 <f:facet name="options">
@@ -38,12 +38,21 @@
                              tableStyle="table-layout: auto;"
                              resizableColumns="false"
                              style="width: content-box"
-
+                             paginator="true" rows="25"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             widgetVar="bugTable"
                              selectionMode="single"
                              selection="#{bugBackingBean.selectedBug}"
                              rowKey="#{bug.title}">
 
                     <p:ajax event="rowSelect" listener="#{bugBackingBean.rowSelect}"/>
+
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('bugTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                        </p:outputPanel>
+                    </f:facet>
 
                     <p:column headerText="Title">
                         <h:outputText value="#{bug.title}" />
@@ -57,7 +66,7 @@
                     <p:column headerText="Fixed in version">
                         <h:outputText value="#{bug.fixedInVersion}" />
                     </p:column>
-                    <p:column headerText="Target date">
+                    <p:column headerText="Target date" sortBy="#{bug.targetData}">
                         <h:outputText value="#{bug.targetData}" />
                     </p:column>
                     <p:column headerText="Severity">

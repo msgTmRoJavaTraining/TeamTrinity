@@ -74,7 +74,8 @@
 
 
                     <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
-                    <p:inputText id="attachment"  required="false" label="attachment"/>
+                    <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                                  update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
                     <br/><br/>
                 </h:panelGrid>
 
