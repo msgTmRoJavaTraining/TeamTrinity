@@ -61,7 +61,7 @@ public class User implements Serializable {
 
         StringBuilder roleBuilder = new StringBuilder();
 
-        roles.forEach(role -> roleBuilder.append(role.getRoleName()));
+        roles.forEach(role -> roleBuilder.append(role.getRoleName()).append(" "));
 
         return roleBuilder.toString();
     }
