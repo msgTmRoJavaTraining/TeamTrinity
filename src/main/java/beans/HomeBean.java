@@ -28,8 +28,5 @@ public class HomeBean implements Serializable {
         return welcomeMessage;
     }
 
-    public void changeLanguage() {
-        UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
-        viewRoot.setLocale(new Locale("ro"));
-    }
+
 }

@@ -22,10 +22,9 @@
             <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
 
             <f:facet name="options">
-                <p:selectOneMenu id="console" onchange="submit()" valueChangeListener="#{homeBean.changeLanguage()}" value="language" style="margin-right: 10px;">
+                <p:selectOneMenu id="console"  value="language" style="margin-right: 10px;">
                     <f:selectItem itemLabel="EN"   itemValue="en" />
                     <f:selectItem itemLabel="RO" itemValue="ro" />
-                    <p:ajax process="language_select" update="sidebar1 post_block footer" event="change"/>
                 </p:selectOneMenu>
                 <p:commandButton value="Logout" ajax="false" action="loginPage" icon="fa fa-fw fa-power-off"/>
             </f:facet>
