@@ -1,52 +1,36 @@
 package beans;
 
-import entities.Right;
-import entities.Role;
+import backingBean.DatabaseLoginEJB;
 import entities.User;
+import security.WebHelper;
+import validators.HashingText;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @ManagedBean(name = "loginBean")
 @ApplicationScoped
 public class LoginBean implements Serializable {
+    @Inject
+    private DatabaseLoginEJB databaseLoginEJB;
+
     private String username;
     private String password;
-//    private User loggedInUser = new User();
-//
-//    @PostConstruct
-//    public void init() {
-//        List<Right> rights = new ArrayList<>();
-//        rights.add(new Right("RIGHT_MANAGEMENT"));
-//
-//        List<Role> roles = new ArrayList<>();
-//        Role role = new Role();
-//        role.setId(1);
-//        role.setRights(rights);
-//        role.setRoleName("ADMINISTRATOR");
-//        role.setUser(null);
-//
-//        roles.add(role);
-//
-//        loggedInUser.setActive(false);
-//        loggedInUser.setAssignedBuggs(null);
-//        loggedInUser.setEmail("user@mail.msg.group.com");
-//        loggedInUser.setId(1);
-//        loggedInUser.setRoles(roles);
-//        loggedInUser.setName("FirstName LastName");
-//        loggedInUser.setNotifications(null);
-//        loggedInUser.setPhoneNumber("12397234");
-//        loggedInUser.setUserLogin(null);
-//    }
+
+    private User toBeLoggedInUser;
+    private int userId;
 
     public String performLogin() {
-        if (username.equals("username") && password.equals("password")) {
+        toBeLoggedInUser = new User();
+        userId = databaseLoginEJB.loginUserByUsernamePassword(username, HashingText.getMd5(password));
+
+        if (userId != 0) {
+            WebHelper.getSession().setAttribute("loggedIn", true);
+            WebHelper.getSession().setAttribute("loggedInUserId", userId);
             return "homepage";
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Date incorecte", "Email sau parola incorecte."));
@@ -70,25 +54,23 @@ public class LoginBean implements Serializable {
         this.password = password;
     }
 
-//    private String executeLogin(String username, String password) {
-//        loggedInUser = loginEJB.login(username, password);
-//        if(loggedInUser != null) {
-//            if(loggedInUser.isActive() == false) {
-//                loggedInUser.setActive(true);
-//            }
-//
-//            return "homepage";
-//        } else {
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login failed", "There was a problem with the login problem."));
-//            return "";
-//        }
-//    }
+    public User getToBeLoggedInUser() {
+        return toBeLoggedInUser;
+    }
 
+    public void setToBeLoggedInUser(User toBeLoggedInUser) {
+        this.toBeLoggedInUser = toBeLoggedInUser;
+    }
 
-//    public User getLoggedInUser() {
-//        return loggedInUser;
-//    }
     public String navigateTo(String page) {
         return page;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

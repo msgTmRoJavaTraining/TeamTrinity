@@ -1,6 +1,5 @@
 package backingBean;
 
-import entities.Right;
 import entities.Role;
 import entities.User;
 import entities.UserLogin;
@@ -9,15 +8,14 @@ import validators.HashingText;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
 public class DatabaseUserEJB implements Serializable {
+    private int lastNameIndex = 0, firstNameIndex = 0;
 
     @PersistenceContext(name = "java.training")
     private EntityManager entityManager;
@@ -49,16 +47,81 @@ public class DatabaseUserEJB implements Serializable {
         return query.getResultList().size() <= 0;
     }
 
-    public String generateUsername(String firstName, String lastName) {
-        return "Hi there";
+    public String generateUsername(String firstName, String lastName, int numberOfMethodCalls) {
+        int MAX_USERNAME_LENGTH = 6, i;
+        StringBuilder generatedUserName = new StringBuilder();
+        char[] firstNameArray = firstName.toCharArray();
+        char[] lastNameArray = lastName.toCharArray();
+        int firstNameLength = firstNameArray.length;
+        int lastNameLength = lastNameArray.length;
+
+        //If the last name has less than 5 characters
+        if (lastNameLength < 5) {
+            //pornim de la 0
+            if (numberOfMethodCalls == 0) {
+                firstNameIndex = 0;
+                lastNameIndex = 0;
+            } else {
+                //daca LNI este 0, atunci incrementam pana ajungem la ultimul caracter
+                if (lastNameIndex >= 0 && lastNameIndex < lastNameLength) {
+                    lastNameIndex++;
+                } else if (lastNameIndex >= 0 && firstNameIndex < firstNameLength) {
+                    firstNameIndex++;
+                }
+            }
+            //place all the LN characters in the final string
+            for (i = 0; i < lastNameLength - lastNameIndex; i++) {
+                generatedUserName.append(lastNameArray[i]);
+            }
+
+            //place FN characters until we have a maximum of 6 characters in the final string
+            for (i = firstNameIndex; i < firstNameLength && generatedUserName.length() < MAX_USERNAME_LENGTH; i++) {
+                generatedUserName.append(firstNameArray[i]);
+            }
+            //If the last name has at least 5 characters
+        } else {
+            //When we call this method for the first time, the indexes start with 0
+            if (numberOfMethodCalls == 0) {
+                firstNameIndex = 0;
+                lastNameIndex = 0;
+            } else {
+                //if we still have characters to try from the first name
+                if (firstNameIndex < firstNameLength - 1) {
+                    firstNameIndex++;
+                    //if we finished traversing the first name, we need to decrement the last name and start over with the first name traversal
+                } else {
+                    //this only runs once, because the above condition becomes valid again
+                    firstNameIndex = 0;
+                    lastNameIndex++;
+                }
+            }
+
+            //place a maximum of 5 characters from LN
+            for (i = 0; i < 5 - lastNameIndex && generatedUserName.length() < 5; i++) {
+                generatedUserName.append(lastNameArray[i]);
+            }
+
+            //place a character from FN until the final string has a length of 6 chars
+            for (i = firstNameIndex; i < firstNameLength && generatedUserName.length() < MAX_USERNAME_LENGTH; i++) {
+                generatedUserName.append(firstNameArray[i]);
+            }
+        }
+
+        //If the final generated username still has less than 6 characters, we'll repeat adding the first character from the first name
+        while (generatedUserName.length() < 6) {
+            generatedUserName.append(firstNameArray[0]);
+        }
+
+        return generatedUserName.toString();
     }
 
-    public boolean createUser(String firstName,String lastName, String email, String phoneNumber, List<String> selectedRoles_Strings,String password) {
+    public boolean createUser(String firstName, String lastName, String email, String phoneNumber, List<String> selectedRoles_Strings, String password) {
+        int generateUserNameCalledTimes = 0;
         if (checkAlreadyExistingUser(email, phoneNumber)) {
             String username;
 
             List<Role> selectedRoles_Role = new ArrayList<>();
-            for(String selectedRole : selectedRoles_Strings) {
+            for (String selectedRole : selectedRoles_Strings) {
                 Role selectedRole_Role = getRoleByString(selectedRole);
                 selectedRoles_Role.add(selectedRole_Role);
             }
@@ -67,7 +130,7 @@ public class DatabaseUserEJB implements Serializable {
             UserLogin userLogin = new UserLogin();
             userLogin.setPassword(HashingText.getMd5(password));
 
-            user.setName(firstName + lastName);
+            user.setName(firstName + " " + lastName);
             user.setEmail(email);
             user.setPhoneNumber(phoneNumber);
             user.setRoles(selectedRoles_Role);
@@ -75,8 +138,8 @@ public class DatabaseUserEJB implements Serializable {
             user.setUserLogin(userLogin);
 
             do {
-                username = generateUsername(firstName, lastName);
-            } while(!doesUsernameAlreadyExist(username));
+                username = generateUsername(firstName.toLowerCase(), lastName.toLowerCase(), generateUserNameCalledTimes++);
+            } while (!doesUsernameAlreadyExist(username));
 
             userLogin.setUsername(username);
 
@@ -89,23 +152,21 @@ public class DatabaseUserEJB implements Serializable {
         }
     }
 
-    public void deleteUser(String firstName,String lastName) {
+    public void deleteUser(String firstName, String lastName) {
 
-        User user = entityManager.find(User.class,firstName+lastName);
+        User user = entityManager.find(User.class, firstName + lastName);
         user.setActive(false);
 
     }
 
-    public User updateUser(){
+    public User updateUser() {
 
         return null;
     }
 
-    public User readUser(String firstName,String lastName){
-
-        User user = entityManager.find(User.class,firstName+lastName);
+    public User readUser(String firstName, String lastName) {
+        User user = entityManager.find(User.class, firstName + lastName);
 
         return user;
-
     }
 }

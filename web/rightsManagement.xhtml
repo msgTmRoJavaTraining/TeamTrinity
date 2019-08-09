@@ -26,7 +26,7 @@
                         <f:selectItem itemLabel="EN" itemValue="en" />
                         <f:selectItem itemLabel="RO" itemValue="ro" />
                     </p:selectOneMenu>
-                    <p:commandButton value="Logout" ajax="false" action="loginPage" icon="fa fa-fw fa-power-off"/>
+                    <p:commandButton value="Logout" ajax="false" action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
                 </f:facet>
             </p:menubar>
         </h:form>
