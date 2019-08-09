@@ -7,13 +7,32 @@
     margin: 0 auto;
 }
 
+.bugTable{
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -45%);
+    margin: 0 auto;
+}
+
 .addBug{
     position: absolute !important;
     top: 50%;
     left: 50%;
 
     /* bring your own prefixes */
-    transform: translate(-50%, -35%);
+    transform: translate(-50%, -45%);
+    margin: 0 auto;
+}
+
+.addUser{
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+
+    /* bring your own prefixes */
+    transform: translate(-50%, -45%);
     margin: 0 auto;
 }
 
@@ -21,7 +40,7 @@ html,body{
     width: 100%;
     height: 100%;
     margin:0;
-    /*overflow-y: scroll;*/
+    overflow-y: scroll;
     background-color: #e6e6e6;
 }
 

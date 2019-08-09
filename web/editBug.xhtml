@@ -12,12 +12,14 @@
     <h:body>
         <p:growl id="growl" sticky="false" showDetail="true" life="3000"/>
 
+
         <h:form>
+            <p:growl id="messages"/>
 
             <p:menubar>
                 <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"/>
                 <p:menuitem value="User Management" url="userManagement.xhtml" icon="fa fa-fw fa-users"/>
-                <p:menuitem value="Bug Management" url="bugManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-bug"/>
+                <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"/>
                 <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
 
                 <f:facet name="options">
@@ -25,16 +27,16 @@
                         <f:selectItem itemLabel="EN" itemValue="en" />
                         <f:selectItem itemLabel="RO" itemValue="ro" />
                     </p:selectOneMenu>
-                    <p:commandButton value="Logout" ajax="false" action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
+                    <p:commandButton value="Logout" ajax="false" action="loginPage" icon="fa fa-fw fa-power-off"/>
                 </f:facet>
             </p:menubar>
         </h:form>
 
 
         <div class="addBug" >
-            <h:form id="addBugForm" scrollable="true" enctype="multipart/form-data" >
+            <h:form id="addBugForm" scrollable="true" >
 
-                <h3 class="title">Add Bug</h3>
+                <h3 class="title">Edit Bug</h3>
 
                 <h:panelGrid columns="2" columnClasses="label, value">
 
@@ -46,25 +48,11 @@
                     <p:inputText id="description" value="#{bugBackingBean.description}" required="true" label="description"/>
 
 
-
                     <h:outputText styleClass="myFont" value="RevisionVersion"/>
                     <p:inputText id="RevisionVersion" value="#{bugBackingBean.revision}" required="true" label="RevisionVersion"/>
 
-
-                    <h:outputText styleClass="myFont" value="Vixed in version" style="display:block;"/>
-                    <p:inputText id="fixedInVersion" value="#{bugBackingBean.fixedInVersion}" required="true" label="fixedInVersion"/>
-
-
-                    <h:outputText styleClass="myFont" value="Target Date" style="display:block;"/>
-                    <p:inputText id="targetDate" value="#{bugBackingBean.targetDate}" required="false" label="targetDate"/>
-
-
                     <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
                     <p:inputText id="severity" value="#{bugBackingBean.severity}" required="false" label="severity"/>
-
-
-                    <h:outputText styleClass="myFont" value="Created by" style="display:block;"/>
-                    <p:inputText id="createdBy" value="#{bugBackingBean.createdBy}" required="false" label="createdBy"/>
 
 
                     <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
@@ -72,9 +60,7 @@
 
 
                     <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
-                    <p:fileUpload value="#{bugBackingBean.file}" mode="simple" skinSimple="true">
-                    </p:fileUpload>
-                    <p:growl id="messages" showDetail="true" />
+                    <p:inputText id="attachment"  required="false" label="attachment"/>
                     <br/><br/>
                 </h:panelGrid>
 

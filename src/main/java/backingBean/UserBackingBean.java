@@ -5,6 +5,7 @@ import entities.Right;
 import entities.Role;
 import entities.User;
 import lombok.Data;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.context.RequestContext;
 import validators.UserValidator;
 
@@ -14,6 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import java.io.IOException;
 import javax.xml.bind.ValidationEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +28,9 @@ public class UserBackingBean {
     @Inject
     private DatabaseUserEJB userEJB;
 
+    @Inject
+    private DataGetter dataGetter;
+
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -37,12 +42,17 @@ public class UserBackingBean {
     private List<Role> roles;
     private List<Role> systemRoles;
     private List<Role> selectedRoles;
+    private List<User> userList;
+    private User selectedUser;
+    private String message;
 
     @PostConstruct
     public void init() {
         systemRoles = new ArrayList<>();
 
         systemRoles = userEJB.getSystemRoles();
+        userList = dataGetter.getUsers();
+
     }
 
     public void createUser() {
@@ -71,5 +81,10 @@ public class UserBackingBean {
 
     public void readUser() {
         userEJB.readUser(firstName, lastName);
+    }
+
+
+    public void rowSelect(SelectEvent event) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("editUser.xhtml");
     }
 }

@@ -62,4 +62,12 @@ public class UserValidator {
 
         return false;
     }
+
+    public static String getUserName(String firstName,String lastName){
+
+        String tmpUsername = "";
+
+
+        return tmpUsername;
+    }
 }
