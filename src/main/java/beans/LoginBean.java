@@ -9,11 +9,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@ManagedBean(name = "loginBean")
+@Named("loginBean")
 @ApplicationScoped
 public class LoginBean implements Serializable {
     private String username;

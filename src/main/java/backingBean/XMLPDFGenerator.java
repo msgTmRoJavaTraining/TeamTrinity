@@ -4,13 +4,11 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.interfaces.PdfVersion;
 import entities.Bug;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 
 import javax.ejb.Stateless;
-import javax.inject.Named;
 import java.io.*;
 import java.util.List;
 
@@ -29,8 +27,10 @@ public class XMLPDFGenerator implements Serializable{
         document.open();
 
 
+
         for(Bug e:lst) {
-            String line=e.getTitle()+" "+e.getDescription()+" "+e.getFixedInVersion()+e.getTargetData();
+            String line=e.getTitle()+" "+e.getDescription()+" "+ " " +e.getFixedInVersion()+" "+e.getRevision()+" "+e.getSeverity()
+                         +" " + e.getStatus()+" "+ e.getAssignedTo().getName()+ " "+e.getTargetData() + " "+e.getAttachments();
             Paragraph subPara = new Paragraph(line);
             try {
                 document.add(subPara);
@@ -44,7 +44,7 @@ public class XMLPDFGenerator implements Serializable{
         return inputStream;
     }
     public InputStream objToExcel(List<Bug> lst){
-        String[] columns = {"Title", "Description", "FixedInVersion","TargetData"};
+        String[] columns = {"Title", "Description", "FixedInVersion","Revision","Severity","Status","AssignedTo","TargetData","Attachements"};
         ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
         Workbook workbook = new HSSFWorkbook();
         CreationHelper createHelper = workbook.getCreationHelper();
@@ -68,6 +68,24 @@ public class XMLPDFGenerator implements Serializable{
 
             row.createCell(2)
                     .setCellValue(bug.getFixedInVersion());
+
+            row.createCell(3)
+                    .setCellValue(bug.getRevision());
+
+            row.createCell(4)
+                    .setCellValue(bug.getSeverity());
+
+            row.createCell(5)
+                    .setCellValue(bug.getStatus());
+
+            row.createCell(6)
+                    .setCellValue(bug.getAssignedTo().getName());
+
+            row.createCell(7)
+                    .setCellValue(bug.getTargetData().toString());
+
+            row.createCell(8)
+                    .setCellValue("");
 
 
         }

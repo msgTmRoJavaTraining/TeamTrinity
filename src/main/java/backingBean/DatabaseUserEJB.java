@@ -1,6 +1,5 @@
 package backingBean;
 
-import entities.Right;
 import entities.Role;
 import entities.User;
 import entities.UserLogin;
@@ -9,7 +8,6 @@ import validators.HashingText;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -87,6 +85,13 @@ public class DatabaseUserEJB implements Serializable {
         User user = entityManager.find(User.class,firstName+lastName);
 
         return user;
+
+    }
+
+    public void editUser(User user,String phoneNumber,String email){
+
+        user.setPhoneNumber(phoneNumber);
+        user.setEmail(email);
 
     }
 

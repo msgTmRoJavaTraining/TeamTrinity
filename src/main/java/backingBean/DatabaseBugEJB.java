@@ -1,20 +1,12 @@
 package backingBean;
 
 
-import Enums.SeverityName;
-import Enums.StatusName;
 import entities.Bug;
 import entities.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.glassfish.jersey.Severity;
 
 import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -42,41 +34,28 @@ public class DatabaseBugEJB {
             queryCreatedBy.setParameter("createdBy", createdBy);
             User user = (User) queryCreatedBy.getSingleResult();
             bug.setCreatedBy(user);
-        }catch (Exception e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Incorect arguments", "CreatedBy user do not exist"));
-        }
 
-        try {
+
             Query queryAssignedTo = entityManager.createQuery("select user from User user where user.name=:assignedTo");
             queryAssignedTo.setParameter("assignedTo", assignedTo);
             User user1 = (User) queryAssignedTo.getSingleResult();
             bug.setAssignedTo(user1);
             bug.setSeverity(severity);
-        }catch (Exception e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Incorect arguments", "AssignetTo user do not exist"));
-        }
 
-
-
-        try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 
             //convert String to LocalDate
             LocalDate localDate = LocalDate.parse(targetDate, formatter);
             bug.setTargetData(localDate);
+            entityManager.persist(bug);
         }catch (Exception e){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Invalid Argument", "Wrong target date format"));
         }
 
-        entityManager.persist(bug);
+
 
 
         return bug;
-    }
-
-    public void editBug(String name) {
-
-
     }
 
     public User readUser(String name){

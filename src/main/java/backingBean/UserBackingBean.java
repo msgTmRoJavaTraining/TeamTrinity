@@ -1,29 +1,31 @@
 package backingBean;
 
 
-import entities.Right;
 import entities.Role;
 import entities.User;
 import lombok.Data;
+import org.primefaces.event.SelectEvent;
 import validators.UserValidator;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@ManagedBean(name = "userBackingBean")
-@ApplicationScoped
+@Named
+@SessionScoped
 @Data
-public class UserBackingBean {
-    @Inject
+public class UserBackingBean implements Serializable {
+    @EJB
     private DatabaseUserEJB userEJB;
 
-    @Inject
+    @EJB
     private DataGetter dataGetter;
 
     private int id;
@@ -39,6 +41,8 @@ public class UserBackingBean {
     private List<Role> systemRoles;
     private List<Role> selectedRoles;
     private List<User> userList;
+    private User selectedUser;
+    private String message;
 
     @PostConstruct
     public void init() {
@@ -66,5 +70,10 @@ public class UserBackingBean {
 
     public void readUser() {
         userEJB.readUser(firstName, lastName);
+    }
+
+
+    public void rowSelect(SelectEvent event) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("editUser.xhtml");
     }
 }
