@@ -1,26 +1,26 @@
 package backingBean;
 
-import Enums.SeverityName;
-import Enums.SeverityName;
-import Enums.StatusName;
 import entities.Bug;
-import entities.User;
 import lombok.Data;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.annotation.ManagedProperty;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @ManagedBean(name = "bugBackingBean")
-@ApplicationScoped
-public class BugBackingBean {
+@SessionScoped
+public class BugBackingBean implements Serializable {
 
     private String title;
     private String description;
@@ -31,10 +31,10 @@ public class BugBackingBean {
     private String severity;
     private String statusName;
     private String assignedTo;
+    private byte[] attachment;
 
     private List<Bug> bugList;
     private Bug selectedBug;
-
 
     @Inject
     private DatabaseBugEJB bugEJB;
@@ -42,16 +42,29 @@ public class BugBackingBean {
     @Inject
     private DataGetter dataGetter;
 
+    @Inject
+    private FileUploadBean fileUploadBean;
+
     @PostConstruct
     public void init(){
         bugList=dataGetter.getBug();
     }
 
-    public void addBug(){
-        bugEJB.createBug(title,description,targetDate,revision,fixedInVersion,createdBy,assignedTo,severity);
+    public void addBug() throws IOException {
+//        fileUploadBean.upload();
+        upload();
+        bugEJB.createBug(file.getInputstream(), title,description,targetDate,revision,fixedInVersion,createdBy,assignedTo,severity,attachment);
     }
 
     public void rowSelect(SelectEvent event) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("editBug.xhtml");
+    }
+    private UploadedFile file;
+
+    public void upload() {
+        if(file != null) {
+            FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
     }
 }

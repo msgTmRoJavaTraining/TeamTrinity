@@ -23,8 +23,8 @@ public class InitializerBean {
 
     @PostConstruct
     public void onStartup() {
-        //addRights();
-        //       addRoles();
+//        addRights();
+//               addRoles();
 //        Role role = entityManager.find(Role.class, 1);
 //        Right right = entityManager.find(Right.class, 1);
 //

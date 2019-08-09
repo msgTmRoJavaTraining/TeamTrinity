@@ -1,34 +1,34 @@
 package backingBean;
 
-
-import Enums.SeverityName;
-import Enums.StatusName;
+import com.google.common.io.ByteStreams;
 import entities.Bug;
 import entities.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.glassfish.jersey.Severity;
+import org.apache.poi.util.IOUtils;
+
 
 import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Stateless
-public class DatabaseBugEJB {
+public class DatabaseBugEJB implements Serializable {
 
     @PersistenceContext(unitName = "java.training")
     private EntityManager entityManager;
 
-    public Bug createBug(String title, String description,String targetDate, String revision, String fixedInVersion,String createdBy,
-                          String assignedTo,String severity) {
+
+    public Bug createBug(InputStream inputStream, String title, String description, String targetDate, String revision, String fixedInVersion, String createdBy,
+                         String assignedTo, String severity,byte[] attachment) throws IOException {
+
+        InputStream fileInputStream = inputStream;
+        attachment= ByteStreams.toByteArray(inputStream);
 
         Bug bug = new Bug();
         bug.setTitle(title);
@@ -36,6 +36,7 @@ public class DatabaseBugEJB {
         bug.setRevision(revision);
         bug.setFixedInVersion(fixedInVersion);
         bug.setStatus("NEW");
+        bug.setAttachment(attachment);
 
         try {
             Query queryCreatedBy = entityManager.createQuery("select user from User user where user.name=:createdBy");
@@ -56,8 +57,6 @@ public class DatabaseBugEJB {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Incorect arguments", "AssignetTo user do not exist"));
         }
 
-
-
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 
@@ -67,10 +66,7 @@ public class DatabaseBugEJB {
         }catch (Exception e){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Invalid Argument", "Wrong target date format"));
         }
-
         entityManager.persist(bug);
-
-
         return bug;
     }
 

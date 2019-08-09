@@ -30,8 +30,8 @@
             </p:menubar>
         </h:form>
 
-        <h:form id="bugForm">
-            <div class="centered">
+        <h:form id="bugTable" >
+            <div class="bugTable" >
 
                 <p:dataTable var="bug"
                              value="#{bugBackingBean.bugList}"
@@ -54,35 +54,35 @@
                         </p:outputPanel>
                     </f:facet>
 
-                    <p:column headerText="Title">
-                        <h:outputText value="#{bug.title}" />
+                    <p:column headerText="Title" filterBy="#{bug.title}">
+                        <h:outputText value="#{bug.title}"/>
                     </p:column>
-                    <p:column headerText="Description">
+                    <p:column headerText="Description" filterBy="#{bug.description}">
                         <h:outputText value="#{bug.description}" />
                     </p:column>
-                    <p:column headerText="Revision/Version">
+                    <p:column headerText="Revision/Version" filterBy="#{bug.revision}">
                         <h:outputText value="#{bug.revision}" />
                     </p:column>
-                    <p:column headerText="Fixed in version">
+                    <p:column headerText="FixedInVersion" filterBy="#{bug.fixedInVersion}">
                         <h:outputText value="#{bug.fixedInVersion}" />
                     </p:column>
-                    <p:column headerText="Target date" sortBy="#{bug.targetData}">
+                    <p:column headerText="TargetDate" sortBy="#{bug.targetData}" filterBy="#{bug.targetData}">
                         <h:outputText value="#{bug.targetData}" />
                     </p:column>
-                    <p:column headerText="Severity">
+                    <p:column headerText="Severity" filterBy="#{bug.severity}">
                         <h:outputText value="#{bug.severity}" />
                     </p:column>
-                    <p:column headerText="Created By">
+                    <p:column headerText="Created By" filterBy="#{bug.createdBy}">
                         <h:outputText value="#{bug.createdBy.name}" />
                     </p:column>
-                    <p:column headerText="Status">
+                    <p:column headerText="Status" filterBy="#{bug.status}">
                         <h:outputText value="#{bug.status}" />
                     </p:column>
-                    <p:column headerText="Assigned to">
+                    <p:column headerText="Assigned to" filterBy="#{bug.assignedTo}">
                         <h:outputText value="#{bug.assignedTo.name}" />
                     </p:column>
                     <p:column headerText="Attachments">
-                        <h:outputText />
+                        <h:outputText value="#{bug.attachment}" />
                     </p:column>
 
                 </p:dataTable>

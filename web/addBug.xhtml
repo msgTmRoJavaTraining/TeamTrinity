@@ -12,9 +12,7 @@
     <h:body>
         <p:growl id="growl" sticky="false" showDetail="true" life="3000"/>
 
-
         <h:form>
-            <p:growl id="messages"/>
 
             <p:menubar>
                 <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"/>
@@ -34,7 +32,7 @@
 
 
         <div class="addBug" >
-            <h:form id="addBugForm" scrollable="true" >
+            <h:form id="addBugForm" scrollable="true" enctype="multipart/form-data" >
 
                 <h3 class="title">Add Bug</h3>
 
@@ -74,8 +72,9 @@
 
 
                     <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
-                    <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="false"
-                                  update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                    <p:fileUpload value="#{bugBackingBean.file}" mode="simple" skinSimple="true">
+                    </p:fileUpload>
+                    <p:growl id="messages" showDetail="true" />
                     <br/><br/>
                 </h:panelGrid>
 
