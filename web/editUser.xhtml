@@ -37,26 +37,26 @@
 
 
                 <h:outputText styleClass="myFont" value="Mobile Number" style="display:block;"/>
-                <p:inputText id="number" value="#{userBackingBean.phoneNumber}" required="true" label="number"/>
+                <p:inputText id="number" value="#{editUserBean.phoneNumber}" required="true" label="number"/>
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Email" style="display:block;"/>
-                <p:inputText id="email" value="#{userBackingBean.email}" required="true" label="email"/>
+                <p:inputText id="email" value="#{editUserBean.email}" required="true" label="email"/>
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Role" style="display:block;"/>
-                <p:selectCheckboxMenu label="Role" id="menu" multiple="true" value="#{userBackingBean.selectedRoles_Strings}">
+                <p:selectCheckboxMenu label="Role" id="menu" multiple="false" value="#{userBackingBean.selectedRoles_Strings}">
                     <f:selectItems value="#{userBackingBean.systemRoles}" />
                 </p:selectCheckboxMenu>
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
-                <p:inputText id="password" value="#{userBackingBean.password}" required="true" label="password"/>
+                <p:inputText id="password" value="#{userBackingBean.password}" required="false" label="password"/>
                 <br/><br/>
 
                 <p:commandButton value="Save"
                                  ajax="false"
-                                 action="#{userBackingBean.createUser}"
+                                 action="#{editUserBean.editUser}"
                                  url="userManagement.xhtml"
                                  styleClass="aButton"/>
                 <br/>

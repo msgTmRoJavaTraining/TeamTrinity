@@ -91,9 +91,13 @@
 
                 <p:commandButton value="Add Bug" ajax="false" action="#{loginBean.navigateTo('addBug')}"/>
                 <br/>
-                <p:commandButton value="Export PDF" ajax="false" action="#{loginBean.navigateTo('addBug')}"/>
+                <p:commandButton value="Export PDF" ajax="true" actionListener="#{exportGenerator.downloadPdf}" onclick="PrimeFaces.monitorDownload(start,stop)">
+                   <p:fileDownload value="#{exportGenerator.DStream}"/>
+                </p:commandButton>
                 <br/>
-                <p:commandButton value="Export Excel" ajax="false" action="#{loginBean.navigateTo('addBug')}"/>
+                <p:commandButton value="Export Excel" ajax="true" actionListener="#{exportGenerator.downloadExcel}" onclick="PrimeFaces.monitorDownload(start,stop)">
+                 <p:fileDownload value="#{exportGenerator.DStream}"/>
+                </p:commandButton>
                 <br/>
                 <!--                <p:outputLabel id="outputLabel" value="#{myDataTableBackingBean.outputMessage}"/>-->
             </div>

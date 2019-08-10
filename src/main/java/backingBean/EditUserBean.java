@@ -4,18 +4,30 @@ package backingBean;
 import entities.User;
 import lombok.Data;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 
 @Data
 @ManagedBean(name = "editUserBean")
-@ApplicationScoped
-public class EditUserBean {
+@SessionScoped
+public class EditUserBean implements Serializable {
 
     @Inject
     private UserBackingBean userBackingBean;
 
-    private User user=userBackingBean.getSelectedUser();
+    @Inject
+    private DatabaseUserEJB databaseUserEJB;
+
+
+    private String phoneNumber;
+    private String email;
+
+    public void editUser(){
+        User user=userBackingBean.getSelectedUser();
+        databaseUserEJB.editUser(user,phoneNumber,email);
+    }
 
 }

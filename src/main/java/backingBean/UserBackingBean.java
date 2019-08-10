@@ -6,7 +6,6 @@ import entities.Role;
 import entities.User;
 import lombok.Data;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.context.RequestContext;
 import validators.UserValidator;
 
 import javax.annotation.PostConstruct;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean(name = "userBackingBean")
-@ApplicationScoped
+@SessionScoped
 @Data
 public class UserBackingBean {
     @Inject
@@ -76,7 +75,7 @@ public class UserBackingBean {
     }
 
     public void deleteUser() {
-        userEJB.deleteUser(firstName, lastName);
+        userEJB.deleteUser(id);
     }
 
     public void readUser() {
