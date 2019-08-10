@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-@Named
+@ManagedBean(name = "homeBean")
 @ApplicationScoped
 public class HomeBean implements Serializable {
     private String welcomeMessage = "Welcome to JBugger";

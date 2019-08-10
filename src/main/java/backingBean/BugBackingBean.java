@@ -6,6 +6,7 @@ import org.primefaces.event.SelectEvent;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Data
-@Named
+@ManagedBean(name = "bugBackingBean")
 @ApplicationScoped
 public class BugBackingBean  {
 

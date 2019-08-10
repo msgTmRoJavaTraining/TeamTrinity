@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Named("loginBean")
+@ManagedBean(name = "loginBean")
 @ApplicationScoped
 public class LoginBean implements Serializable {
     private String username;

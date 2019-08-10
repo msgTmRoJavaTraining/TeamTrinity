@@ -6,6 +6,7 @@ import org.primefaces.model.DefaultStreamedContent;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,7 +16,7 @@ import java.util.List;
 
 
 @Data
-@Named
+@ManagedBean(name = "exportGenerator")
 @SessionScoped
 public class ExportGenerator implements Serializable {
 
