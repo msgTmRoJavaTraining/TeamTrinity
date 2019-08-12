@@ -35,7 +35,7 @@ public class DatabaseUserEJB implements Serializable {
 
     //Verificare existenta utilizator
     public boolean checkAlreadyExistingUser(String searchedForEmail, String searchedForPhone) {
-        TypedQuery<User> query = entityManager.createQuery("select user from User user where user.email = :mail and user.phoneNumber = :phone", User.class);
+        TypedQuery<User> query = entityManager.createQuery("select user from User user where user.email = :mail or user.phoneNumber = :phone", User.class);
         query.setParameter("mail", searchedForEmail);
         query.setParameter("phone", searchedForPhone);
 
@@ -173,9 +173,5 @@ public class DatabaseUserEJB implements Serializable {
 
     }
 
-    public User updateUser(){
-
-        //will be completed wednesday 08.08.2019
-        return null;
-    }
+    public void editUser(User user,String phone,String emil){}
 }

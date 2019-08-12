@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 @ManagedBean(name = "homeBean")
 @ApplicationScoped
 public class HomeBean implements Serializable {
-    private String welcomeMessage = "Welcome to JBugger" + WebHelper.getSession().getAttribute("loggedInUserId");
+    private String welcomeMessage = "Welcome to JBugger"; //+ WebHelper.getSession().getAttribute("loggedInUserId");
 
     public String getUserName() {
         return welcomeMessage;

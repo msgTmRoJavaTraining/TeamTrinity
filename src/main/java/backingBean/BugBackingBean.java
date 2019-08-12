@@ -47,7 +47,7 @@ public class BugBackingBean implements Serializable {
 
     @PostConstruct
     public void init(){
-        bugList=dataGetter.getBug();
+        bugList=dataGetter.getBugs();
     }
 
     public void addBug() throws IOException {

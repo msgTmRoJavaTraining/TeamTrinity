@@ -30,7 +30,7 @@ public class XMLPDFGenerator implements Serializable{
 
         for(Bug e:lst) {
             String line=e.getTitle()+" "+e.getDescription()+" "+ " " +e.getFixedInVersion()+" "+e.getRevision()+" "+e.getSeverity()
-                         +" " + e.getStatus()+" "+ e.getAssignedTo().getName()+ " "+e.getTargetData() + " "+e.getAttachments();
+                         +" " + e.getStatus()+" "+ e.getAssignedTo().getName()+ " "+e.getTargetData() + " "+e.getAttachment();
             Paragraph subPara = new Paragraph(line);
             try {
                 document.add(subPara);

@@ -10,6 +10,7 @@ import validators.UserValidator;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -17,13 +18,14 @@ import javax.inject.Inject;
 import java.io.IOException;
 import javax.xml.bind.ValidationEvent;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean(name = "userBackingBean")
 @SessionScoped
 @Data
-public class UserBackingBean {
+public class UserBackingBean implements Serializable {
     @Inject
     private DatabaseUserEJB userEJB;
 
@@ -75,7 +77,7 @@ public class UserBackingBean {
     }
 
     public void deleteUser() {
-        userEJB.deleteUser(id);
+        userEJB.deleteUser(firstName,lastName);
     }
 
     public void readUser() {

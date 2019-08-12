@@ -3,6 +3,7 @@ package backingBean;
 
 import Enums.SeverityName;
 import Enums.StatusName;
+import com.google.common.io.ByteStreams;
 import entities.Bug;
 import entities.User;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,8 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -27,8 +30,8 @@ public class DatabaseBugEJB {
     @PersistenceContext(unitName = "java.training")
     private EntityManager entityManager;
 
-    public Bug createBug(String title, String description,String targetDate, String revision, String fixedInVersion,String createdBy,
-                          String assignedTo,String severity) {
+    public Bug createBug(InputStream inputStream, String title, String description, String targetDate, String revision, String fixedInVersion, String createdBy,
+                         String assignedTo, String severity, byte[] attachment) throws IOException {
 
         Bug bug = new Bug();
         bug.setTitle(title);
@@ -36,6 +39,10 @@ public class DatabaseBugEJB {
         bug.setRevision(revision);
         bug.setFixedInVersion(fixedInVersion);
         bug.setStatus("NEW");
+
+        InputStream fileInputStream = inputStream;
+        attachment= ByteStreams.toByteArray(inputStream);
+        bug.setAttachment(attachment);
 
         try {
             Query queryCreatedBy = entityManager.createQuery("select user from User user where user.name=:createdBy");
@@ -57,7 +64,7 @@ public class DatabaseBugEJB {
             bug.setTargetData(localDate);
             entityManager.persist(bug);
         }catch (Exception e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Invalid Argument", "Wrong target date format"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Invalid Argument", e.getLocalizedMessage()));
         }
 
 

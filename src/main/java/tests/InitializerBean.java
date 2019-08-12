@@ -23,8 +23,8 @@ public class InitializerBean {
 
     @PostConstruct
     public void onStartup() {
-//        addRights();
-//        addRoles();
+       // addRights();
+       // addRoles();
     }
 
     private void addRights() {
