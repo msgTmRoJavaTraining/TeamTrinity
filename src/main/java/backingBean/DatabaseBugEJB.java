@@ -1,37 +1,33 @@
 package backingBean;
 
-
-import Enums.SeverityName;
-import Enums.StatusName;
 import com.google.common.io.ByteStreams;
 import entities.Bug;
 import entities.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.glassfish.jersey.Severity;
+import org.apache.poi.util.IOUtils;
+
 
 import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Stateless
-public class DatabaseBugEJB {
+public class DatabaseBugEJB implements Serializable {
 
     @PersistenceContext(unitName = "java.training")
     private EntityManager entityManager;
 
+
     public Bug createBug(InputStream inputStream, String title, String description, String targetDate, String revision, String fixedInVersion, String createdBy,
-                         String assignedTo, String severity, byte[] attachment) throws IOException {
+                         String assignedTo, String severity,byte[] attachment) throws IOException {
+
+        attachment= ByteStreams.toByteArray(inputStream);
 
         Bug bug = new Bug();
         bug.setTitle(title);
@@ -39,9 +35,6 @@ public class DatabaseBugEJB {
         bug.setRevision(revision);
         bug.setFixedInVersion(fixedInVersion);
         bug.setStatus("NEW");
-
-        InputStream fileInputStream = inputStream;
-        attachment= ByteStreams.toByteArray(inputStream);
         bug.setAttachment(attachment);
 
         try {
@@ -50,25 +43,30 @@ public class DatabaseBugEJB {
             User user = (User) queryCreatedBy.getSingleResult();
             bug.setCreatedBy(user);
 
+            try {
+                Query queryAssignedTo = entityManager.createQuery("select user from User user where user.name=:assignedTo");
+                queryAssignedTo.setParameter("assignedTo", assignedTo);
+                User user1 = (User) queryAssignedTo.getSingleResult();
+                bug.setAssignedTo(user1);
+                bug.setSeverity(severity);
 
-            Query queryAssignedTo = entityManager.createQuery("select user from User user where user.name=:assignedTo");
-            queryAssignedTo.setParameter("assignedTo", assignedTo);
-            User user1 = (User) queryAssignedTo.getSingleResult();
-            bug.setAssignedTo(user1);
-            bug.setSeverity(severity);
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+                    //convert String to LocalDate
+                    LocalDate localDate = LocalDate.parse(targetDate, formatter);
+                    bug.setTargetData(localDate);
 
-            //convert String to LocalDate
-            LocalDate localDate = LocalDate.parse(targetDate, formatter);
-            bug.setTargetData(localDate);
-            entityManager.persist(bug);
+                    entityManager.persist(bug);
+                }catch (Exception e){
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Invalid Argument", "Wrong target date format"));
+                }
+            }catch (Exception e){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Incorect arguments", "AssignetTo user do not exist"));
+            }
         }catch (Exception e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Invalid Argument", e.getLocalizedMessage()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Incorect arguments", "CreatedBy user do not exist"));
         }
-
-
-
 
         return bug;
     }
