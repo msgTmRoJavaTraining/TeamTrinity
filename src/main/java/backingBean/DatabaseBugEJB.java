@@ -27,7 +27,6 @@ public class DatabaseBugEJB implements Serializable {
     public Bug createBug(InputStream inputStream, String title, String description, String targetDate, String revision, String fixedInVersion, String createdBy,
                          String assignedTo, String severity,byte[] attachment) throws IOException {
 
-        InputStream fileInputStream = inputStream;
         attachment= ByteStreams.toByteArray(inputStream);
 
         Bug bug = new Bug();
@@ -43,30 +42,32 @@ public class DatabaseBugEJB implements Serializable {
             queryCreatedBy.setParameter("createdBy", createdBy);
             User user = (User) queryCreatedBy.getSingleResult();
             bug.setCreatedBy(user);
+
+            try {
+                Query queryAssignedTo = entityManager.createQuery("select user from User user where user.name=:assignedTo");
+                queryAssignedTo.setParameter("assignedTo", assignedTo);
+                User user1 = (User) queryAssignedTo.getSingleResult();
+                bug.setAssignedTo(user1);
+                bug.setSeverity(severity);
+
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+
+                    //convert String to LocalDate
+                    LocalDate localDate = LocalDate.parse(targetDate, formatter);
+                    bug.setTargetData(localDate);
+
+                    entityManager.persist(bug);
+                }catch (Exception e){
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Invalid Argument", "Wrong target date format"));
+                }
+            }catch (Exception e){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Incorect arguments", "AssignetTo user do not exist"));
+            }
         }catch (Exception e){
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Incorect arguments", "CreatedBy user do not exist"));
         }
 
-        try {
-            Query queryAssignedTo = entityManager.createQuery("select user from User user where user.name=:assignedTo");
-            queryAssignedTo.setParameter("assignedTo", assignedTo);
-            User user1 = (User) queryAssignedTo.getSingleResult();
-            bug.setAssignedTo(user1);
-            bug.setSeverity(severity);
-        }catch (Exception e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Incorect arguments", "AssignetTo user do not exist"));
-        }
-
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-
-            //convert String to LocalDate
-            LocalDate localDate = LocalDate.parse(targetDate, formatter);
-            bug.setTargetData(localDate);
-        }catch (Exception e){
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Invalid Argument", "Wrong target date format"));
-        }
-        entityManager.persist(bug);
         return bug;
     }
 
