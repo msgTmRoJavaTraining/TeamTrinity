@@ -38,8 +38,11 @@
             <h:form id="registerForm">
 
                 <h:panelGrid columns="2" columnClasses="label, value">
-                    <h:outputText styleClass="myFont" value="Name"/>
-                    <p:inputText id="Name" value="#{editUserBean.name}" required="true" label="number"/>
+                    <h:outputText styleClass="myFont" value="Last Name"/>
+                    <p:inputText id="lastName" value="#{editUserBean.lastName}" required="true" label="number"/>
+
+                    <h:outputText styleClass="myFont" value="First Name"/>
+                    <p:inputText id="firstName" value="#{editUserBean.firstName}" required="true" label="number"/>
 
                     <h:outputText styleClass="myFont" value="Mobile Number"/>
                     <p:inputText id="number" value="#{editUserBean.phoneNumber}" required="true" label="number"/>

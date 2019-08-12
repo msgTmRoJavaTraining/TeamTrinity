@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Stateless
 public class DatabaseUserEJB implements Serializable {
@@ -173,5 +174,33 @@ public class DatabaseUserEJB implements Serializable {
 
     }
 
-    public void editUser(User user,String phone,String emil){}
+    public boolean editUser(int userId, String firstName, String lastName,String email, String phoneNumber, List<Role> userRoles){
+        User toBeEditedUser = entityManager.find(User.class, userId);
+
+        toBeEditedUser.setName(lastName + " " + firstName);
+        toBeEditedUser.setEmail(email);
+        toBeEditedUser.setPhoneNumber(phoneNumber);
+        toBeEditedUser.setRoles(userRoles);
+
+        try {
+            entityManager.merge(toBeEditedUser);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deactivateUser(int userId) {
+        User toBeDeactivatedUser = entityManager.find(User.class, userId);
+
+        toBeDeactivatedUser.setActive(false);
+        try {
+            entityManager.merge(toBeDeactivatedUser);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
