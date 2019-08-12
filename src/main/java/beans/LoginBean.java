@@ -38,6 +38,10 @@ public class LoginBean implements Serializable {
         }
     }
 
+
+    //Ionut
+    //Borozan
+
     public String getUsername() {
         return username;
     }
