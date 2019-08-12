@@ -1,6 +1,0 @@
-entities\Bug.class
-entities\Role.class
-entities\User.class
-entities\UserLogin.class
-entities\Attachment.class
-entities\Right.class

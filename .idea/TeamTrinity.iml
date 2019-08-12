@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+<module version="4">
   <component name="FacetManager">
     <facet type="web" name="Web">
       <configuration>
         <descriptors>
-          <deploymentDescriptor name="jetty-web.xml" url="file://$MODULE_DIR$/src/main/web/WEB-INF/jetty-web.xml" />
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/main/web/WEB-INF/web.xml" />
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
         </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/web" relative="/" />
@@ -15,32 +14,23 @@
         </sourceRoots>
       </configuration>
     </facet>
-    <facet type="javaeeApplication" name="javaEEApplication">
-      <configuration>
-        <descriptors>
-          <deploymentDescriptor name="application.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/application.xml" />
-          <deploymentDescriptor name="sun-application.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/sun-application.xml" />
-        </descriptors>
-      </configuration>
-    </facet>
-    <facet type="WebServicesClient" name="WebServices Client">
-      <configuration ws.engine="Glassfish / JAX-WS 2.2 RI / Metro 1.X / JWSDP 2.2" />
-    </facet>
     <facet type="web" name="Web2">
       <configuration>
         <descriptors>
           <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
         </descriptors>
         <webroots>
-          <root url="file://$MODULE_DIR$/web" relative="/" />
+          <root url="file://$MODULE_DIR$/src/main/web" relative="/" />
         </webroots>
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/src/main/java" />
+        </sourceRoots>
       </configuration>
     </facet>
     <facet type="jpa" name="JPA">
       <configuration>
         <setting name="validation-enabled" value="true" />
         <datasource-mapping>
-          <factory-entry name="Entities" />
           <factory-entry name="java.training" />
         </datasource-mapping>
         <naming-strategy-map />
@@ -54,9 +44,15 @@
         </descriptors>
         <ejbRoots>
           <root url="file://$MODULE_DIR$/src/main/java" />
-          <root url="file://$MODULE_DIR$/target/generated-sources/annotations" />
           <root url="file://$MODULE_DIR$/src/main/resources" />
         </ejbRoots>
+      </configuration>
+    </facet>
+    <facet type="javaeeApplication" name="javaEEApplication">
+      <configuration>
+        <descriptors>
+          <deploymentDescriptor name="application.xml" url="file://$MODULE_DIR$/META-INF/application.xml" />
+        </descriptors>
       </configuration>
     </facet>
   </component>
