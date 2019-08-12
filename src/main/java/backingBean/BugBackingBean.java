@@ -15,6 +15,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -32,6 +34,7 @@ public class BugBackingBean implements Serializable {
     private String statusName;
     private String assignedTo;
     private byte[] attachment;
+    private Date selectedDate;
 
     private List<Bug> bugList;
     private Bug selectedBug;
@@ -51,9 +54,16 @@ public class BugBackingBean implements Serializable {
     }
 
     public void addBug() throws IOException {
-//        fileUploadBean.upload();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+//      fileUploadBean.upload();
         upload();
-        bugEJB.createBug(file.getInputstream(), title,description,targetDate,revision,fixedInVersion,createdBy,assignedTo,severity,attachment);
+        bugEJB.createBug(file.getInputstream(), title,description,format.format(selectedDate),revision,fixedInVersion,createdBy,assignedTo,severity,attachment);
+    }
+
+    public void onDateSelect(SelectEvent event) {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        targetDate = format.format(event.getObject());
     }
 
     public void rowSelect(SelectEvent event) throws IOException {
