@@ -3,6 +3,7 @@ package backingBean;
 import entities.Bug;
 import lombok.Data;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +17,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,10 +39,17 @@ public class BugBackingBean implements Serializable {
     private Date selectedDate;
 
     private List<Bug> bugList;
+    private List<Bug> selectedBugs=new ArrayList<>();
     private Bug selectedBug;
 
     @Inject
     private DatabaseBugEJB bugEJB;
+
+    @Inject
+    private XMLPDFGenerator xmlpdfGenerator;
+
+
+    private DefaultStreamedContent defaultStreamedContent;
 
     @Inject
     private DataGetter dataGetter;
@@ -66,9 +75,12 @@ public class BugBackingBean implements Serializable {
         targetDate = format.format(event.getObject());
     }
 
-    public void rowSelect(SelectEvent event) throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("editBug.xhtml");
+    public void rowSelect(SelectEvent event) {
+        selectedBugs.add((Bug) event.getObject());
+//        FacesMessage msg = new FacesMessage("Bug Selected", event.getObject().toString());
+//        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+
     private UploadedFile file;
 
     public void upload() {
@@ -76,5 +88,16 @@ public class BugBackingBean implements Serializable {
             FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
+    }
+
+    public void downloadPdf(){
+        String fileName = "exported_employee.pdf";
+        defaultStreamedContent =new DefaultStreamedContent(xmlpdfGenerator.objToPdf(selectedBugs), FacesContext.getCurrentInstance().getExternalContext().getMimeType(fileName), fileName);
+    }
+    public void downloadExcel(){
+        String fileName="employees.xls";
+        defaultStreamedContent =new DefaultStreamedContent(xmlpdfGenerator.objToExcel(selectedBugs), FacesContext.getCurrentInstance().getExternalContext().getMimeType(fileName), fileName);
+
+
     }
 }
