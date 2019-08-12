@@ -58,11 +58,18 @@
 
 
                     <h:outputText styleClass="myFont" value="Target Date" style="display:block;"/>
-                    <p:inputText id="targetDate" value="#{bugBackingBean.targetDate}" required="false" label="targetDate"/>
+                    <p:calendar id="popup" value="#{bugBackingBean.selectedDate}" pattern="dd/MM/yyyy">
+                        <p:ajax event="dateSelect" listener="#{bugBackingBean.onDateSelect}" update="growl" />
+                    </p:calendar>
 
 
                     <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
-                    <p:inputText id="severity" value="#{bugBackingBean.severity}" required="false" label="severity"/>
+                    <p:selectOneMenu id="severity" value="#{bugBackingBean.severity}">
+                        <f:selectItem itemLabel="" itemValue="" />
+                        <f:selectItem itemLabel="LOW" itemValue="LOW" />
+                        <f:selectItem itemLabel="MEDIUM" itemValue="MEDIUM" />
+                        <f:selectItem itemLabel="HIGH" itemValue="HIGH" />
+                    </p:selectOneMenu>
 
 
                     <h:outputText styleClass="myFont" value="Created by" style="display:block;"/>
