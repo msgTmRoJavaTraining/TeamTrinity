@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
 <f:view>
     <h:head>
-        <title>Rights Management</title>
+        <title>User Management</title>
         <h:outputStylesheet library="css" name="myStyle.css"/>
     </h:head>
     <h:body>
 
         <h:form>
-            <p:growl id="messages"/>
-
             <p:menubar>
-                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"/>
-                <p:menuitem value="User Management" url="userManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-users"/>
-                <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"/>
-                <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
+                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"
+                            rendered="#{homeBean.rightsManagement}"/>
+                <p:menuitem value="User Management" url="userManagement.xhtml" icon="fa fa-fw fa-users"
+                            style="color: #eb4034;" rendered="#{homeBean.userManagement}"/>
+                <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"
+                            rendered="#{homeBean.bugManagement}"/>
+                <p:menuitem value="Notifications" url="notificationManagement.xhtml" icon="fa fa-fw fa-bell"
+                            rendered="#{homeBean.notifications}"/>
 
                 <f:facet name="options">
                     <p:selectOneMenu id="console" value="language" style="margin-right: 10px;">
-                        <f:selectItem itemLabel="EN" itemValue="en" />
-                        <f:selectItem itemLabel="RO" itemValue="ro" />
+                        <f:selectItem itemLabel="EN" itemValue="en"/>
+                        <f:selectItem itemLabel="RO" itemValue="ro"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="Logout" ajax="false" action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
+                    <p:commandButton value="Logout" ajax="false" action="#{homeBean.logUserOut}"
+                                     icon="fa fa-fw fa-power-off"/>
                 </f:facet>
             </p:menubar>
         </h:form>
@@ -46,7 +49,7 @@
                     <p:ajax event="rowSelect" listener="#{userBackingBean.rowSelect}"/>
 
                     <p:column headerText="Name">
-                        <h:outputText value="#{user.name}" />
+                        <h:outputText value="#{user.name}"/>
                     </p:column>
                     <p:column headerText="Mobile Number">
                         <h:outputText value="#{user.phoneNumber}"/>
@@ -55,21 +58,18 @@
                         <h:outputText value="#{user.email}"/>
                     </p:column>
                     <p:column headerText="Role">
-                        <h:outputText value="#{user.rolesNames}" />
+                        <h:outputText value="#{user.rolesNames}"/>
                     </p:column>
                     <p:column headerText="Active">
-                        <h:outputText value="#{user.active}" />
+                        <h:outputText value="#{user.active}"/>
                     </p:column>
 
                 </p:dataTable>
 
                 <br/>
 
-                                <p:commandButton value="Add User" ajax="false" action="#{loginBean.navigateTo('addUser')}"/>
+                <p:commandButton value="Add User" ajax="false" action="#{loginBean.navigateTo('addUser')}"/>
                 <br/>
-                <!--                <p:outputLabel id="outputLabel" value="#{myDataTableBackingBean.outputMessage}"/>-->
-
-
             </div>
         </h:form>
     </h:body>

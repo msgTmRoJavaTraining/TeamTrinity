@@ -6,6 +6,7 @@ import entities.Role;
 import entities.User;
 import lombok.Data;
 import org.primefaces.event.SelectEvent;
+import security.WebHelper;
 import validators.UserValidator;
 
 import javax.annotation.PostConstruct;
@@ -86,6 +87,7 @@ public class UserBackingBean implements Serializable {
 
 
     public void rowSelect(SelectEvent event) throws IOException {
+        WebHelper.getSession().setAttribute("selectedUserForEdit", (User) event.getObject());
         FacesContext.getCurrentInstance().getExternalContext().redirect("editUser.xhtml");
     }
 }

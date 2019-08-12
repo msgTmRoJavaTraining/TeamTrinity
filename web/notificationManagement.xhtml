@@ -3,17 +3,18 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<f:view locale="ro">
+<f:view>
     <h:head>
-        <title>Home</title>
+        <title>Notifications</title>
         <h:outputStylesheet library="css" name="myStyle.css"/>
     </h:head>
     <h:body>
-        <p:growl id="growl" sticky="false" showDetail="true" life="3000"/>
-        
         <h:form>
+            <p:growl id="messages"/>
+
             <p:menubar>
                 <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"
                             rendered="#{homeBean.rightsManagement}"/>
@@ -21,7 +22,7 @@
                             rendered="#{homeBean.userManagement}"/>
                 <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"
                             rendered="#{homeBean.bugManagement}"/>
-                <p:menuitem value="Notifications" url="notificationManagement.xhtml" icon="fa fa-fw fa-bell"
+                <p:menuitem value="Notifications" url="notificationManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-bell"
                             rendered="#{homeBean.notifications}"/>
 
                 <f:facet name="options">
@@ -35,7 +36,7 @@
             </p:menubar>
         </h:form>
 
-        <h:outputText styleClass="myFont" value="#{homeBean.userName}" style="display:block;"/>
+        <h:outputText styleClass="myFont" value="Notifications Page" style="display:block;"/>
     </h:body>
 </f:view>
 </html>

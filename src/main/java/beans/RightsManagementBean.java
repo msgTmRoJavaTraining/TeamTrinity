@@ -3,11 +3,15 @@ package beans;
 import backingBean.RightsManagementEJB;
 import entities.Right;
 import entities.Role;
+import entities.User;
+import security.WebHelper;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ArrayList;

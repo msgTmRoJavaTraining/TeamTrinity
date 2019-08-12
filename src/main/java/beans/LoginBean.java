@@ -1,6 +1,8 @@
 package beans;
 
 import backingBean.DatabaseLoginEJB;
+import entities.Right;
+import entities.Role;
 import entities.User;
 import security.WebHelper;
 import validators.HashingText;
@@ -10,7 +12,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ManagedBean(name = "loginBean")
 @ApplicationScoped
@@ -22,25 +28,25 @@ public class LoginBean implements Serializable {
     private String password;
 
     private User toBeLoggedInUser;
-    private int userId;
 
     public String performLogin() {
         toBeLoggedInUser = new User();
-       // userId = databaseLoginEJB.loginUserByUsernamePassword(username, HashingText.getMd5(password));
 
-        if (username.equals("username") && password.equals("password")) {
-            WebHelper.getSession().setAttribute("loggedIn", true);
-           // WebHelper.getSession().setAttribute("loggedInUserId", userId);
-            return "homepage";
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Date incorecte", "Email sau parola incorecte."));
-            return "";
+        try {
+            toBeLoggedInUser = databaseLoginEJB.loginUserByUsernamePassword(username, HashingText.getMd5(password));
+
+            if (toBeLoggedInUser != null) {
+                WebHelper.getSession().setAttribute("loggedIn", true);
+                WebHelper.getSession().setAttribute("loggedInUser", toBeLoggedInUser);
+
+                return "homepage";
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Eroare critica", "Eroare la login"));
         }
+
+        return "";
     }
-
-
-    //Ionut
-    //Borozan
 
     public String getUsername() {
         return username;
@@ -68,13 +74,5 @@ public class LoginBean implements Serializable {
 
     public String navigateTo(String page) {
         return page;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 }

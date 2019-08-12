@@ -6,9 +6,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.annotation.ManagedProperty;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -49,8 +47,8 @@ public class BugBackingBean implements Serializable {
     private FileUploadBean fileUploadBean;
 
     @PostConstruct
-    public void init(){
-        bugList=dataGetter.getBugs();
+    public void init() {
+        bugList = dataGetter.getBugs();
     }
 
     public void addBug() throws IOException {
@@ -58,7 +56,7 @@ public class BugBackingBean implements Serializable {
 
 //      fileUploadBean.upload();
         upload();
-        bugEJB.createBug(file.getInputstream(), title,description,format.format(selectedDate),revision,fixedInVersion,createdBy,assignedTo,severity,attachment);
+        bugEJB.createBug(file.getInputstream(), title, description, format.format(selectedDate), revision, fixedInVersion, createdBy, assignedTo, severity, attachment);
     }
 
     public void onDateSelect(SelectEvent event) {
@@ -69,10 +67,11 @@ public class BugBackingBean implements Serializable {
     public void rowSelect(SelectEvent event) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("editBug.xhtml");
     }
+
     private UploadedFile file;
 
     public void upload() {
-        if(file != null) {
+        if (file != null) {
             FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
