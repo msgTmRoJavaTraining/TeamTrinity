@@ -13,6 +13,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -24,10 +26,15 @@ import java.util.List;
 @SessionScoped
 public class BugBackingBean implements Serializable {
 
+    @NotNull
     private String title;
+
+    @NotNull
+    @Pattern(regexp = "[a-zA-Z]{10,}")
     private String description;
+    @Pattern(regexp = "[0-9]+.[0-9]+")
     private String revision;
-    private String fixedInVersion;
+
     private String targetDate;
     private String createdBy;
     private String severity;
@@ -58,7 +65,7 @@ public class BugBackingBean implements Serializable {
 
 //      fileUploadBean.upload();
         upload();
-        bugEJB.createBug(file.getInputstream(), title,description,format.format(selectedDate),revision,fixedInVersion,createdBy,assignedTo,severity,attachment);
+        bugEJB.createBug(file.getInputstream(), title,description,format.format(selectedDate),revision,assignedTo,severity,attachment);
     }
 
     public void onDateSelect(SelectEvent event) {

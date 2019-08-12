@@ -26,16 +26,22 @@ public class LoginBean implements Serializable {
 
     public String performLogin() {
         toBeLoggedInUser = new User();
-       // userId = databaseLoginEJB.loginUserByUsernamePassword(username, HashingText.getMd5(password));
+       try {
+         //  toBeLoggedInUser = databaseLoginEJB.loginUserByUsernamePassword(username, HashingText.getMd5(password));
 
-        if (username.equals("username") && password.equals("password")) {
-            WebHelper.getSession().setAttribute("loggedIn", true);
-           // WebHelper.getSession().setAttribute("loggedInUserId", userId);
-            return "homepage";
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Date incorecte", "Email sau parola incorecte."));
-            return "";
-        }
+           if (username.equals("username") && password.equals("password")             /*toBeLoggedInUser != null*/) {
+               WebHelper.getSession().setAttribute("loggedIn", true);
+               //WebHelper.getSession().setAttribute("loggedInUser", toBeLoggedInUser);
+               return "homepage";
+           } else {
+               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Date incorecte", "Email sau parola incorecte."));
+               return "";
+           }
+       }catch (Exception e){
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Date incorecte", "Email sau parola incorecte."));
+
+       }
+       return "";
     }
 
 

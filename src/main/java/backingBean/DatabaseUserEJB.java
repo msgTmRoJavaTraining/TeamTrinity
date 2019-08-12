@@ -1,9 +1,6 @@
 package backingBean;
 
-import entities.Right;
-import entities.Role;
-import entities.User;
-import entities.UserLogin;
+import entities.*;
 import validators.HashingText;
 
 import javax.ejb.Stateless;
@@ -12,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +27,13 @@ public class DatabaseUserEJB implements Serializable {
     public Role getRoleByString(String roleName) {
         TypedQuery<Role> query = entityManager.createQuery("select role from Role role where role.roleName = :searchedForName", Role.class);
         query.setParameter("searchedForName", roleName);
+
+        return query.getSingleResult();
+    }
+    public Notification getNotificationByString(String noteName) {
+        TypedQuery<Notification> query = entityManager.createQuery("select notification from Notification notification " +
+                "where notification.notificationType = :searchedForName", Notification.class);
+        query.setParameter("searchedForName", noteName);
 
         return query.getSingleResult();
     }
@@ -145,6 +150,11 @@ public class DatabaseUserEJB implements Serializable {
 
             userLogin.setUsername(username);
 
+            Notification not = getNotificationByString("WELCOME_NEW_USER");
+            not.setCreationDate(LocalDateTime.now());
+            not.setDescriprion(readUser(username));
+            user.getNotifications().add(not);
+
             entityManager.persist(userLogin);
             entityManager.persist(user);
 
@@ -154,10 +164,12 @@ public class DatabaseUserEJB implements Serializable {
         }
     }
 
-    public void deleteUser(String firstName, String lastName) {
+    public void deleteUser(String username) {
 
-        User user = entityManager.find(User.class, firstName + lastName);
-        user.setActive(false);
+        TypedQuery<User> query = entityManager.createQuery("select user from User user where user.userLogin.username = :username", User.class);
+        query.setParameter("username", username);
+
+          query.getSingleResult().setActive(false);
 
     }
 
@@ -166,10 +178,11 @@ public class DatabaseUserEJB implements Serializable {
         return null;
     }
 
-    public User readUser(String firstName, String lastName) {
-        User user = entityManager.find(User.class, firstName + lastName);
+    public String readUser(String username) {
+        TypedQuery<User> query = entityManager.createQuery("select user from User user where user.userLogin.username = :username", User.class);
+        query.setParameter("username", username);
 
-        return user;
+        return  query.getSingleResult().toString();
 
     }
 

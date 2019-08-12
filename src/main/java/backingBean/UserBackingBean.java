@@ -77,11 +77,11 @@ public class UserBackingBean implements Serializable {
     }
 
     public void deleteUser() {
-        userEJB.deleteUser(firstName,lastName);
+        userEJB.deleteUser(selectedUser.getUserLogin().getUsername());
     }
 
     public void readUser() {
-        userEJB.readUser(firstName, lastName);
+        userEJB.readUser(selectedUser.getUserLogin().getUsername());
     }
 
 

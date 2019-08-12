@@ -4,6 +4,7 @@ import com.google.common.io.ByteStreams;
 import entities.Bug;
 import entities.User;
 import org.apache.poi.util.IOUtils;
+import security.WebHelper;
 
 
 import javax.ejb.Stateless;
@@ -24,22 +25,22 @@ public class DatabaseBugEJB implements Serializable {
     private EntityManager entityManager;
 
 
-    public Bug createBug(InputStream inputStream, String title, String description, String targetDate, String revision, String fixedInVersion, String createdBy,
+    public Bug createBug(InputStream inputStream, String title, String description, String targetDate, String revision,
                          String assignedTo, String severity,byte[] attachment) throws IOException {
 
+        User logInUser = (User) WebHelper.getSession().getAttribute("loggedInUser");
         attachment= ByteStreams.toByteArray(inputStream);
 
         Bug bug = new Bug();
         bug.setTitle(title);
         bug.setDescription(description);
         bug.setRevision(revision);
-        bug.setFixedInVersion(fixedInVersion);
         bug.setStatus("NEW");
         bug.setAttachment(attachment);
 
         try {
             Query queryCreatedBy = entityManager.createQuery("select user from User user where user.name=:createdBy");
-            queryCreatedBy.setParameter("createdBy", createdBy);
+            queryCreatedBy.setParameter("createdBy",logInUser.getName());
             User user = (User) queryCreatedBy.getSingleResult();
             bug.setCreatedBy(user);
 

@@ -53,9 +53,6 @@
                     <p:inputText id="RevisionVersion" value="#{bugBackingBean.revision}" required="true" label="RevisionVersion"/>
 
 
-                    <h:outputText styleClass="myFont" value="Vixed in version" style="display:block;"/>
-                    <p:inputText id="fixedInVersion" value="#{bugBackingBean.fixedInVersion}" required="true" label="fixedInVersion"/>
-
 
                     <h:outputText styleClass="myFont" value="Target Date" style="display:block;"/>
                     <p:calendar id="popup" value="#{bugBackingBean.selectedDate}" pattern="dd/MM/yyyy">
@@ -66,14 +63,11 @@
                     <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
                     <p:selectOneMenu id="severity" value="#{bugBackingBean.severity}">
                         <f:selectItem itemLabel="" itemValue="" />
+                        <f:selectItem itemLabel="CRITICAL" itemValue="CRITICAL"/>
                         <f:selectItem itemLabel="LOW" itemValue="LOW" />
                         <f:selectItem itemLabel="MEDIUM" itemValue="MEDIUM" />
                         <f:selectItem itemLabel="HIGH" itemValue="HIGH" />
                     </p:selectOneMenu>
-
-
-                    <h:outputText styleClass="myFont" value="Created by" style="display:block;"/>
-                    <p:inputText id="createdBy" value="#{bugBackingBean.createdBy}" required="false" label="createdBy"/>
 
 
                     <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>

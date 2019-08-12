@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Data
 @ManagedBean(name = "editUserBean")
 @SessionScoped
+
 public class EditUserBean implements Serializable {
 
     @Inject
