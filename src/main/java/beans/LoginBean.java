@@ -35,14 +35,17 @@ public class LoginBean implements Serializable {
         try {
             toBeLoggedInUser = databaseLoginEJB.loginUserByUsernamePassword(username, HashingText.getMd5(password));
 
-            if (toBeLoggedInUser != null) {
+            if (toBeLoggedInUser != null && toBeLoggedInUser.getAccountActiveStatus()) {
                 WebHelper.getSession().setAttribute("loggedIn", true);
                 WebHelper.getSession().setAttribute("loggedInUser", toBeLoggedInUser);
 
                 return "homepage";
+            } else if( toBeLoggedInUser != null && !toBeLoggedInUser.getAccountActiveStatus()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Account deactivated", "This account has been deactivated. Contact your administator for further details."));
+                return "";
             }
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Eroare critica", "Eroare la login"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Account not found", "Credentials do not match any registered account"));
         }
 
         return "";

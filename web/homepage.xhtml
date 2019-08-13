@@ -25,11 +25,10 @@
                             rendered="#{homeBean.notifications}"/>
 
                 <f:facet name="options">
-                    <p:selectOneMenu id="console" value="language" style="margin-right: 10px;">
-                        <f:selectItem itemLabel="EN" itemValue="en"/>
-                        <f:selectItem itemLabel="RO" itemValue="ro"/>
+                    <p:selectOneMenu id="console" value="#{applicationLanguage.language}" valueChangeListener="#{applicationLanguage.countryLocaleCodeChanged}" onchange="submit()" style="margin-right: 10px;">
+                        <f:selectItems value="#{applicationLanguage.countries}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="Logout" ajax="false" action="#{homeBean.logUserOut}"
+                    <p:commandButton value="#{msg.loginPage_logout}" ajax="false" action="#{homeBean.logUserOut}"
                                      icon="fa fa-fw fa-power-off"/>
                 </f:facet>
             </p:menubar>

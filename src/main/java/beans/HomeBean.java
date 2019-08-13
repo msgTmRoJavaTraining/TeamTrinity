@@ -11,6 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,9 @@ public class HomeBean implements Serializable {
 
     private User loggerInUser = (User) WebHelper.getSession().getAttribute("loggedInUser");
     private String welcomeMessage = "Welcome to JBugger " + loggerInUser.getName() + ", let the fun begin!";
+
+    @Inject
+    private LanguageBean languageBean;
 
     @PostConstruct
     public void init() {

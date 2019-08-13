@@ -159,28 +159,27 @@ public class DatabaseUserEJB implements Serializable {
 
         User user = entityManager.find(User.class, firstName + lastName);
         user.setActive(false);
-
     }
 
-    public User updateUser() {
-
-        return null;
-    }
 
     public User readUser(String firstName, String lastName) {
         User user = entityManager.find(User.class, firstName + lastName);
 
         return user;
-
     }
 
-    public boolean editUser(int userId, String firstName, String lastName,String email, String phoneNumber, List<Role> userRoles){
+    public boolean editUser(int userId, String email, String phoneNumber, List<String> userRoles){
         User toBeEditedUser = entityManager.find(User.class, userId);
 
-        toBeEditedUser.setName(lastName + " " + firstName);
+        List<Role> selectedUserRoles = new ArrayList<>();
+        for (String selectedRole : userRoles) {
+            Role selectedRole_Role = getRoleByString(selectedRole);
+            selectedUserRoles.add(selectedRole_Role);
+        }
+
         toBeEditedUser.setEmail(email);
         toBeEditedUser.setPhoneNumber(phoneNumber);
-        toBeEditedUser.setRoles(userRoles);
+        toBeEditedUser.setRoles(selectedUserRoles);
 
         try {
             entityManager.merge(toBeEditedUser);
@@ -191,10 +190,10 @@ public class DatabaseUserEJB implements Serializable {
         }
     }
 
-    public boolean deactivateUser(int userId) {
+    public boolean changeAccountActivationStatus(int userId) {
         User toBeDeactivatedUser = entityManager.find(User.class, userId);
 
-        toBeDeactivatedUser.setActive(false);
+        toBeDeactivatedUser.setActive(!toBeDeactivatedUser.getAccountActiveStatus());
         try {
             entityManager.merge(toBeDeactivatedUser);
             return true;
