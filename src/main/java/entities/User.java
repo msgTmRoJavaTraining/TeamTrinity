@@ -65,4 +65,11 @@ public class User implements Serializable {
 
         return roleBuilder.toString();
     }
+
+    @Override
+    public String toString(){
+
+        return "NUME:"+this.name+" EMAIL:"+this.email+" PHONE NUMBER:"
+                +this.phoneNumber;
+    }
 }

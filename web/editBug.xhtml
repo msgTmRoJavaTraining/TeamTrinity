@@ -41,32 +41,34 @@
                 <h:panelGrid columns="2" columnClasses="label, value">
 
                     <h:outputText styleClass="myFont" value="Title"/>
-                    <p:inputText id="title" value="#{bugBackingBean.title}" required="true" label="title"/>
+                    <p:inputText id="title" value="#{editBugBean.title}" required="true" label="title"/>
 
 
                     <h:outputText styleClass="myFont" value="Description" />
-                    <p:inputText id="description" value="#{bugBackingBean.description}" required="true" label="description"/>
+                    <p:inputText id="description" value="#{editBugBean.description}" required="true" label="description"/>
 
 
                     <h:outputText styleClass="myFont" value="RevisionVersion"/>
-                    <p:inputText id="RevisionVersion" value="#{bugBackingBean.revision}" required="true" label="RevisionVersion"/>
+                    <p:inputText id="RevisionVersion" value="#{editBugBean.revision}" required="true" label="RevisionVersion"/>
 
                     <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
-                    <p:inputText id="severity" value="#{bugBackingBean.severity}" required="false" label="severity"/>
+                    <p:inputText id="severity" value="#{editBugBean.severity}" required="false" label="severity"/>
 
 
                     <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
-                    <p:inputText id="assignedTo" value="#{bugBackingBean.assignedTo}" required="false" label="assignedTo"/>
-
+                    <p:inputText id="assignedTo" value="#{editBugBean.assignedTo}" required="false" label="assignedTo"/>
 
                     <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
-                    <p:inputText id="attachment"  required="false" label="attachment"/>
+                    <p:fileUpload value="#{editBugBean.myFile}" mode="simple" skinSimple="true">
+                    </p:fileUpload>
+                    <p:growl id="messages1" showDetail="true" />
+
                     <br/><br/>
                 </h:panelGrid>
 
 
                 <p:commandButton value="Edit"
-                                 action="#{bugBackingBean.editBug}"
+                                 action="#{editBugBean.editBug}"
                                  ajax="false"
                                  styleClass="aButton"/>
                 <br/>

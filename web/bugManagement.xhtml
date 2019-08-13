@@ -82,7 +82,8 @@
                         <h:outputText value="#{bug.attachment}" />
                     </p:column>
                     <p:column >
-                        <p:commandButton ajax="false" icon="fa fa-fw fa-edit" action="#{loginBean.navigateTo('editBug.xhtml')}"/>
+                        <p:commandButton ajax="false" icon="fa fa-fw fa-edit" action="#{bugBackingBean.navigateTo('editBug.xhtml',bug)}"/>
+
                     </p:column>
 
                 </p:dataTable>

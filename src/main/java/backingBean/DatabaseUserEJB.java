@@ -150,11 +150,13 @@ public class DatabaseUserEJB implements Serializable {
 
             userLogin.setUsername(username);
 
-            Notification not = getNotificationByString("WELCOME_NEW_USER");
+            Notification not = new Notification();
+            not.setNotificationType("NEW USER");
             not.setCreationDate(LocalDateTime.now());
-           //  not.setDescriprion(readUser(username));
+             not.setDescriprion(user.toString());
             user.getNotifications().add(not);
 
+            entityManager.persist(not);
             entityManager.persist(userLogin);
             entityManager.persist(user);
 

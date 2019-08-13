@@ -27,6 +27,7 @@ public class LoginBean implements Serializable {
 
     public String performLogin() {
         toBeLoggedInUser = new User();
+
        try {
            toBeLoggedInUser = databaseLoginEJB.loginUserByUsernamePassword(username, HashingText.getMd5(password));
 

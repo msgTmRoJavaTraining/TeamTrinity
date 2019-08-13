@@ -5,6 +5,7 @@ import lombok.Data;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.UploadedFile;
+import security.WebHelper;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -105,6 +106,15 @@ public class BugBackingBean implements Serializable {
         String fileName="employees.xls";
         defaultStreamedContent =new DefaultStreamedContent(xmlpdfGenerator.objToExcel(selectedBugs), FacesContext.getCurrentInstance().getExternalContext().getMimeType(fileName), fileName);
 
+    }
+
+    public void navigateTo(String page,Bug bug){
+        WebHelper.getSession().setAttribute("bug",bug);
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(page);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }

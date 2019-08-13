@@ -72,9 +72,19 @@ public class DatabaseBugEJB implements Serializable {
         return bug;
     }
 
-    public void editBug(String name) {
+    public void editBug(Bug bug,InputStream inputStream,String title,String description,String revision,
+                        String severity,byte[] attachment) throws IOException {
 
 
+        attachment= ByteStreams.toByteArray(inputStream);
+
+        bug.setTitle(title);
+        bug.setDescription(description);
+        bug.setRevision(revision);
+        bug.setSeverity(severity);
+        bug.setAttachment(attachment);
+
+        entityManager.merge(bug);
     }
 
     public User readUser(String name){
