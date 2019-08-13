@@ -24,9 +24,9 @@ public class InitializerBean {
 
     @PostConstruct
     public void onStartup() {
-         addRights();
-         addRoles();
-         addNotification();
+        // addRights();
+        // addRoles();
+        // addNotification();
     }
 
     private void addRights() {

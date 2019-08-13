@@ -39,8 +39,8 @@ public class DatabaseBugEJB implements Serializable {
         bug.setAttachment(attachment);
 
         try {
-            Query queryCreatedBy = entityManager.createQuery("select user from User user where user.name=:createdBy");
-            queryCreatedBy.setParameter("createdBy",logInUser.getName());
+            Query queryCreatedBy = entityManager.createQuery("select user from User user where user.userLogin.username=:createdBy");
+            queryCreatedBy.setParameter("createdBy",logInUser.getUserLogin().getUsername());
             User user = (User) queryCreatedBy.getSingleResult();
             bug.setCreatedBy(user);
 
