@@ -10,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import java.io.IOException;
 import java.io.Serializable;
 
 @ManagedBean(name = "loginBean")
@@ -72,8 +73,12 @@ public class LoginBean implements Serializable {
         this.toBeLoggedInUser = toBeLoggedInUser;
     }
 
-    public String navigateTo(String page) {
-        return page;
+    public void navigateTo(String page) {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(page);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getUserId() {
