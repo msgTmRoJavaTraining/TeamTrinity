@@ -15,21 +15,26 @@
         <h:form>
             <p:growl id="messages"/>
 
-            <p:menubar>
-                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-briefcase"/>
-                <p:menuitem value="User Management" url="userManagement.xhtml" icon="fa fa-fw fa-users"/>
+            <p:menubar >
+                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"/>
+                <p:menuitem value="User Management" url="userManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-users"/>
                 <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"/>
                 <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
 
                 <f:facet name="options">
-                    <p:selectOneMenu id="console" value="language" style="margin-right: 10px;">
-                        <f:selectItem itemLabel="EN" itemValue="en" />
-                        <f:selectItem itemLabel="RO" itemValue="ro" />
-                    </p:selectOneMenu>
-                    <p:commandButton value="Logout" ajax="false" action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
+
+                    <p:commandButton value="EN" icon="fa fa-fw fa-globe" type="button" onclick="PF('languageDialog').show();" />
+                    <p:commandButton class="stopVerticalAlign" value="Logout" ajax="false" action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off" />
                 </f:facet>
             </p:menubar>
         </h:form>
+
+        <p:dialog modal="true" header="Language" widgetVar="languageDialog" showEffect="explode" hideEffect="explode" style="height: fit-content; width: fit-content" position="700,170">
+            <p:selectOneMenu id="console" value="language" style="margin-right: 10px;">
+                <f:selectItem itemLabel="EN" itemValue="en" />
+                <f:selectItem itemLabel="RO" itemValue="ro" />
+            </p:selectOneMenu>
+        </p:dialog>
 
         <h:form id="form1">
             <div class="centered">
