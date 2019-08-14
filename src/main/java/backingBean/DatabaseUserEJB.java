@@ -1,5 +1,6 @@
 package backingBean;
 
+import Enums.NotificationType;
 import entities.*;
 import validators.HashingText;
 
@@ -151,7 +152,7 @@ public class DatabaseUserEJB implements Serializable {
             userLogin.setUsername(username);
 
             Notification not = new Notification();
-            not.setNotificationType("NEW USER");
+            not.setNotificationType(NotificationType.WELCOME_NEW_USER.toString());
             not.setCreationDate(LocalDateTime.now());
              not.setDescriprion(user.toString());
             user.getNotifications().add(not);

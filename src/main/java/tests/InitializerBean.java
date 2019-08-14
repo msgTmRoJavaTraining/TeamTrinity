@@ -63,25 +63,6 @@ public class InitializerBean {
         }
     }
 
-      public void addNotification(){
 
-          List<Notification> notifications = new ArrayList<>();
-
-          for(int i = 0; i < 7; i++)
-              notifications.add(new Notification());
-
-          notifications.get(0).setNotificationType("WELCOME_NEW_USER");
-          notifications.get(1).setNotificationType("USER_UPDATED");
-          notifications.get(2).setNotificationType("USER_DELETED");
-          notifications.get(3).setNotificationType("BUG_UPDATED");
-          notifications.get(4).setNotificationType("BUG_CLOSED");
-          notifications.get(5).setNotificationType("BUG_STATUS_UPDATE");
-          notifications.get(6).setNotificationType("USER_DEACTIVATED");
-
-          for(Notification n : notifications) {
-              entityManager.persist(n);
-          }
-
-      }
 }
 

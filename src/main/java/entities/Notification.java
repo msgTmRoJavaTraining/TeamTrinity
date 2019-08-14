@@ -1,5 +1,6 @@
 package entities;
 
+import Enums.NotificationType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
