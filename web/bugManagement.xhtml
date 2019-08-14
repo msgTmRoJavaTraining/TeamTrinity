@@ -9,7 +9,10 @@
         <title>Bug Management</title>
         <h:outputStylesheet library="css" name="myStyle.css"/>
     </h:head>
-    <h:body>
+    <h:body styleClass="imagine">
+
+
+
 
         <h:form>
             <p:growl id="messages"/>
@@ -39,6 +42,8 @@
             </p:selectOneMenu>
         </p:dialog>
 
+        <h:graphicImage library="css" styleClass="imagine"> </h:graphicImage>
+
         <h:form id="bugTable">
             <div class="bugTable">
                 <p:dataTable var="bug"
@@ -54,9 +59,8 @@
 
                     <f:facet name="header">
                         <p:outputPanel>
-                            <h:outputText value="Search all fields:"/>
-                            <p:inputText id="globalFilter" onkeyup="PF('bugTable').filter()" style="width:150px"
-                                         placeholder="Enter keyword"/>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('bugTable').filter()" style="width:150px" placeholder="Search here"/>
                         </p:outputPanel>
                     </f:facet>
 
@@ -107,7 +111,7 @@
 
 
         <h:form id="pdfAndExcel">
-            <p:dialog modal="true" header="Excel and Pdf" widgetVar="pdfAndExcel" showEffect="explode" hideEffect="explode"
+            <p:dialog modal="true" header="Excel and Pdf" widgetVar="pdfAndExcel" showEffect="clip" hideEffect="explode"
                       styleClass="addUserDialogStyle">
                 <p:dataTable var="bug"
                              value="#{bugBackingBean.bugList}"
@@ -115,16 +119,20 @@
                              resizableColumns="false"
                              style="width: content-box"
                              paginator="true" rows="25"
+                             selectionMode="multiple"
+                             onRowClick=""
+                             selection="#{bugBackingBean.selectedBugs}"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                             widgetVar="bugTable"
+                             widgetVar="bugTableExcel"
                              rowKey="#{bug.title}">
+
+                    <p:ajax event="rowSelect" listener="#{bugBackingBean.rowSelect}"/>
 
 
                     <f:facet name="header">
                         <p:outputPanel>
-                            <h:outputText value="Search all fields:"/>
-                            <p:inputText id="globalFilter1" onkeyup="PF('bugTable').filter()" style="width:150px"
-                                         placeholder="Enter keyword"/>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText  onkeyup="PF('bugTableExcel').filter()" style="width:150px" placeholder="Search here"/>
                         </p:outputPanel>
                     </f:facet>
 
