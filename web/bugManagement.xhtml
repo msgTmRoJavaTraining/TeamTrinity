@@ -52,11 +52,9 @@
                              paginator="true" rows="25"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              widgetVar="bugTable"
-                             selectionMode="single"
-                             selection="#{bugBackingBean.selectedBug}"
                              rowKey="#{bug.title}">
 
-                    <p:ajax event="rowSelect" listener="#{bugBackingBean.rowSelect}"/>
+
 
                     <f:facet name="header">
                         <p:outputPanel>
@@ -122,6 +120,8 @@
                              paginator="true" rows="25"
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              widgetVar="bugTable"
+                             selectionMode="multiple"
+                             selection="#{bugBackingBean.selectedBugs}"
                              rowKey="#{bug.title}">
 
 
@@ -205,10 +205,6 @@
                                  label="RevisionVersion"/>
 
 
-                    <h:outputText styleClass="myFont" value="Vixed in version" style="display:block;"/>
-                    <p:inputText id="fixedInVersion" value="#{bugBackingBean.fixedInVersion}" required="true"
-                                 label="fixedInVersion"/>
-
 
                     <h:outputText styleClass="myFont" value="Target Date" style="display:block;"/>
                     <p:calendar id="popup" value="#{bugBackingBean.selectedDate}" pattern="dd/MM/yyyy">
@@ -224,10 +220,6 @@
                         <f:selectItem itemLabel="HIGH" itemValue="HIGH"/>
                     </p:selectOneMenu>
 
-
-                    <h:outputText styleClass="myFont" value="Created by" style="display:block;"/>
-                    <p:inputText id="createdBy" value="#{bugBackingBean.createdBy}" required="false"
-                                 label="createdBy"/>
 
 
                     <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
