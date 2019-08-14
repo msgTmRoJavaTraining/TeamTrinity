@@ -7,6 +7,9 @@
     margin: 0 auto;
 }
 
+
+
+
 .bugTable{
     position: absolute !important;
     top: 50%;
@@ -26,15 +29,6 @@
     margin: 0 auto;
 }
 
-.addUser{
-    position: absolute !important;
-    top: 50%;
-    left: 50%;
-
-    /* bring your own prefixes */
-    transform: translate(-50%, -45%);
-    margin: 0 auto;
-}
 
 html,body{
     width: 100%;
@@ -45,7 +39,7 @@ html,body{
 }
 
 .title{
-    color: darkslategrey;
+    color: #00a79d;
     font-family: Georgia, sans-serif, Calibri;
     font-size: 30px;
     position: center;
@@ -53,7 +47,7 @@ html,body{
 
 .myFont{
     font-family: Georgia, sans-serif, Calibri;
-    color: darkslategray;
+    color: #00a79d;
     font-size: 20px;
 }
 
@@ -94,6 +88,16 @@ form{
 .grid {
     width:33%;
     padding:4px;
+}
+
+.ui-widget-overlay {
+    opacity: 100% !important;
+}
+
+.addUserDialogStyle.ui-dialog .ui-dialog-content{
+    height: fit-content;
+    width: fit-content;
+
 }
 
 

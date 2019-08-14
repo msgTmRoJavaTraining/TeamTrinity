@@ -3,6 +3,7 @@ package backingBean;
 import entities.Bug;
 import lombok.Data;
 import org.primefaces.event.SelectEvent;
+
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.UploadedFile;
 import security.WebHelper;
@@ -85,8 +86,6 @@ public class BugBackingBean implements Serializable {
 
     public void rowSelect(SelectEvent event) {
         selectedBugs.add((Bug) event.getObject());
-//        FacesMessage msg = new FacesMessage("Bug Selected", event.getObject().toString());
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     private UploadedFile file;

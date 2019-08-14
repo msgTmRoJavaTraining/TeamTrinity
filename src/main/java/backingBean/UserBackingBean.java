@@ -85,7 +85,7 @@ public class UserBackingBean implements Serializable {
     }
 
 
-    public void rowSelect(SelectEvent event) throws IOException {
+    public void rowSelect() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("editUser.xhtml");
     }
 }
