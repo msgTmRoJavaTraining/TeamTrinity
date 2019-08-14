@@ -1,9 +1,7 @@
 package backingBean;
 
-import entities.Right;
-import entities.Role;
-import entities.User;
-import entities.UserLogin;
+import Enums.NotificationType;
+import entities.*;
 import validators.HashingText;
 
 import javax.ejb.Stateless;

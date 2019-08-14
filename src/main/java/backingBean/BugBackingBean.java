@@ -38,6 +38,7 @@ public class BugBackingBean implements Serializable {
     private String description;
     @Pattern(regexp = "[0-9]+.[0-9]+")
     private String revision;
+    private String fixedInVersion;
 
     private String targetDate;
     private String createdBy;
@@ -77,7 +78,6 @@ public class BugBackingBean implements Serializable {
 //      fileUploadBean.upload();
         upload();
         bugEJB.createBug(file.getInputstream(), title,description,format.format(selectedDate),revision,assignedTo,severity,attachment);
-        bugEJB.createBug(file.getInputstream(), title, description, format.format(selectedDate), revision, fixedInVersion, createdBy, assignedTo, severity, attachment);
     }
 
     public void onDateSelect(SelectEvent event) {

@@ -23,11 +23,11 @@ public class LanguageBean implements Serializable {
     }
 
     public String getLanguage() {
-        return locale.getLanguage();
+        return locale.getLanguage().toUpperCase();
     }
 
     public void setLanguage(String language) {
         locale = new Locale(language);
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(language));
     }
 }

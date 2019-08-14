@@ -3,12 +3,11 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<f:view locale="ro">
+<f:view locale="#{applicationLanguage.locale}">
     <h:head>
-        <title>Home</title>
+        <title>#{msg.pages_title_homepage}</title>
         <h:outputStylesheet library="css" name="myStyle.css"/>
     </h:head>
     <h:body>
@@ -26,32 +25,25 @@
                             rendered="#{homeBean.notifications}"/>
 
                 <f:facet name="options">
-
-                    <p:commandButton value="EN" icon="fa fa-fw fa-globe" type="button" onclick="PF('languageDialog').show();" />
-                    <p:commandButton class="stopVerticalAlign" value="Logout" ajax="false" action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off" />
+                    <p:commandButton value="#{applicationLanguage.language}" icon="fa fa-fw fa-globe" type="button"
+                                     onclick="PF('languageDialog').show();"/>
+                    <p:commandButton class="stopVerticalAlign" value="#{msg.loginPage_logout}" ajax="false"
+                                     action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
                 </f:facet>
             </p:menubar>
         </h:form>
 
-        <p:dialog modal="true" header="Language" widgetVar="languageDialog" showEffect="explode" hideEffect="explode" style="height: fit-content; width: fit-content" position="700,170">
-            <p:selectOneMenu id="console" value="language" style="margin-right: 10px;">
-                <f:selectItem itemLabel="EN" itemValue="en" />
-                <f:selectItem itemLabel="RO" itemValue="ro" />
-            </p:selectOneMenu>
+        <p:dialog modal="true" header="Language" widgetVar="languageDialog" showEffect="explode" hideEffect="explode"
+                  style="height: fit-content; width: fit-content" position="700,170">
+            <h:form>
+                <p:selectOneMenu id="console" value="#{applicationLanguage.language}"
+                                 onchange="submit()"
+                                 style="margin-right: 10px;">
+                    <f:selectItem itemValue="en" itemLabel="English"/>
+                    <f:selectItem itemValue="ro" itemLabel="Română"/>
+                </p:selectOneMenu>
+            </h:form>
         </p:dialog>
-                <f:facet name="options">
-                    <p:selectOneMenu id="console" value="#{applicationLanguage.language}"
-                                     onchange="submit()"
-                                     style="margin-right: 10px;">
-                        <f:selectItem itemValue="en" itemLabel="English"/>
-                        <f:selectItem itemValue="ro" itemLabel="Română"/>
-                    </p:selectOneMenu>
-                    <p:commandButton value="#{msg['loginPage_logout']}" ajax="false" action="#{homeBean.logUserOut}"
-                                     icon="fa fa-fw fa-power-off"/>
-                </f:facet>
-            </p:menubar>
-        </h:form>
-
         <h:outputText styleClass="myFont" value="#{homeBean.userName}" style="display:block;"/>
     </h:body>
 </f:view>
