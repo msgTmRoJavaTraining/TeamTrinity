@@ -34,11 +34,12 @@
                 <br/>
                 <p:selectBooleanCheckbox value="RO" itemLabel="ro"/>
             </p:dialog>
-        
+
 
         <h:form id="form1">
             <div class="centered">
                 <p:dataTable var="user"
+                             widgetVar="usersTable"
                              value="#{userBackingBean.userList}"
                              tableStyle="table-layout: auto;"
                              resizableColumns="true"
@@ -50,19 +51,27 @@
 
                     <p:ajax event="rowSelect" listener="#{userBackingBean.rowSelect}"/>
 
-                    <p:column headerText="Name">
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Search here"/>
+                        </p:outputPanel>
+                    </f:facet>
+
+
+                    <p:column headerText="Name" filterBy="#{user.name}">
                         <h:outputText value="#{user.name}" />
                     </p:column>
-                    <p:column headerText="Mobile Number">
+                    <p:column headerText="Mobile Number" filterBy="#{user.phoneNumber}">
                         <h:outputText value="#{user.phoneNumber}"/>
                     </p:column>
-                    <p:column headerText="Email">
+                    <p:column headerText="Email" filterBy="#{user.email}">
                         <h:outputText value="#{user.email}"/>
                     </p:column>
-                    <p:column headerText="Role">
+                    <p:column headerText="Role" filterBy="#{user.rolesNames}">
                         <h:outputText value="#{user.rolesNames}" />
                     </p:column>
-                    <p:column headerText="Active">
+                    <p:column headerText="Active" filterBy="#{user.active}">
                         <h:outputText value="#{user.active}" />
                     </p:column>
 
