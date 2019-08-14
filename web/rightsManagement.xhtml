@@ -4,68 +4,39 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
-<f:view locale="#{applicationLanguage.locale}">
-    <h:head>
-        <title>#{msg.pages_title_rightsManagement}}</title>
-        <h:outputStylesheet library="css" name="myStyle.css"/>
-    </h:head>
     <h:body>
+        <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                        xmlns:f="http://java.sun.com/jsf/core"
+                        xmlns:h="http://java.sun.com/jsf/html"
+                        template="/templates/navBarTemplate.xhtml">
 
-        <h:form>
-            <p:menubar>
-                <p:menuitem value="#{msg['menu_rightsManagement']}" url="rightsManagement.xhtml" style="color: #eb4034;"
-                            icon="fa fa-fw fa-briefcase" rendered="#{homeBean.rightsManagement}"/>
-                <p:menuitem value="#{msg['menu_userManagement']}" url="userManagement.xhtml" icon="fa fa-fw fa-users"
-                            rendered="#{homeBean.userManagement}"/>
-                <p:menuitem value="#{msg['menu_bugManagement']}" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"
-                            rendered="#{homeBean.bugManagement}"/>
-                <p:menuitem value="#{msg['menu_notifications']}" url="notificationManagement.xhtml"
-                            icon="fa fa-fw fa-bell" rendered="#{homeBean.notifications}"/>
+            <ui:define name="title">#{msg.pages_title_rightsManagement}</ui:define>
 
-                <f:facet name="options">
-                    <p:commandButton value="#{applicationLanguage.language}" icon="fa fa-fw fa-globe" type="button"
-                                     onclick="PF('languageDialog').show();"/>
-                    <p:commandButton class="stopVerticalAlign" value="#{msg.loginPage_logout}" ajax="false"
-                                     action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
-                </f:facet>
-            </p:menubar>
-        </h:form>
+            <ui:define name="content">
+                <h:form id="form1">
+                    <div class="centered">
+                        <p:dataTable var="role" value="#{rightsManagementBean.systemRoles}" tableStyle="table-layout: auto;"
+                                     resizableColumns="true" style="width: content-box">
 
-        <p:dialog modal="true" header="Language" widgetVar="languageDialog" showEffect="explode" hideEffect="explode"
-                  style="height: fit-content; width: fit-content" position="700,170">
-            <h:form>
-                <p:selectOneMenu id="console" value="#{applicationLanguage.language}"
-                                 onchange="submit()"
-                                 style="margin-right: 10px;">
-                    <f:selectItem itemValue="en" itemLabel="English"/>
-                    <f:selectItem itemValue="ro" itemLabel="Română"/>
-                </p:selectOneMenu>
-            </h:form>
-        </p:dialog>
+                            <p:column headerText="Role">
+                                <h:outputText value="#{role.roleName}"/>
+                            </p:column>
+                            <p:column headerText="Rights">
+                                <!--                                                onchange="#{rightsManagementBean.onChangeSelectedRoleRights(role.rights, role)}"-->
+                                <p:selectCheckboxMenu label="Permissions" id="menu" multiple="true" value="#{role.rights}">
+                                    <f:selectItems value="#{rightsManagementBean.rolesRights}"/>
+                                </p:selectCheckboxMenu>
+                            </p:column>
+                        </p:dataTable>
+                        <br/>
 
-        <h:form id="form1">
-            <div class="centered">
-                <p:dataTable var="role" value="#{rightsManagementBean.systemRoles}" tableStyle="table-layout: auto;"
-                             resizableColumns="true" style="width: content-box">
-
-                    <p:column headerText="Role">
-                        <h:outputText value="#{role.roleName}"/>
-                    </p:column>
-                    <p:column headerText="Rights">
-                        <!--                                                onchange="#{rightsManagementBean.onChangeSelectedRoleRights(role.rights, role)}"-->
-                        <p:selectCheckboxMenu label="Permissions" id="menu" multiple="true" value="#{role.rights}">
-                            <f:selectItems value="#{rightsManagementBean.rolesRights}"/>
-                        </p:selectCheckboxMenu>
-                    </p:column>
-                </p:dataTable>
-                <br/>
-
-                <p:commandButton value="Save changes" ajax="false" action="rightsManagement"/>
-                <br/>
-            </div>
-        </h:form>
+                        <p:commandButton value="Save changes" ajax="false" action="rightsManagement"/>
+                        <br/>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
     </h:body>
-</f:view>
 </html>
 
 

@@ -4,111 +4,81 @@
 <html xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<f:view locale="#{applicationLanguage.locale}">
-    <h:head>
-        <title>#{msg.pages_title_bug_addBug}</title>
-        <h:outputStylesheet library="css" name="myStyle.css"/>
-    </h:head>
     <h:body>
-        <p:growl id="growl" sticky="false" showDetail="true" life="3000"/>
+        <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                        xmlns:f="http://java.sun.com/jsf/core"
+                        xmlns:h="http://java.sun.com/jsf/html"
+                        template="/templates/navBarTemplate.xhtml">
 
-        <h:form>
-            <p:menubar>
-                <p:menuitem value="#{msg['menu_rightsManagement']}" url="rightsManagement.xhtml"
-                            icon="fa fa-fw fa-briefcase" rendered="#{homeBean.rightsManagement}"/>
-                <p:menuitem value="#{msg['menu_userManagement']}" url="userManagement.xhtml" icon="fa fa-fw fa-users"
-                            rendered="#{homeBean.userManagement}"/>
-                <p:menuitem value="#{msg['menu_bugManagement']}" url="bugManagement.xhtml" style="color: #eb4034;"
-                            icon="fa fa-fw fa-bug" rendered="#{homeBean.bugManagement}"/>
-                <p:menuitem value="#{msg['menu_notifications']}" url="notificationManagement.xhtml"
-                            icon="fa fa-fw fa-bell" rendered="#{homeBean.notifications}"/>
+            <ui:define name="title">#{msg.pages_title_bug_addBug}</ui:define>
 
-                <f:facet name="options">
-                    <p:commandButton value="#{applicationLanguage.language}" icon="fa fa-fw fa-globe" type="button"
-                                     onclick="PF('languageDialog').show();"/>
-                    <p:commandButton class="stopVerticalAlign" value="#{msg.loginPage_logout}" ajax="false"
-                                     action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
-                </f:facet>
-            </p:menubar>
-        </h:form>
+            <ui:define name="content">
+                <div class="addBug">
+                    <h:form id="addBugForm" scrollable="true" enctype="multipart/form-data">
+                        <h3 class="title">Add Bug</h3>
 
-        <p:dialog modal="true" header="Language" widgetVar="languageDialog" showEffect="explode" hideEffect="explode"
-                  style="height: fit-content; width: fit-content" position="700,170">
-            <h:form>
-                <p:selectOneMenu id="console" value="#{applicationLanguage.language}"
-                                 onchange="submit()"
-                                 style="margin-right: 10px;">
-                    <f:selectItem itemValue="en" itemLabel="English"/>
-                    <f:selectItem itemValue="ro" itemLabel="Română"/>
-                </p:selectOneMenu>
-            </h:form>
-        </p:dialog>
-
-        <div class="addBug">
-            <h:form id="addBugForm" scrollable="true" enctype="multipart/form-data">
-                <h3 class="title">Add Bug</h3>
-
-                <h:panelGrid columns="2" columnClasses="label, value">
-                    <h:outputText styleClass="myFont" value="Title"/>
-                    <p:inputText id="title" value="#{bugBackingBean.title}" required="true" label="title"/>
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText styleClass="myFont" value="Title"/>
+                            <p:inputText id="title" value="#{bugBackingBean.title}" required="true" label="title"/>
 
 
-                    <h:outputText styleClass="myFont" value="Description"/>
-                    <p:inputText id="description" value="#{bugBackingBean.description}" required="true"
-                                 label="description"/>
+                            <h:outputText styleClass="myFont" value="Description"/>
+                            <p:inputText id="description" value="#{bugBackingBean.description}" required="true"
+                                         label="description"/>
 
 
-                    <h:outputText styleClass="myFont" value="RevisionVersion"/>
-                    <p:inputText id="RevisionVersion" value="#{bugBackingBean.revision}" required="true"
-                                 label="RevisionVersion"/>
+                            <h:outputText styleClass="myFont" value="RevisionVersion"/>
+                            <p:inputText id="RevisionVersion" value="#{bugBackingBean.revision}" required="true"
+                                         label="RevisionVersion"/>
 
 
-                    <h:outputText styleClass="myFont" value="Vixed in version" style="display:block;"/>
-                    <p:inputText id="fixedInVersion" value="#{bugBackingBean.fixedInVersion}" required="true"
-                                 label="fixedInVersion"/>
+                            <h:outputText styleClass="myFont" value="Vixed in version" style="display:block;"/>
+                            <p:inputText id="fixedInVersion" value="#{bugBackingBean.fixedInVersion}" required="true"
+                                         label="fixedInVersion"/>
 
 
-                    <h:outputText styleClass="myFont" value="Target Date" style="display:block;"/>
-                    <p:calendar id="popup" value="#{bugBackingBean.selectedDate}" pattern="dd/MM/yyyy">
-                        <p:ajax event="dateSelect" listener="#{bugBackingBean.onDateSelect}" update="growl"/>
-                    </p:calendar>
+                            <h:outputText styleClass="myFont" value="Target Date" style="display:block;"/>
+                            <p:calendar id="popup" value="#{bugBackingBean.selectedDate}" pattern="dd/MM/yyyy">
+                                <p:ajax event="dateSelect" listener="#{bugBackingBean.onDateSelect}" update="growl"/>
+                            </p:calendar>
 
 
-                    <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
-                    <p:selectOneMenu id="severity" value="#{bugBackingBean.severity}">
-                        <f:selectItem itemLabel="" itemValue=""/>
-                        <f:selectItem itemLabel="LOW" itemValue="LOW"/>
-                        <f:selectItem itemLabel="MEDIUM" itemValue="MEDIUM"/>
-                        <f:selectItem itemLabel="HIGH" itemValue="HIGH"/>
-                    </p:selectOneMenu>
+                            <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
+                            <p:selectOneMenu id="severity" value="#{bugBackingBean.severity}">
+                                <f:selectItem itemLabel="" itemValue=""/>
+                                <f:selectItem itemLabel="LOW" itemValue="LOW"/>
+                                <f:selectItem itemLabel="MEDIUM" itemValue="MEDIUM"/>
+                                <f:selectItem itemLabel="HIGH" itemValue="HIGH"/>
+                            </p:selectOneMenu>
 
 
-                    <h:outputText styleClass="myFont" value="Created by" style="display:block;"/>
-                    <p:inputText id="createdBy" value="#{bugBackingBean.createdBy}" required="false" label="createdBy"/>
+                            <h:outputText styleClass="myFont" value="Created by" style="display:block;"/>
+                            <p:inputText id="createdBy" value="#{bugBackingBean.createdBy}" required="false" label="createdBy"/>
 
 
-                    <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
-                    <p:inputText id="assignedTo" value="#{bugBackingBean.assignedTo}" required="false"
-                                 label="assignedTo"/>
+                            <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
+                            <p:inputText id="assignedTo" value="#{bugBackingBean.assignedTo}" required="false"
+                                         label="assignedTo"/>
 
 
-                    <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
-                    <p:fileUpload value="#{bugBackingBean.file}" mode="simple" skinSimple="true">
-                    </p:fileUpload>
-                </h:panelGrid>
-                <br/>
+                            <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
+                            <p:fileUpload value="#{bugBackingBean.file}" mode="simple" skinSimple="true">
+                            </p:fileUpload>
+                        </h:panelGrid>
+                        <br/>
 
-                <p:commandButton value="Add"
-                                 action="#{bugBackingBean.addBug}"
-                                 ajax="false"
-                                 styleClass="aButton"/>
-                <br/>
-                <p:commandButton value="Dezactivate"
-                                 ajax="false"
-                                 styleClass="aButton"/>
-                <br/>
-            </h:form>
-        </div>
+                        <p:commandButton value="Add"
+                                         action="#{bugBackingBean.addBug}"
+                                         ajax="false"
+                                         styleClass="aButton"/>
+                        <br/>
+                        <p:commandButton value="Dezactivate"
+                                         ajax="false"
+                                         styleClass="aButton"/>
+                        <br/>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
     </h:body>
-</f:view>
 </html>

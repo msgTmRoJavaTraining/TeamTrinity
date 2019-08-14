@@ -15,7 +15,7 @@ public class LanguageBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+        locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
     }
 
     public Locale getLocale() {
