@@ -1,19 +1,15 @@
 package beans;
 
-import lombok.Data;
-
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import java.io.Serializable;
-import java.util.LinkedHashMap;
 import java.util.Locale;
-import java.util.Map;
 
 @ManagedBean(name = "applicationLanguage")
-@SessionScoped
+@ApplicationScoped
 public class LanguageBean implements Serializable {
     private Locale locale;
 

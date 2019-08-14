@@ -4,9 +4,9 @@
 <html xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<f:view>
+<f:view locale="#{applicationLanguage.locale}">
     <h:head>
-        <title>Create New User</title>
+        <title>#{msg.pages_title_user_createNewUser}</title>
         <h:outputStylesheet library="css" name="myStyle.css"/>
     </h:head>
     <h:body>
@@ -14,17 +14,19 @@
 
         <h:form>
             <p:menubar>
-                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" rendered = "#{homeBean.rightsManagement}"/>
-                <p:menuitem value="User Management" url="userManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-users" rendered = "#{homeBean.userManagement}"/>
-                <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug" rendered = "#{homeBean.bugManagement}"/>
-                <p:menuitem value="Notifications" url="notificationManagement.xhtml" icon="fa fa-fw fa-bell" rendered = "#{homeBean.notifications}"/>
+                <p:menuitem value="#{msg['menu_rightsManagement']}" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" rendered = "#{homeBean.rightsManagement}"/>
+                <p:menuitem value="#{msg['menu_userManagement']}" url="userManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-users" rendered = "#{homeBean.userManagement}"/>
+                <p:menuitem value="#{msg['menu_bugManagement']}" url="bugManagement.xhtml" icon="fa fa-fw fa-bug" rendered = "#{homeBean.bugManagement}"/>
+                <p:menuitem value="#{msg['menu_notifications']}" url="notificationManagement.xhtml" icon="fa fa-fw fa-bell" rendered = "#{homeBean.notifications}"/>
 
                 <f:facet name="options">
-                    <p:selectOneMenu id="console" value="language" style="margin-right: 10px;">
-                        <f:selectItem itemLabel="EN" itemValue="en" />
-                        <f:selectItem itemLabel="RO" itemValue="ro" />
+                    <p:selectOneMenu id="console" value="#{applicationLanguage.language}"
+                                     onchange="submit()"
+                                     style="margin-right: 10px;">
+                        <f:selectItem itemValue="en" itemLabel="English"/>
+                        <f:selectItem itemValue="ro" itemLabel="Română"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="Logout" ajax="false" action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
+                    <p:commandButton value="#{msg['loginPage_logout']}" ajax="false" action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
                 </f:facet>
             </p:menubar>
         </h:form>
