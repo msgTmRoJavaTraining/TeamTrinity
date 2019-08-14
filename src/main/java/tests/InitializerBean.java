@@ -1,7 +1,6 @@
 package tests;
 
 import entities.Bug;
-import entities.Notification;
 import entities.Right;
 import entities.Role;
 
@@ -24,9 +23,8 @@ public class InitializerBean {
 
     @PostConstruct
     public void onStartup() {
-        // addRights();
-        // addRoles();
-        // addNotification();
+//        addRights();
+//        addRoles();
     }
 
     private void addRights() {
@@ -62,7 +60,5 @@ public class InitializerBean {
             entityManager.persist(r);
         }
     }
-
-
 }
 

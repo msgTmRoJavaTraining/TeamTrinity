@@ -10,21 +10,20 @@
         <h:outputStylesheet library="css" name="myStyle.css"/>
     </h:head>
     <h:body>
-        <p:growl id="growl" sticky="false" showDetail="true" life="3000"/>
-
+        <p:growl id="growl" sticky="false" showDetail="true" life="6000"/>
 
         <div class="centered">
             <h:form id="loginForm">
                 <h3 class="title">JBugger</h3>
-                <h:outputText styleClass="myFont" value="Username" style="display:block;"/>
+                <h:outputText styleClass="myFont" value="#{msg['loginPage_userName']}" style="display:block;"/>
                 <p:inputText id="username" value="#{loginBean.username}" required="true" label="username"/>
                 <br/><br/>
 
-                <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
+                <h:outputText styleClass="myFont" value="#{msg['loginPage_userPassword']}" style="display:block;"/>
                 <p:password id="password" value="#{loginBean.password}" required="true" label="password"/>
                 <br/><br/>
 
-                <p:commandButton value="Login" action="#{loginBean.performLogin}"
+                <p:commandButton value="#{msg['loginPage_login']}" action="#{loginBean.performLogin}"
                                  ajax = "false"
                                  styleClass="aButton"/>
             </h:form>

@@ -1,5 +1,7 @@
 package validators;
 
+import entities.Role;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.util.List;
@@ -69,5 +71,23 @@ public class UserValidator {
 
 
         return tmpUsername;
+    }
+
+    public static boolean userUpdateValidFields(String email, String phoneNumber, List<String> userRoles) {
+                if(isValidEmail(email)) {
+                    if(isValidPhoneNumber(phoneNumber)) {
+                        if(userRoles.size() > 0) {
+                            return true;
+                        } else {
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"User roles missing", "You must assign roles to a user"));
+                        }
+                    } else {
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong phone number", "You must enter a valid romanian or german phone number"));
+                    }
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong email address", "You must enter a valid email address(ends with @msggroup.com)"));
+                }
+
+        return false;
     }
 }

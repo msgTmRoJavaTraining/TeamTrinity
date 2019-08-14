@@ -2,6 +2,7 @@ package entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -64,6 +65,10 @@ public class User implements Serializable {
         roles.forEach(role -> roleBuilder.append(role.getRoleName()).append(" "));
 
         return roleBuilder.toString();
+    }
+
+    public boolean getAccountActiveStatus() {
+        return this.isActive;
     }
 
     @Override

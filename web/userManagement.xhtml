@@ -3,9 +3,8 @@
                 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<f:view>
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{applicationLanguage.locale}">
     <h:head>
         <title>Rights Management</title>
         <h:outputStylesheet library="css" name="myStyle.css"/>
@@ -13,18 +12,28 @@
     <h:body>
 
         <h:form>
-            <p:growl id="messages"/>
-
-            <p:menubar >
-                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"/>
-                <p:menuitem value="User Management" url="userManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-users"/>
-                <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"/>
-                <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
+            <p:menubar>
+                <p:menuitem value="#{msg['menu_rightsManagement']}" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"
+                            rendered="#{homeBean.rightsManagement}"/>
+                <p:menuitem value="#{msg['menu_userManagement']}" url="userManagement.xhtml" icon="fa fa-fw fa-users"
+                            style="color: #eb4034;" rendered="#{homeBean.userManagement}"/>
+                <p:menuitem value="#{msg['menu_bugManagement']}" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"
+                            rendered="#{homeBean.bugManagement}"/>
+                <p:menuitem value="#{msg['menu_notifications']}" url="notificationManagement.xhtml" icon="fa fa-fw fa-bell"
+                            rendered="#{homeBean.notifications}"/>
 
                 <f:facet name="options">
 
                     <p:commandButton value="EN" icon="fa fa-fw fa-globe" type="button" onclick="PF('languageDialog').show();" />
                     <p:commandButton class="stopVerticalAlign" value="Logout" ajax="false" action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off" />
+                    <p:selectOneMenu id="console" value="#{applicationLanguage.language}"
+                                     onchange="submit()"
+                                     style="margin-right: 10px;">
+                        <f:selectItem itemValue="en" itemLabel="English"/>
+                        <f:selectItem itemValue="ro" itemLabel="Română"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="#{msg['loginPage_logout']}" ajax="false" action="#{homeBean.logUserOut}"
+                                     icon="fa fa-fw fa-power-off"/>
                 </f:facet>
             </p:menubar>
         </h:form>
@@ -38,8 +47,8 @@
 
         <h:form id="form1">
             <div class="centered">
+
                 <p:dataTable var="user"
-                             widgetVar="usersTable"
                              value="#{userBackingBean.userList}"
                              tableStyle="table-layout: auto;"
                              resizableColumns="true"
@@ -51,6 +60,8 @@
 
                     <p:ajax event="rowSelect" listener="#{userBackingBean.rowSelect}"/>
 
+                    <p:column headerText="Name">
+                        <h:outputText value="#{user.name}"/>
                     <f:facet name="header">
                         <p:outputPanel>
                             <h:outputText value="Search all fields:" />
@@ -68,9 +79,13 @@
                     <p:column headerText="Email" filterBy="#{user.email}">
                         <h:outputText value="#{user.email}"/>
                     </p:column>
+                    <p:column headerText="Role">
+                        <h:outputText value="#{user.rolesNames}"/>
                     <p:column headerText="Role" filterBy="#{user.rolesNames}">
                         <h:outputText value="#{user.rolesNames}" />
                     </p:column>
+                    <p:column headerText="Active">
+                        <h:outputText value="#{user.active}"/>
                     <p:column headerText="Active" filterBy="#{user.active}">
                         <h:outputText value="#{user.active}" />
                     </p:column>
@@ -79,11 +94,9 @@
 
                 <br/>
 
+                <p:commandButton value="Add User" ajax="false" action="#{loginBean.navigateTo('addUser')}"/>
                                 <p:commandButton value="Add User" onclick="PF('addUserDialog').show();"/>
                 <br/>
-                <!--                <p:outputLabel id="outputLabel" value="#{myDataTableBackingBean.outputMessage}"/>-->
-
-
             </div>
         </h:form>
 

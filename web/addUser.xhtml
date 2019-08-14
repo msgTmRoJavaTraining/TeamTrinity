@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{applicationLanguage.locale}">
+    <h:head>
+        <title>#{msg.pages_title_user_createNewUser}</title>
+        <h:outputStylesheet library="css" name="myStyle.css"/>
+    </h:head>
+    <h:body>
+        <p:growl id="growl" sticky="false" showDetail="true" life="9000"/>
+
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="#{msg['menu_rightsManagement']}" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" rendered = "#{homeBean.rightsManagement}"/>
+                <p:menuitem value="#{msg['menu_userManagement']}" url="userManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-users" rendered = "#{homeBean.userManagement}"/>
+                <p:menuitem value="#{msg['menu_bugManagement']}" url="bugManagement.xhtml" icon="fa fa-fw fa-bug" rendered = "#{homeBean.bugManagement}"/>
+                <p:menuitem value="#{msg['menu_notifications']}" url="notificationManagement.xhtml" icon="fa fa-fw fa-bell" rendered = "#{homeBean.notifications}"/>
+
+                <f:facet name="options">
+                    <p:selectOneMenu id="console" value="#{applicationLanguage.language}"
+                                     onchange="submit()"
+                                     style="margin-right: 10px;">
+                        <f:selectItem itemValue="en" itemLabel="English"/>
+                        <f:selectItem itemValue="ro" itemLabel="Română"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="#{msg['loginPage_logout']}" ajax="false" action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+
+        <div class="centered">
+            <h:form id="registerForm">
+                <h3 class="title">Add User</h3>
+                <h:outputText styleClass="myFont" value="First Name" style="display:block;"/>
+                <p:inputText id="firstName" value="#{userBackingBean.firstName}" label="firstName" />
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Last Name" style="display:block;"/>
+                <p:inputText id="lastName" value="#{userBackingBean.lastName}" label="lastName"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Mobile Number" style="display:block;"/>
+                <p:inputText id="number" value="#{userBackingBean.phoneNumber}" label="number"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Email" style="display:block;"/>
+                <p:inputText id="email" value="#{userBackingBean.email}" label="email"/>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Role" style="display:block;"/>
+                <p:selectCheckboxMenu label="Role" id="menu" multiple="true" value="#{userBackingBean.selectedRoles_Strings}">
+                    <f:selectItems value="#{userBackingBean.systemRoles}" />
+                </p:selectCheckboxMenu>
+                <br/><br/>
+
+                <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
+                <p:inputText id="password" value="#{userBackingBean.password}" label="password"/>
+                <br/><br/>
+
+                <p:commandButton value="Add"
+                                 ajax="false"
+                                 action="#{userBackingBean.createUser}"
+                                 url="userManagement.xhtml"
+                                 styleClass="aButton"/>
+
+            </h:form>
+        </div>
+    </h:body>
+</f:view>
+</html>

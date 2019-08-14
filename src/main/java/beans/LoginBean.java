@@ -1,6 +1,8 @@
 package beans;
 
 import backingBean.DatabaseLoginEJB;
+import entities.Right;
+import entities.Role;
 import entities.User;
 import security.WebHelper;
 import validators.HashingText;
@@ -12,6 +14,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ManagedBean(name = "loginBean")
 @ApplicationScoped
@@ -23,32 +28,28 @@ public class LoginBean implements Serializable {
     private String password;
 
     private User toBeLoggedInUser;
-    private int userId;
 
     public String performLogin() {
         toBeLoggedInUser = new User();
 
-       try {
-           toBeLoggedInUser = databaseLoginEJB.loginUserByUsernamePassword(username, HashingText.getMd5(password));
+        try {
+            toBeLoggedInUser = databaseLoginEJB.loginUserByUsernamePassword(username, HashingText.getMd5(password));
 
-           if (toBeLoggedInUser != null) {
-               WebHelper.getSession().setAttribute("loggedIn", true);
-               WebHelper.getSession().setAttribute("loggedInUser", toBeLoggedInUser);
-               return "homepage";
-           } else {
-               FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Date incorecte", "Email sau parola incorecte."));
-               return "";
-           }
-       }catch (Exception e){
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Date incorecte", "Email sau parola incorecte."));
+            if (toBeLoggedInUser != null && toBeLoggedInUser.getAccountActiveStatus()) {
+                WebHelper.getSession().setAttribute("loggedIn", true);
+                WebHelper.getSession().setAttribute("loggedInUser", toBeLoggedInUser);
 
-       }
-       return "";
+                return "homepage";
+            } else if( toBeLoggedInUser != null && !toBeLoggedInUser.getAccountActiveStatus()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Account deactivated", "This account has been deactivated. Contact your administator for further details."));
+                return "";
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Account not found", "Credentials do not match any registered account"));
+        }
+
+        return "";
     }
-
-
-    //Ionut
-    //Borozan
 
     public String getUsername() {
         return username;
@@ -80,13 +81,5 @@ public class LoginBean implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 }

@@ -14,8 +14,6 @@ public class DatabaseLoginEJB implements Serializable {
     private EntityManager entityManager;
 
     public User loginUserByUsernamePassword(String username, String password) {
-        //OLD query:
-        //select login.user from UserLogin login where login.username = :givenUsername and login.password = :givenPassword;
         TypedQuery<User> query = entityManager.createQuery("select user from User as user join UserLogin as login on user.userLogin.id = login.id where login.username = :givenUsername and login.password = :givenPassword", User.class);
         query.setParameter("givenUsername", username);
         query.setParameter("givenPassword", password);

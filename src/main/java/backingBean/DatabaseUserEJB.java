@@ -1,7 +1,9 @@
 package backingBean;
 
-import Enums.NotificationType;
-import entities.*;
+import entities.Right;
+import entities.Role;
+import entities.User;
+import entities.UserLogin;
 import validators.HashingText;
 
 import javax.ejb.Stateless;
@@ -13,6 +15,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Stateless
 public class DatabaseUserEJB implements Serializable {
@@ -167,13 +170,10 @@ public class DatabaseUserEJB implements Serializable {
         }
     }
 
-    public void deleteUser(String username) {
+    public void deleteUser(String firstName, String lastName) {
 
-        TypedQuery<User> query = entityManager.createQuery("select user from User user where user.userLogin.username = :username", User.class);
-        query.setParameter("username", username);
-
-          query.getSingleResult().setActive(false);
-
+        User user = entityManager.find(User.class, firstName + lastName);
+        user.setActive(false);
     }
 
     public User updateUser() {
@@ -181,13 +181,44 @@ public class DatabaseUserEJB implements Serializable {
         return null;
     }
 
-    public String readUser(String username) {
-        TypedQuery<User> query = entityManager.createQuery("select user from User user where user.userLogin.username = :username", User.class);
-        query.setParameter("username", username);
+    public User readUser(String firstName, String lastName) {
+        User user = entityManager.find(User.class, firstName + lastName);
 
-        return  query.getSingleResult().toString();
-
+        return user;
     }
 
-    public void editUser(User user,String phone,String emil){}
+    public boolean editUser(int userId, String email, String phoneNumber, List<String> userRoles){
+        User toBeEditedUser = entityManager.find(User.class, userId);
+
+        List<Role> selectedUserRoles = new ArrayList<>();
+        for (String selectedRole : userRoles) {
+            Role selectedRole_Role = getRoleByString(selectedRole);
+            selectedUserRoles.add(selectedRole_Role);
+        }
+
+        toBeEditedUser.setEmail(email);
+        toBeEditedUser.setPhoneNumber(phoneNumber);
+        toBeEditedUser.setRoles(selectedUserRoles);
+
+        try {
+            entityManager.merge(toBeEditedUser);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean changeAccountActivationStatus(int userId) {
+        User toBeDeactivatedUser = entityManager.find(User.class, userId);
+
+        toBeDeactivatedUser.setActive(!toBeDeactivatedUser.getAccountActiveStatus());
+        try {
+            entityManager.merge(toBeDeactivatedUser);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

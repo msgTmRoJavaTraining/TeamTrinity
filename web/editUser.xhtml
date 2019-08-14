@@ -14,13 +14,15 @@
 
 
         <h:form>
-            <p:growl id="messages"/>
-
-            <p:menubar >
-                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"/>
-                <p:menuitem value="User Management" url="userManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-users"/>
-                <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"/>
-                <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
+            <p:menubar>
+                <p:menuitem value="#{msg['menu_rightsManagement']}" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"
+                            rendered="#{homeBean.rightsManagement}"/>
+                <p:menuitem value="#{msg['menu_userManagement']}" url="userManagement.xhtml" style="color: #eb4034;"
+                            icon="fa fa-fw fa-users" rendered="#{homeBean.userManagement}"/>
+                <p:menuitem value="#{msg['menu_bugManagement']}" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"
+                            rendered="#{homeBean.bugManagement}"/>
+                <p:menuitem value="#{msg['menu_notifications']}" url="notificationManagement.xhtml" icon="fa fa-fw fa-bell"
+                            rendered="#{homeBean.notifications}"/>
 
                 <f:facet name="options">
 
@@ -36,38 +38,50 @@
                 <f:selectItem itemLabel="RO" itemValue="ro" />
             </p:selectOneMenu>
         </p:dialog>
+                    <p:selectOneMenu id="console" value="#{applicationLanguage.language}"
+                                     onchange="submit()"
+                                     style="margin-right: 10px;">
+                        <f:selectItem itemValue="en" itemLabel="English"/>
+                        <f:selectItem itemValue="ro" itemLabel="Română"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="#{msg['loginPage_logout']}" ajax="false" action="#{homeBean.logUserOut}"
+                                     icon="fa fa-fw fa-power-off"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
 
         <div class="centered">
             <h:form id="registerForm">
+                <h:panelGrid columns="2" columnClasses="label, value">
+                    <h:outputText styleClass="myFont" value="Name"/>
+                    <p:inputText id="name" value="#{editUserBean.name}" disabled="true" label="number"/>
 
+                    <h:outputText styleClass="myFont" value="Username"/>
+                    <p:inputText id="username" value="#{editUserBean.username}" disabled="true" required="false" label="password"/>
 
-                <h:outputText styleClass="myFont" value="Mobile Number" style="display:block;"/>
-                <p:inputText id="number" value="#{editUserBean.phoneNumber}" required="true" label="number"/>
-                <br/><br/>
+                    <h:outputText styleClass="myFont" value="Mobile Number"/>
+                    <p:inputText id="number" value="#{editUserBean.phoneNumber}" required="true" label="number"/>
 
-                <h:outputText styleClass="myFont" value="Email" style="display:block;"/>
-                <p:inputText id="email" value="#{editUserBean.email}" required="true" label="email"/>
-                <br/><br/>
+                    <h:outputText styleClass="myFont" value="Email"/>
+                    <p:inputText id="email" value="#{editUserBean.email}" required="true" label="email"/>
 
-                <h:outputText styleClass="myFont" value="Role" style="display:block;"/>
-                <p:selectCheckboxMenu label="Role" id="menu" multiple="false" value="#{userBackingBean.selectedRoles_Strings}">
-                    <f:selectItems value="#{userBackingBean.systemRoles}" />
-                </p:selectCheckboxMenu>
-                <br/><br/>
+                    <h:outputText styleClass="myFont" value="Roles"/>
+                    <p:selectCheckboxMenu label="User roles" id="selectRolesMenu" multiple="true" value="#{editUserBean.userSelectedRoles}">
+                        <f:selectItems value="#{editUserBean.systemRoles}" />
+                    </p:selectCheckboxMenu>
 
-                <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
-                <p:inputText id="password" value="#{userBackingBean.password}" required="false" label="password"/>
-                <br/><br/>
+                </h:panelGrid>
 
-                <p:commandButton value="Save"
-                                 ajax="false"
-                                 action="#{editUserBean.editUser}"
-                                 url="userManagement.xhtml"
-                                 styleClass="aButton"/>
                 <br/>
-                <p:commandButton value="Dezactivate"
+                <p:commandButton value="Save changes"
                                  ajax="false"
-                                 action="#{userBackingBean.deleteUser}"
+                                 action="#{editUserBean.editUser(editUserBean.userSelectedRoles)}"
+                                 styleClass="aButton"/>
+            </h:form>
+            <h:form>
+                <p:commandButton value="#{editUserBean.accountActivationStatus}"
+                                 ajax="false"
+                                 action="#{editUserBean.changeAccountActivationStatus}"
                                  styleClass="aButton"/>
                 <br/>
 

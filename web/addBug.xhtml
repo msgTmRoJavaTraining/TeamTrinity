@@ -14,13 +14,11 @@
 
 
         <h:form>
-            <p:growl id="messages"/>
-
-            <p:menubar >
-                <p:menuitem value="Rights Management" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase"/>
-                <p:menuitem value="User Management" url="userManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-users"/>
-                <p:menuitem value="Bug Management" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"/>
-                <p:menuitem value="Notifications" url="homepage.xhtml" icon="fa fa-fw fa-bell"/>
+            <p:menubar>
+                <p:menuitem value="#{msg['menu_rightsManagement']}" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" rendered = "#{homeBean.rightsManagement}"/>
+                <p:menuitem value="#{msg['menu_userManagement']}" url="userManagement.xhtml" icon="fa fa-fw fa-users" rendered = "#{homeBean.userManagement}"/>
+                <p:menuitem value="#{msg['menu_bugManagement']}" url="bugManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-bug" rendered = "#{homeBean.bugManagement}"/>
+                <p:menuitem value="#{msg['menu_notifications']}" url="notificationManagement.xhtml" icon="fa fa-fw fa-bell" rendered = "#{homeBean.notifications}"/>
 
                 <f:facet name="options">
 
@@ -36,6 +34,16 @@
                 <f:selectItem itemLabel="RO" itemValue="ro" />
             </p:selectOneMenu>
         </p:dialog>
+                    <p:selectOneMenu id="console" value="#{applicationLanguage.language}"
+                                     onchange="submit()"
+                                     style="margin-right: 10px;">
+                        <f:selectItem itemValue="en" itemLabel="English"/>
+                        <f:selectItem itemValue="ro" itemLabel="Română"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="#{msg['loginPage_logout']}" ajax="false" action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
 
 
         <div class="addBug" >
@@ -58,6 +66,9 @@
                     <p:inputText id="RevisionVersion" value="#{bugBackingBean.revision}" required="true" label="RevisionVersion"/>
 
 
+                    <h:outputText styleClass="myFont" value="Vixed in version" style="display:block;"/>
+                    <p:inputText id="fixedInVersion" value="#{bugBackingBean.fixedInVersion}" required="true" label="fixedInVersion"/>
+
 
                     <h:outputText styleClass="myFont" value="Target Date" style="display:block;"/>
                     <p:calendar id="popup" value="#{bugBackingBean.selectedDate}" pattern="dd/MM/yyyy">
@@ -68,11 +79,14 @@
                     <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
                     <p:selectOneMenu id="severity" value="#{bugBackingBean.severity}">
                         <f:selectItem itemLabel="" itemValue="" />
-                        <f:selectItem itemLabel="CRITICAL" itemValue="CRITICAL"/>
                         <f:selectItem itemLabel="LOW" itemValue="LOW" />
                         <f:selectItem itemLabel="MEDIUM" itemValue="MEDIUM" />
                         <f:selectItem itemLabel="HIGH" itemValue="HIGH" />
                     </p:selectOneMenu>
+
+
+                    <h:outputText styleClass="myFont" value="Created by" style="display:block;"/>
+                    <p:inputText id="createdBy" value="#{bugBackingBean.createdBy}" required="false" label="createdBy"/>
 
 
                     <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
@@ -82,7 +96,7 @@
                     <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
                     <p:fileUpload value="#{bugBackingBean.file}" mode="simple" skinSimple="true">
                     </p:fileUpload>
-                    <p:growl id="messages1" showDetail="true" />
+                    <p:growl id="messages" showDetail="true" />
                     <br/><br/>
                 </h:panelGrid>
 
