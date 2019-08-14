@@ -24,20 +24,20 @@
                                      selectionMode="single"
                                      onRowClick=""
                                      selection="#{userBackingBean.selectedUser}"
+                                     paginator="true" rows="25"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                     widgetVar="usersTable"
                                      rowKey="#{user.name}">
 
                             <p:ajax event="rowSelect" listener="#{userBackingBean.rowSelect}"/>
 
-                            <p:column headerText="Name">
-                                <h:outputText value="#{user.name}"/>
-                                <f:facet name="header">
-                                    <p:outputPanel>
-                                        <h:outputText value="Search all fields:"/>
-                                        <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px"
-                                                     placeholder="Search here"/>
-                                    </p:outputPanel>
-                                </f:facet>
-                            </p:column>
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="Search all fields:"/>
+                                    <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px"
+                                                 placeholder="Search here"/>
+                                </p:outputPanel>
+                            </f:facet>
 
                             <p:column headerText="Name" filterBy="#{user.name}">
                                 <h:outputText value="#{user.name}"/>
@@ -48,25 +48,18 @@
                             <p:column headerText="Email" filterBy="#{user.email}">
                                 <h:outputText value="#{user.email}"/>
                             </p:column>
-                            <p:column headerText="Role">
-                                <h:outputText value="#{user.rolesNames}"/>
-                            </p:column>
+
                             <p:column headerText="Role" filterBy="#{user.rolesNames}">
                                 <h:outputText value="#{user.rolesNames}"/>
                             </p:column>
-                            <p:column headerText="Active">
-                                <h:outputText value="#{user.active}"/>
-                            </p:column>
+
                             <p:column headerText="Active" filterBy="#{user.active}">
                                 <h:outputText value="#{user.active}"/>
                             </p:column>
-
                         </p:dataTable>
-
                         <br/>
 
                         <p:commandButton value="Add User" onclick="PF('addUserDialog').show();"/>
-                        <br/>
                     </div>
                 </h:form>
 
