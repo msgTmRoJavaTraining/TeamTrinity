@@ -1,6 +1,7 @@
 package backingBean;
 
 
+import beans.LanguagesBundleAccessor;
 import entities.Role;
 import entities.User;
 import lombok.Data;
@@ -18,6 +19,7 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 @Data
@@ -32,6 +34,9 @@ public class EditUserBean implements Serializable {
 
     @Inject
     private DatabaseUserEJB databaseUserEJB;
+
+    @Inject
+    private LanguagesBundleAccessor languagesBundleAccessor;
 
     private String phoneNumber;
     private String email;
@@ -75,23 +80,23 @@ public class EditUserBean implements Serializable {
     public void editUser(List<String> list){
         if(UserValidator.userUpdateValidFields(email, phoneNumber, list)) {
             if (databaseUserEJB.editUser(userId, email, phoneNumber, list)) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "User updated", "User " + name + " has been updated!"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_titleSuccess"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageSuccess_1") + name + languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageSuccess_2")));
             } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "User update failed", "Something went wrong while updating " + name));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_titleFailure"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageFailure") + " " +  name));
             }
         }
     }
 
     public void changeAccountActivationStatus() {
         if(databaseUserEJB.changeAccountActivationStatus(userId)) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account deactivated", "Successfully deactivated " + username));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChange_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChange_message") + " " + username));
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("userManagement.xhtml");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Account deactivation failed", "There was a problem deactivating " + username));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChangeFailure_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChangeFailure_message") + " " + username));
         }
     }
 }

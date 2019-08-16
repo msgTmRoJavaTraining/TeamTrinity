@@ -1,7 +1,6 @@
 package beans;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -12,10 +11,11 @@ import java.util.Locale;
 @SessionScoped
 public class LanguageBean implements Serializable {
     private Locale locale;
+    private String language;
 
     @PostConstruct
     public void init() {
-        locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
     }
 
     public Locale getLocale() {

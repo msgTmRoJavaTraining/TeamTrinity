@@ -18,10 +18,10 @@
                         <p:dataTable var="role" value="#{rightsManagementBean.systemRoles}" tableStyle="table-layout: auto;"
                                      resizableColumns="true" style="width: content-box">
 
-                            <p:column headerText="Role">
+                            <p:column headerText="#{msg.rightsManagement_tableHeader_role}">
                                 <h:outputText value="#{role.roleName}"/>
                             </p:column>
-                            <p:column headerText="Rights">
+                            <p:column headerText="#{msg.rightsManagement_tableHeader_rights}">
                                 <!--                                                onchange="#{rightsManagementBean.onChangeSelectedRoleRights(role.rights, role)}"-->
                                 <p:selectCheckboxMenu label="Permissions" id="menu" multiple="true" value="#{role.rights}">
                                     <f:selectItems value="#{rightsManagementBean.rolesRights}"/>
@@ -30,7 +30,7 @@
                         </p:dataTable>
                         <br/>
 
-                        <p:commandButton value="Save changes" ajax="false" action="rightsManagement"/>
+                        <p:commandButton value="#{msg.rightsManagement_button_saveChanges}" ajax="false" action="rightsManagement"/>
                         <br/>
                     </div>
                 </h:form>

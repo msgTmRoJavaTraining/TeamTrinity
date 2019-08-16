@@ -21,7 +21,7 @@ public class FileUploadBean implements Serializable {
 
     public void upload() {
         if(file != null) {
-            FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
+            FacesMessage message = new FacesMessage("#{msg.dialogMessages_fileUploadBean_attachments_upload_title}", file.getFileName() + " #{msg.dialogMessages_fileUploadBean_attachments_upload_messages}");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }

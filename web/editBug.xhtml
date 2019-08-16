@@ -21,25 +21,25 @@
 
                         <h:panelGrid columns="2" columnClasses="label, value">
 
-                            <h:outputText styleClass="myFont" value="Title"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_title}"/>
                             <p:inputText id="title" value="#{editBugBean.title}" required="true" label="title"/>
 
 
-                            <h:outputText styleClass="myFont" value="Description" />
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_description}" />
                             <p:inputText id="description" value="#{editBugBean.description}" required="true" label="description"/>
 
 
-                            <h:outputText styleClass="myFont" value="RevisionVersion"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_revisionVersion}"/>
                             <p:inputText id="RevisionVersion" value="#{editBugBean.revision}" required="true" label="RevisionVersion"/>
 
-                            <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_severity}" style="display:block;"/>
                             <p:inputText id="severity" value="#{editBugBean.severity}" required="false" label="severity"/>
 
 
-                            <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_assignedTo}" style="display:block;"/>
                             <p:inputText id="assignedTo" value="#{editBugBean.assignedTo}" required="false" label="assignedTo"/>
 
-                            <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_attachments}" style="display:block;"/>
                             <p:fileUpload value="#{editBugBean.myFile}" mode="simple" skinSimple="true">
                             </p:fileUpload>
                             <p:growl id="messages1" showDetail="true" />
@@ -48,12 +48,12 @@
                         </h:panelGrid>
 
 
-                        <p:commandButton value="Edit"
+                        <p:commandButton value="#{msg.bugManagement_edit_button_saveChanges}"
                                          action="#{editBugBean.editBug}"
                                          ajax="false"
                                          styleClass="aButton"/>
                         <br/>
-                        <p:commandButton value="Dezactivate"
+                        <p:commandButton value="#{msg.bugManagement_edit_button_deactivate}"
                                          ajax="false"
                                          styleClass="aButton"/>
                         <br/>

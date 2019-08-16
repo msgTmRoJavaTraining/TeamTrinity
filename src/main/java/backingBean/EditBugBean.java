@@ -39,18 +39,15 @@ public class EditBugBean implements Serializable {
 
     public void upload() {
         if(myFile != null) {
-            FacesMessage message = new FacesMessage("Succesful", myFile.getFileName() + " is uploaded.");
+            FacesMessage message = new FacesMessage("#{msg.dialogMessages_editBug_attachments_upload_title}", myFile.getFileName() + " #{msg.dialogMessages_editBug_attachments_upload_messages}");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
 
     }
 
     public void editBug() throws IOException {
-
-
         Bug bug = (Bug) WebHelper.getSession().getAttribute("bug");
         upload();
         databaseBugEJB.editBug(bug,myFile.getInputstream(),title,description,revision,severity,attachment);
     }
-
-   }
+}
