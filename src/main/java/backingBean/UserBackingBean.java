@@ -1,6 +1,7 @@
 package backingBean;
 
 
+import beans.LanguagesBundleAccessor;
 import entities.Right;
 import entities.Role;
 import entities.User;
@@ -33,6 +34,9 @@ public class UserBackingBean implements Serializable {
     @Inject
     private DataGetter dataGetter;
 
+    @Inject
+    private LanguagesBundleAccessor languagesBundleAccessor;
+
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -60,7 +64,7 @@ public class UserBackingBean implements Serializable {
     public void createUser() {
         if (UserValidator.areInputFieldsValid(firstName, lastName, email, phoneNumber, selectedRoles_Strings, password)) {
             if(userEJB.createUser(firstName, lastName, email, phoneNumber, selectedRoles_Strings, password)) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"User added successfully", "Successfully added a new user in the system"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_success_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_success_message")));
 
                 try {
                     FacesContext.getCurrentInstance().getExternalContext().redirect("userManagement.xhtml");
@@ -69,7 +73,7 @@ public class UserBackingBean implements Serializable {
                 }
 
             } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Could not add user", "The user already exists"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_failure_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_failure_message")));
             }
         }
     }

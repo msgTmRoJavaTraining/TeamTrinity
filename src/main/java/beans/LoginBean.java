@@ -4,6 +4,7 @@ import backingBean.DatabaseLoginEJB;
 import entities.Right;
 import entities.Role;
 import entities.User;
+import lombok.Data;
 import security.WebHelper;
 import validators.HashingText;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Data
 @ManagedBean(name = "loginBean")
 @ApplicationScoped
 public class LoginBean implements Serializable {
@@ -41,11 +43,11 @@ public class LoginBean implements Serializable {
 
                 return "homepage";
             } else if( toBeLoggedInUser != null && !toBeLoggedInUser.getAccountActiveStatus()) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Account deactivated", "This account has been deactivated. Contact your administator for further details."));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "#{msg.dialogMessages_loginPage_accountDeactivated_title}", "#{msg.dialogMessages_loginPage_accountDeactivated_message}"));
                 return "";
             }
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Account not found", "Credentials do not match any registered account"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "#{msg.dialogMessages_loginPage_accountNotFound_title}", "#{msg.dialogMessages_loginPage_accountNotFound_message}"));
         }
 
         return "";

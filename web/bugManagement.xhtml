@@ -4,30 +4,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
-<f:view locale="#{applicationLanguage.locale}">
-    <h:head>
-        <title>#{msg.pages_title_bugManagement}</title>
-        <h:outputStylesheet library="css" name="myStyle.css"/>
-    </h:head>
+    <h:head/>
     <h:body styleClass="imagine">
-
-        <h:form>
-            <p:growl id="messages"/>
-
-            <p:menubar>
-                <p:menuitem value="#{msg['menu_rightsManagement']}" url="rightsManagement.xhtml" icon="fa fa-fw fa-briefcase" rendered = "#{homeBean.rightsManagement}"/>
-                <p:menuitem value="#{msg['menu_userManagement']}" url="userManagement.xhtml" icon="fa fa-fw fa-users" rendered = "#{homeBean.userManagement}"/>
-                <p:menuitem value="#{msg['menu_bugManagement']}" url="bugManagement.xhtml" style="color: #eb4034;" icon="fa fa-fw fa-bug" rendered = "#{homeBean.bugManagement}"/>
-                <p:menuitem value="#{msg['menu_notifications']}" url="notificationManagement.xhtml" icon="fa fa-fw fa-bell" rendered = "#{homeBean.notifications}"/>
-
-                <f:facet name="options">
-                    <p:commandButton value="#{applicationLanguage.language}" icon="fa fa-fw fa-globe" type="button"
-                                     onclick="PF('languageDialog').show();"/>
-                    <p:commandButton value="#{msg['loginPage_logout']}" ajax="false" action="#{homeBean.logUserOut}"
-                                     icon="fa fa-fw fa-power-off"/>
-                </f:facet>
-            </p:menubar>
-        </h:form>
+        <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                        xmlns:f="http://java.sun.com/jsf/core"
+                        xmlns:h="http://java.sun.com/jsf/html"
+                        template="/templates/navBarTemplate.xhtml">
 
         <p:dialog modal="true" header="Language" widgetVar="languageDialog" showEffect="explode" hideEffect="explode"
                   style="height: fit-content; width: fit-content" position="700,170">
@@ -56,59 +38,77 @@
                              paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                              widgetVar="bugTable"
                              rowKey="#{bug.title}">
+            <ui:define name="title">#{msg.pages_title_bugManagement}</ui:define>
+            <ui:define name="content">
+                <h:form id="bugTable">
+                    <div class="bugTable">
+                        <p:dataTable var="bug"
+                                     value="#{bugBackingBean.bugList}"
+                                     tableStyle="table-layout: auto;"
+                                     resizableColumns="true"
+                                     style="width: content-box"
+                                     paginator="true" rows="25"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                     widgetVar="bugTable"
+                                     selectionMode="single"
+                                     selection="#{bugBackingBean.selectedBug}"
+                                     rowKey="#{bug.title}">
 
+                            <p:ajax event="rowSelect" listener="#{bugBackingBean.rowSelect}"/>
 
-                    <f:facet name="header">
-                        <p:outputPanel>
-                            <h:outputText value="Search all fields:" />
-                            <p:inputText id="globalFilter" onkeyup="PF('bugTable').filter()" style="width:150px" placeholder="Search here"/>
-                        </p:outputPanel>
-                    </f:facet>
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="#{msg.bugManagement_tableHeader_searchAllFields}"/>
+                                    <p:inputText id="globalFilter" onkeyup="PF('bugTable').filter()" style="width:150px"
+                                                 placeholder="#{msg.bugManagement_tableHeader_searchHere}"/>
+                                </p:outputPanel>
+                            </f:facet>
 
-                    <p:column headerText="Title" filterBy="#{bug.title}" sortBy="#{bug.title}">
-                        <h:outputText value="#{bug.title}"/>
-                    </p:column>
-                    <p:column headerText="Description" filterBy="#{bug.description}" sortBy="#{bug.description}">
-                        <h:outputText value="#{bug.description}"/>
-                    </p:column>
-                    <p:column headerText="Revision" filterBy="#{bug.revision}" sortBy="#{bug.revision}">
-                        <h:outputText value="#{bug.revision}"/>
-                    </p:column>
-                    <p:column headerText="FixedInVersion" filterBy="#{bug.fixedInVersion}" sortBy="#{bug.fixedInVersion}">
-                        <h:outputText value="#{bug.fixedInVersion}"/>
-                    </p:column>
-                    <p:column headerText="TargetDate" sortBy="#{bug.targetData}" filterBy="#{bug.targetData}">
-                        <h:outputText value="#{bug.targetData}" />
-                    </p:column>
-                    <p:column headerText="Severity" filterBy="#{bug.severity}" sortBy="#{bug.severity}">
-                        <h:outputText value="#{bug.severity}"/>
-                    </p:column>
-                    <p:column headerText="CreatedBy" filterBy="#{bug.createdBy}" sortBy="#{bug.createdBy}">
-                        <h:outputText value="#{bug.createdBy.name}"/>
-                    </p:column>
-                    <p:column headerText="Status" filterBy="#{bug.status}" sortBy="#{bug.status}">
-                        <h:outputText value="#{bug.status}"/>
-                    </p:column>
-                    <p:column headerText="AssignedTo" filterBy="#{bug.assignedTo}" sortBy="#{bug.assignedTo}">
-                        <h:outputText value="#{bug.assignedTo.name}"/>
-                    </p:column>
-                    <p:column headerText="Attachments" filterBy="#{bug.attachment}" sortBy="#{bug.attachment}">
-                        <h:outputText value="#{bug.attachment}" />
-                    </p:column>
-                    <p:column>
-                        <p:commandButton icon="fa fa-fw fa-edit" type="button" onclick="PF('editBugDialog').show();"/>
-                    </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_title}" filterBy="#{bug.title}" sortBy="#{bug.title}">
+                                <h:outputText value="#{bug.title}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_description}" filterBy="#{bug.description}" sortBy="#{bug.description}">
+                                <h:outputText value="#{bug.description}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_revisionVersion}" filterBy="#{bug.revision}" sortBy="#{bug.revision}">
+                                <h:outputText value="#{bug.revision}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_fixedInVersion}" filterBy="#{bug.fixedInVersion}" sortBy="#{bug.fixedInVersion}">
+                                <h:outputText value="#{bug.fixedInVersion}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_targetDate}" sortBy="#{bug.targetData}" filterBy="#{bug.targetData}">
+                                <h:outputText value="#{bug.targetData}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_severity}" filterBy="#{bug.severity}" sortBy="#{bug.severity}">
+                                <h:outputText value="#{bug.severity}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_createdBy}" filterBy="#{bug.createdBy}" sortBy="#{bug.createdBy}">
+                                <h:outputText value="#{bug.createdBy.name}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_status}" filterBy="#{bug.status}" sortBy="#{bug.status}">
+                                <h:outputText value="#{bug.status}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_assignedTo}" filterBy="#{bug.assignedTo}" sortBy="#{bug.assignedTo}">
+                                <h:outputText value="#{bug.assignedTo.name}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_attachments}" sortBy="#{bug.assignedTo}">
+                                <h:outputText value="#{bug.attachment}"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton icon="fa fa-fw fa-edit" type="button" onclick="PF('editBugDialog').show();"/>
+                            </p:column>
 
                 </p:dataTable>
 
-                <br/>
-                <p:commandButton value="Export" type="button" onclick="PF('pdfAndExcel').show();"/>
+                        <br/>
+                        <p:commandButton value="#{msg.bugManagement_button_exportOptions}" type="button" onclick="PF('pdfAndExcel').show();"/>
+                        <br/><br/>
+                        <p:commandButton value="#{msg.bugManagement_button_addBug}" type="button" onclick="PF('addBugDialog').show();"/>
+                        <br/>
+                    </div>
+                </h:form>
 
-                <p:commandButton value="Add Bug" type="button" onclick="PF('addBugDialog').show();"/>
-                <br/>
-            </div>
-        </h:form>
-
+        <h:graphicImage library="css" styleClass="imagine"> </h:graphicImage>
 
 
         <h:graphicImage library="css" styleClass="imagine"> </h:graphicImage>
@@ -116,7 +116,7 @@
 
 
         <h:form id="pdfAndExcel">
-            <p:dialog modal="true" header="Excel and Pdf" widgetVar="pdfAndExcel" showEffect="clip" hideEffect="clip"
+            <p:dialog modal="true" header="#{msg.bugManagement_dialog_export_title}" widgetVar="pdfAndExcel" showEffect="clip" hideEffect="clip"
                       styleClass="addUserDialogStyle">
                 <p:dataTable var="bug"
                              value="#{bugBackingBean.bugList}"
@@ -136,97 +136,99 @@
                     <p:ajax event="rowSelect" listener="#{bugBackingBean.rowSelect}"/>
 
 
-                    <f:facet name="header">
-                        <p:outputPanel>
-                            <h:outputText value="Search all fields:" />
-                            <p:inputText id="globalFilter1" onkeyup="PF('bugTable').filter()" style="width:150px" placeholder="Search here"/>
-                        </p:outputPanel>
-                    </f:facet>
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="#{msg.bugManagement_tableHeader_searchAllFields}"/>
+                                    <p:inputText id="globalFilter1" onkeyup="PF('bugTable').filter()"
+                                                 style="width:150px"
+                                                 placeholder="#{msg.bugManagement_tableHeader_searchHere}"/>
+                                </p:outputPanel>
+                            </f:facet>
 
-                    <p:column headerText="Title" filterBy="#{bug.title}" sortBy="#{bug.title}">
-                        <h:outputText value="#{bug.title}"/>
-                    </p:column>
-                    <p:column headerText="Description" filterBy="#{bug.description}" sortBy="#{bug.description}">
-                        <h:outputText value="#{bug.description}"/>
-                    </p:column>
-                    <p:column headerText="Revision" filterBy="#{bug.revision}" sortBy="#{bug.revision}">
-                        <h:outputText value="#{bug.revision}"/>
-                    </p:column>
-                    <p:column headerText="FixedInVersion" filterBy="#{bug.fixedInVersion}" sortBy="#{bug.fixedInVersion}">
-                        <h:outputText value="#{bug.fixedInVersion}"/>
-                    </p:column>
-                    <p:column headerText="TargetDate" sortBy="#{bug.targetData}" filterBy="#{bug.targetData}">
-                        <h:outputText value="#{bug.targetData}"/>
-                    </p:column>
-                    <p:column headerText="Severity" filterBy="#{bug.severity}" sortBy="#{bug.severity}">
-                        <h:outputText value="#{bug.severity}"/>
-                    </p:column>
-                    <p:column headerText="CreatedBy" filterBy="#{bug.createdBy}" sortBy="#{bug.createdBy}">
-                        <h:outputText value="#{bug.createdBy.name}"/>
-                    </p:column>
-                    <p:column headerText="Status" filterBy="#{bug.status}" sortBy="#{bug.status}">
-                        <h:outputText value="#{bug.status}"/>
-                    </p:column>
-                    <p:column headerText="AssignedTo" filterBy="#{bug.assignedTo}" sortBy="#{bug.assignedTo}">
-                        <h:outputText value="#{bug.assignedTo.name}"/>
-                    </p:column>
-                    <p:column headerText="Attachments" filterBy="#{bug.attachment}" sortBy="#{bug.attachment}">
-                        <h:outputText value="#{bug.attachment}" />
-                    </p:column>
-                    <p:column>
-                        <p:commandButton ajax="false" icon="fa fa-fw fa-edit"
-                                         action="#{loginBean.navigateTo('editBug.xhtml')}"/>
-                    </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_title}" filterBy="#{bug.title}" sortBy="#{bug.title}">
+                                <h:outputText value="#{bug.title}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_description}" filterBy="#{bug.description}" sortBy="#{bug.description}">
+                                <h:outputText value="#{bug.description}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_revisionVersion}" filterBy="#{bug.revision}" sortBy="#{bug.revision}">
+                                <h:outputText value="#{bug.revision}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_fixedInVersion}" filterBy="#{bug.fixedInVersion}" sortBy="#{bug.fixedInVersion}">
+                                <h:outputText value="#{bug.fixedInVersion}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_targetDate}" sortBy="#{bug.targetData}" filterBy="#{bug.targetData}">
+                                <h:outputText value="#{bug.targetData}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_severity}" filterBy="#{bug.severity}" sortBy="#{bug.severity}">
+                                <h:outputText value="#{bug.severity}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_createdBy}" filterBy="#{bug.createdBy}" sortBy="#{bug.createdBy}">
+                                <h:outputText value="#{bug.createdBy.name}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_status}" filterBy="#{bug.status}" sortBy="#{bug.status}">
+                                <h:outputText value="#{bug.status}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_assignedTo}" filterBy="#{bug.assignedTo}" sortBy="#{bug.assignedTo}">
+                                <h:outputText value="#{bug.assignedTo.name}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_assignedTo}" filterBy="#{bug.attachment}" sortBy="#{bug.attachment}">
+                                <h:outputText value="#{bug.attachment}"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton ajax="false" icon="fa fa-fw fa-edit"
+                                                 action="#{loginBean.navigateTo('editBug.xhtml')}"/>
+                            </p:column>
 
-                </p:dataTable>
-                <br/>
+                        </p:dataTable>
+                        <br/>
 
-                <p:commandButton value="Export Excel" ajax="true"
-                                 actionListener="#{bugBackingBean.downloadExcel}"
-                                 onclick="PrimeFaces.monitorDownload(start,stop)">
-                    <p:fileDownload value="#{bugBackingBean.defaultStreamedContent}"/>
-                </p:commandButton>
-                <br/><br/>
-                <p:commandButton value="Export PDF" ajax="true" actionListener="#{bugBackingBean.downloadPdf}"
-                                 onclick="PrimeFaces.monitorDownload(start,stop)">
-                    <p:fileDownload value="#{bugBackingBean.defaultStreamedContent}"/>
-                </p:commandButton>
-                <br/>
-            </p:dialog>
-        </h:form>
+                        <p:commandButton value="#{msg.bugManagement_dialog_export_button_exportExcel}" ajax="true"
+                                         actionListener="#{bugBackingBean.downloadExcel}"
+                                         onclick="PrimeFaces.monitorDownload(start,stop)">
+                            <p:fileDownload value="#{bugBackingBean.defaultStreamedContent}"/>
+                        </p:commandButton>
+                        <br/><br/>
+                        <p:commandButton value="#{msg.bugManagement_dialog_export_button_exportPDF}" ajax="true" actionListener="#{bugBackingBean.downloadPdf}"
+                                         onclick="PrimeFaces.monitorDownload(start,stop)">
+                            <p:fileDownload value="#{bugBackingBean.defaultStreamedContent}"/>
+                        </p:commandButton>
+                        <br/>
+                    </p:dialog>
+                </h:form>
 
         <h:form id="addBugForm" enctype="multipart/form-data">
 
-            <p:dialog modal="true" header="Add Bug" widgetVar="addBugDialog" showEffect="scale" hideEffect="scale"
+            <p:dialog modal="true" header="#{msg.bugManagement_dialog_add_title}" widgetVar="addBugDialog" showEffect="scale" hideEffect="scale"
                       styleClass="addBugDialogStyle">
                 <h:panelGrid columns="2" columnClasses="label,value">
 
-                    <h:outputText styleClass="myFont" value="Title"/>
-                    <p:inputText id="title" value="#{bugBackingBean.title}" required="true" label="title"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_bugTitle}"/>
+                            <p:inputText id="title" value="#{bugBackingBean.title}" required="true" label="title"/>
 
 
-                    <h:outputText styleClass="myFont" value="Description"/>
-                    <p:inputText id="description" value="#{bugBackingBean.description}" required="true"
-                                 label="description"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_description}"/>
+                            <p:inputText id="description" value="#{bugBackingBean.description}" required="true"
+                                         label="description"/>
 
 
-                    <h:outputText styleClass="myFont" value="Revision"/>
-                    <p:inputText id="RevisionVersion" value="#{bugBackingBean.revision}" required="true"
-                                 label="RevisionVersion"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_revisionVersion}"/>
+                            <p:inputText id="RevisionVersion" value="#{bugBackingBean.revision}" required="true"
+                                         label="RevisionVersion"/>
 
 
-                    <h:outputText styleClass="myFont" value="Fixed in version" />
-                    <p:inputText id="fixedInVersion" value="#{bugBackingBean.fixedInVersion}" required="true"
-                                 label="fixedInVersion"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_fixedInVersion}" style="display:block;"/>
+                            <p:inputText id="fixedInVersion" value="#{bugBackingBean.fixedInVersion}" required="true"
+                                         label="fixedInVersion"/>
 
 
-                    <h:outputText styleClass="myFont" value="Target Date" />
-                    <p:calendar id="popup" value="#{bugBackingBean.selectedDate}" pattern="dd/MM/yyyy">
-                        <p:ajax event="dateSelect" listener="#{bugBackingBean.onDateSelect}"/>
-                    </p:calendar>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_targetDate}" style="display:block;"/>
+                            <p:calendar id="popup" value="#{bugBackingBean.selectedDate}" pattern="dd/MM/yyyy">
+                                <p:ajax event="dateSelect" listener="#{bugBackingBean.onDateSelect}"/>
+                            </p:calendar>
 
 
-                    <h:outputText styleClass="myFont" value="Severity" />
+                    <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_severity}" />
                     <p:selectOneMenu id="severity" value="#{bugBackingBean.severity}" style="min-width: 176px">
                         <f:selectItem itemLabel="" itemValue=""/>
                         <f:selectItem itemLabel="LOW" itemValue="LOW"/>
@@ -235,86 +237,78 @@
                     </p:selectOneMenu>
 
 
-                    <h:outputText styleClass="myFont" value="Created by" />
+                    <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_createdBy}" />
                     <p:inputText id="createdBy" value="#{bugBackingBean.createdBy}" required="false"
                                  label="createdBy"/>
 
 
-                    <h:outputText styleClass="myFont" value="Assigned to" />
+                    <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_assignedTo}" />
                     <p:inputText id="assignedTo" value="#{bugBackingBean.assignedTo}" required="false"
                                  label="assignedTo"/>
 
 
-                    <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
-                    <p:fileUpload value="#{bugBackingBean.file}" mode="simple" skinSimple="true">
-                    </p:fileUpload>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_attachments}" style="display:block;"/>
+                            <p:fileUpload value="#{bugBackingBean.file}" mode="simple" skinSimple="true">
+                            </p:fileUpload>
+                        </h:panelGrid>
 
-                    <p:growl id="messages1" showDetail="true"/>
-                    <br/><br/>
-                </h:panelGrid>
+                        <br/><br/>
+                        <p:commandButton value="#{msg.bugManagement_dialog_add_button_addBug}"
+                                         action="#{bugBackingBean.addBug}"
+                                         ajax="false"
+                                         url="bugManagement.xhtml"
+                                         styleClass="aButton"/>
+                    </p:dialog>
+                </h:form>
 
+                <h:form id="editBugForm" scrollable="true" >
+                    <div>
+                        <p:dialog modal="true" header="Edit Bug" widgetVar="editBugDialog" showEffect="scale" hideEffect="scale"
+                                  styleClass="addUserDialogStyle">
 
-                <p:commandButton value="Add"
-                                 action="#{bugBackingBean.addBug}"
-                                 ajax="false"
-                                 url="bugManagement.xhtml"
-                                 styleClass="aButton"/>
-                <br/>
-            </p:dialog>
-        </h:form>
+                            <h:panelGrid columns="2" columnClasses="label, value">
 
-
-
-
-        <h:form id="editBugForm" scrollable="true" >
-            <div>
-            <p:dialog modal="true" header="Edit Bug" widgetVar="editBugDialog" showEffect="scale" hideEffect="scale"
-                      styleClass="addUserDialogStyle">
-
-                <h:panelGrid columns="2" columnClasses="label, value">
-
-                    <h:outputText styleClass="myFont" value="Title"/>
-                    <p:inputText id="title1" value="#{bugBackingBean.title}" required="true" label="title"/>
+                                <h:outputText styleClass="myFont" value="Title"/>
+                                <p:inputText id="title1" value="#{bugBackingBean.title}" required="true" label="title"/>
 
 
-                    <h:outputText styleClass="myFont" value="Description" />
-                    <p:inputText id="description1" value="#{bugBackingBean.description}" required="true" label="description"/>
+                                <h:outputText styleClass="myFont" value="Description" />
+                                <p:inputText id="description1" value="#{bugBackingBean.description}" required="true" label="description"/>
 
 
-                    <h:outputText styleClass="myFont" value="RevisionVersion"/>
-                    <p:inputText id="RevisionVersion1" value="#{bugBackingBean.revision}" required="true" label="RevisionVersion"/>
+                                <h:outputText styleClass="myFont" value="RevisionVersion"/>
+                                <p:inputText id="RevisionVersion1" value="#{bugBackingBean.revision}" required="true" label="RevisionVersion"/>
 
-                    <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
-                    <p:inputText id="severity1" value="#{bugBackingBean.severity}" required="false" label="severity"/>
-
-
-                    <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
-                    <p:inputText id="assignedTo1" value="#{bugBackingBean.assignedTo}" required="false" label="assignedTo"/>
+                                <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
+                                <p:inputText id="severity1" value="#{bugBackingBean.severity}" required="false" label="severity"/>
 
 
-                    <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
-                    <p:inputText id="attachment"  required="false" label="attachment"/>
-                    <br/><br/>
-                </h:panelGrid>
+                                <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
+                                <p:inputText id="assignedTo1" value="#{bugBackingBean.assignedTo}" required="false" label="assignedTo"/>
 
 
-                <p:commandButton value="Edit"
-                                 action="#{bugBackingBean.editBug}"
-                                 ajax="false"
-                                 styleClass="aButton"/>
-                <p:commandButton value="Dezactivate"
-                                 ajax="false"
-                                 styleClass="aButton"/>
-                <br/><br/>
-            </p:dialog>
-            </div>
-        </h:form>
-        <br/>
-        <!--                <p:outputLabel id="outputLabel" value="#{myDataTableBackingBean.outputMessage}"/>-->
+                                <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
+                                <p:inputText id="attachment"  required="false" label="attachment"/>
+                                <br/><br/>
+                            </h:panelGrid>
 
 
+                            <p:commandButton value="Edit"
+                                             action="#{bugBackingBean.editBug}"
+                                             ajax="false"
+                                             styleClass="aButton"/>
+                            <p:commandButton value="Dezactivate"
+                                             ajax="false"
+                                             styleClass="aButton"/>
+                            <br/><br/>
+                        </p:dialog>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </f:view>
+
 
 
 </html>

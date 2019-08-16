@@ -4,49 +4,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
-<f:view locale="#{applicationLanguage.locale}">
-    <h:head>
-        <title>#{msg.pages_title_userManagement}</title>
-        <h:outputStylesheet library="css" name="myStyle.css"/>
-    </h:head>
     <h:body>
-        <h:form>
-            <p:menubar>
-                <p:menuitem value="#{msg['menu_rightsManagement']}" url="rightsManagement.xhtml"
-                            icon="fa fa-fw fa-briefcase"
-                            rendered="#{homeBean.rightsManagement}"/>
-                <p:menuitem value="#{msg['menu_userManagement']}" url="userManagement.xhtml" icon="fa fa-fw fa-users"
-                            style="color: #eb4034;" rendered="#{homeBean.userManagement}"/>
-                <p:menuitem value="#{msg['menu_bugManagement']}" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"
-                            rendered="#{homeBean.bugManagement}"/>
-                <p:menuitem value="#{msg['menu_notifications']}" url="notificationManagement.xhtml"
-                            icon="fa fa-fw fa-bell"
-                            rendered="#{homeBean.notifications}"/>
+        <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                        xmlns:f="http://java.sun.com/jsf/core"
+                        xmlns:h="http://java.sun.com/jsf/html"
+                        template="/templates/navBarTemplate.xhtml">
 
-                <f:facet name="options">
-                    <p:commandButton value="#{applicationLanguage.language}" icon="fa fa-fw fa-globe" type="button"
-                                     onclick="PF('languageDialog').show();"/>
-                    <p:commandButton class="stopVerticalAlign" value="#{msg.loginPage_logout}" ajax="false"
-                                     action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
-                </f:facet>
-            </p:menubar>
-        </h:form>
+            <ui:define name="title">#{msg.pages_title_userManagement}</ui:define>
 
-        <p:dialog modal="true" header="Language" widgetVar="languageDialog" showEffect="explode" hideEffect="explode"
-                  style="height: fit-content; width: fit-content" position="700,170">
-            <h:form>
-                <p:selectOneMenu id="console" value="#{applicationLanguage.language}"
-                                 onchange="submit()"
-                                 style="margin-right: 10px;">
-                    <f:selectItem itemValue="en" itemLabel="English"/>
-                    <f:selectItem itemValue="ro" itemLabel="Română"/>
-                </p:selectOneMenu>
-            </h:form>
-        </p:dialog>
-
-
-        <h:form id="form1">
-            <div class="centered">
+            <ui:define name="content">
+                <h:form id="form1">
+                    <div class="centered">
 
                 <p:dataTable var="user"
                              widgetVar="usersTable"
@@ -60,85 +28,79 @@
                              selection="#{userBackingBean.selectedUser}"
                              rowKey="#{user.name}">
 
-                    <p:ajax event="rowSelect" listener="#{userBackingBean.rowSelect}"/>
+                            <p:ajax event="rowSelect" listener="#{userBackingBean.rowSelect}"/>
 
-                    <f:facet name="header">
-                        <p:outputPanel>
-                            <h:outputText value="Search all fields:" />
-                            <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Search here"/>
-                        </p:outputPanel>
-                    </f:facet>
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="#{msg.userManagement_tableHeader_searchAllFiedls}"/>
+                                    <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px"
+                                                 placeholder="#{msg.userManagement_tableHeader_searchHere}"/>
+                                </p:outputPanel>
+                            </f:facet>
 
+                            <p:column headerText="#{msg.userManagement_tableHeader_name}" filterBy="#{user.name}">
+                                <h:outputText value="#{user.name}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.userManagement_tableHeader_mobileNumber}" filterBy="#{user.phoneNumber}">
+                                <h:outputText value="#{user.phoneNumber}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.userManagement_tableHeader_email}" filterBy="#{user.email}">
+                                <h:outputText value="#{user.email}"/>
+                            </p:column>
 
-                    <p:column headerText="Name" filterBy="#{user.name}">
-                        <h:outputText value="#{user.name}" />
-                    </p:column>
-                    <p:column headerText="Mobile Number" filterBy="#{user.phoneNumber}">
-                        <h:outputText value="#{user.phoneNumber}"/>
-                    </p:column>
-                    <p:column headerText="Email" filterBy="#{user.email}">
-                        <h:outputText value="#{user.email}"/>
-                    </p:column>
-                    <p:column headerText="Role" filterBy="#{user.rolesNames}">
-                        <h:outputText value="#{user.rolesNames}" />
-                    </p:column>
-                    <p:column headerText="Active" filterBy="#{user.active}">
-                        <h:outputText value="#{user.active}" />
-                    </p:column>
+                            <p:column headerText="#{msg.userManagement_tableHeader_role}" filterBy="#{user.rolesNames}">
+                                <h:outputText value="#{user.rolesNames}"/>
+                            </p:column>
 
-                </p:dataTable>
+                            <p:column headerText="#{msg.userManagement_tableHeader_accountStatus}" filterBy="#{user.active}">
+                                <h:outputText value="#{user.active}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <br/>
 
-                <br/>
+                        <p:commandButton value="#{msg.userManagement_button_addUser}" onclick="PF('addUserDialog').show();"/>
+                    </div>
+                </h:form>
 
-                <p:commandButton value="Add User" onclick="PF('addUserDialog').show();"/>
-                <br/>
-                <!--                <p:outputLabel id="outputLabel" value="#{myDataTableBackingBean.outputMessage}"/>-->
-
-
-            </div>
-        </h:form>
-
-
-        <h:form id="addUserForm">
-            <p:dialog modal="true" styleClass="addUserDialogStyle" header="Add User" widgetVar="addUserDialog" showEffect="blind" hideEffect="blind">
-
-                <h:panelGrid columns="2" columnClasses="label, value">
-            <h:outputText styleClass="myFont" value="First Name" style="display:block;"/>
-            <p:inputText id="firstName" value="#{userBackingBean.firstName}" label="firstName" />
+                <h:form id="addUserForm">
+                    <p:dialog modal="true" styleClass="addUserDialogStyle" widgetVar="addUserDialog" showEffect="blind"
+                              hideEffect="blind">
+                        <h3 class="title">#{msg.userManagement_dialog_title}</h3>
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText styleClass="myFont" value="#{msg.userManagement_dialog_label_firstName}" style="display:block;"/>
+                            <p:inputText id="firstName" value="#{userBackingBean.firstName}" label="firstName"/>
 
 
-            <h:outputText styleClass="myFont" value="Last Name" style="display:block;"/>
-            <p:inputText id="lastName" value="#{userBackingBean.lastName}" label="lastName"/>
+                            <h:outputText styleClass="myFont" value="#{msg.userManagement_dialog_label_lastName}" style="display:block;"/>
+                            <p:inputText id="lastName" value="#{userBackingBean.lastName}" label="lastName"/>
 
-            <h:outputText styleClass="myFont" value="Mobile Number" style="display:block;"/>
-            <p:inputText id="number" value="#{userBackingBean.phoneNumber}" label="number"/>
-
-
-            <h:outputText styleClass="myFont" value="Email" style="display:block;"/>
-            <p:inputText id="email" value="#{userBackingBean.email}" label="email"/>
-
-            <h:outputText styleClass="myFont" value="Role" style="display:block;"/>
-            <p:selectCheckboxMenu label="Role" id="menu" multiple="true" value="#{userBackingBean.selectedRoles_Strings}">
-                <f:selectItems value="#{userBackingBean.systemRoles}" />
-            </p:selectCheckboxMenu>
+                            <h:outputText styleClass="myFont" value="#{msg.userManagement_dialog_label_mobileNumber}" style="display:block;"/>
+                            <p:inputText id="number" value="#{userBackingBean.phoneNumber}" label="number"/>
 
 
-            <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
-            <p:inputText id="password" value="#{userBackingBean.password}" label="password"/>
-            <br/><br/>
-                </h:panelGrid>
+                            <h:outputText styleClass="myFont" value="#{msg.userManagement_dialog_label_email}" style="display:block;"/>
+                            <p:inputText id="email" value="#{userBackingBean.email}" label="email"/>
 
-            <p:commandButton value="Add"
-                             ajax="false"
-                             action="#{userBackingBean.createUser}"
-                             url="userManagement.xhtml"
-                             styleClass="aButton"/>
-            <br/>
+                            <h:outputText styleClass="myFont" value="#{msg.userManagement_dialog_label_role}" style="display:block;"/>
+                            <p:selectCheckboxMenu label="Role" id="menu" multiple="true"
+                                                  value="#{userBackingBean.selectedRoles_Strings}">
+                                <f:selectItems value="#{userBackingBean.systemRoles}"/>
+                            </p:selectCheckboxMenu>
 
-            </p:dialog>
-        </h:form>
+                            <h:outputText styleClass="myFont" value="#{msg.userManagement_dialog_label_password}Password" style="display:block;"/>
+                            <p:inputText id="password" value="#{userBackingBean.password}" label="password"/>
+                        </h:panelGrid>
 
-
+                        <br/><br/>
+                        <p:commandButton value="#{msg.userManagement_dialog_button_addUser}"
+                                         ajax="false"
+                                         action="#{userBackingBean.createUser}"
+                                         url="userManagement.xhtml"
+                                         styleClass="aButton"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </f:view>
 </html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{applicationLanguage.language}">
+    <h:head>
+        <title><ui:insert name="title">JBugger</ui:insert></title>
+        <h:outputStylesheet library="css" name="myStyle.css"/>
+    </h:head>
+    <h:body>
+        <p:growl id="growl" sticky="false" showDetail="true" life="3000"/>
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="#{msg['menu_rightsManagement']}" url="rightsManagement.xhtml"
+                            icon="fa fa-fw fa-briefcase"
+                            rendered="#{homeBean.rightsManagement}"/>
+                <p:menuitem value="#{msg['menu_userManagement']}" url="userManagement.xhtml" icon="fa fa-fw fa-users"
+                            rendered="#{homeBean.userManagement}"/>
+                <p:menuitem value="#{msg['menu_bugManagement']}" url="bugManagement.xhtml" icon="fa fa-fw fa-bug"
+                            rendered="#{homeBean.bugManagement}"/>
+                <p:menuitem value="#{msg['menu_notifications']}" url="notificationManagement.xhtml"
+                            icon="fa fa-fw fa-bell"
+                            rendered="#{homeBean.notifications}"/>
+
+                <f:facet name="options">
+                    <p:commandButton value="#{applicationLanguage.language}" icon="fa fa-fw fa-globe" type="button"
+                                     onclick="PF('languageDialog').show();"/>
+                    <p:commandButton class="stopVerticalAlign" value="#{msg.loginPage_logout}" ajax="false"
+                                     action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+
+        <p:dialog modal="true" header="Language" widgetVar="languageDialog" showEffect="explode" hideEffect="explode"
+                  style="height: fit-content; width: fit-content" position="700,170">
+            <h:form>
+                <p:selectOneMenu id="console" value="#{applicationLanguage.language}"
+                                 onchange="submit()"
+                                 style="margin-right: 10px;">
+                    <f:selectItem itemValue="en" itemLabel="English"/>
+                    <f:selectItem itemValue="ro" itemLabel="Română"/>
+                </p:selectOneMenu>
+            </h:form>
+        </p:dialog>
+
+        <ui:insert name="content"/>
+    </h:body>
+</f:view>
+</html>
