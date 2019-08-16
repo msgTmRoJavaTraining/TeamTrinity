@@ -49,30 +49,29 @@
             <div class="centered">
 
                 <p:dataTable var="user"
+                             widgetVar="usersTable"
                              value="#{userBackingBean.userList}"
                              tableStyle="table-layout: auto;"
                              resizableColumns="true"
                              style="width: content-box"
                              selectionMode="single"
                              onRowClick=""
+
                              selection="#{userBackingBean.selectedUser}"
                              rowKey="#{user.name}">
 
                     <p:ajax event="rowSelect" listener="#{userBackingBean.rowSelect}"/>
 
-                    <p:column headerText="Name">
-                        <h:outputText value="#{user.name}"/>
-                        <f:facet name="header">
-                            <p:outputPanel>
-                                <h:outputText value="Search all fields:"/>
-                                <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px"
-                                             placeholder="Search here"/>
-                            </p:outputPanel>
-                        </f:facet>
-                    </p:column>
+                    <f:facet name="header">
+                        <p:outputPanel>
+                            <h:outputText value="Search all fields:" />
+                            <p:inputText id="globalFilter" onkeyup="PF('usersTable').filter()" style="width:150px" placeholder="Search here"/>
+                        </p:outputPanel>
+                    </f:facet>
+
 
                     <p:column headerText="Name" filterBy="#{user.name}">
-                        <h:outputText value="#{user.name}"/>
+                        <h:outputText value="#{user.name}" />
                     </p:column>
                     <p:column headerText="Mobile Number" filterBy="#{user.phoneNumber}">
                         <h:outputText value="#{user.phoneNumber}"/>
@@ -80,17 +79,11 @@
                     <p:column headerText="Email" filterBy="#{user.email}">
                         <h:outputText value="#{user.email}"/>
                     </p:column>
-                    <p:column headerText="Role">
-                        <h:outputText value="#{user.rolesNames}"/>
-                    </p:column>
                     <p:column headerText="Role" filterBy="#{user.rolesNames}">
-                        <h:outputText value="#{user.rolesNames}"/>
-                    </p:column>
-                    <p:column headerText="Active">
-                        <h:outputText value="#{user.active}"/>
+                        <h:outputText value="#{user.rolesNames}" />
                     </p:column>
                     <p:column headerText="Active" filterBy="#{user.active}">
-                        <h:outputText value="#{user.active}"/>
+                        <h:outputText value="#{user.active}" />
                     </p:column>
 
                 </p:dataTable>
@@ -99,47 +92,48 @@
 
                 <p:commandButton value="Add User" onclick="PF('addUserDialog').show();"/>
                 <br/>
+                <!--                <p:outputLabel id="outputLabel" value="#{myDataTableBackingBean.outputMessage}"/>-->
+
+
             </div>
         </h:form>
 
 
         <h:form id="addUserForm">
-            <p:dialog modal="true" styleClass="addUserDialogStyle" widgetVar="addUserDialog" showEffect="explode"
-                      hideEffect="explode">
-                <h3 class="title">Add User</h3>
+            <p:dialog modal="true" styleClass="addUserDialogStyle" header="Add User" widgetVar="addUserDialog" showEffect="blind" hideEffect="blind">
+
                 <h:panelGrid columns="2" columnClasses="label, value">
-                    <h:outputText styleClass="myFont" value="First Name" style="display:block;"/>
-                    <p:inputText id="firstName" value="#{userBackingBean.firstName}" label="firstName"/>
+            <h:outputText styleClass="myFont" value="First Name" style="display:block;"/>
+            <p:inputText id="firstName" value="#{userBackingBean.firstName}" label="firstName" />
 
 
-                    <h:outputText styleClass="myFont" value="Last Name" style="display:block;"/>
-                    <p:inputText id="lastName" value="#{userBackingBean.lastName}" label="lastName"/>
+            <h:outputText styleClass="myFont" value="Last Name" style="display:block;"/>
+            <p:inputText id="lastName" value="#{userBackingBean.lastName}" label="lastName"/>
 
-                    <h:outputText styleClass="myFont" value="Mobile Number" style="display:block;"/>
-                    <p:inputText id="number" value="#{userBackingBean.phoneNumber}" label="number"/>
-
-
-                    <h:outputText styleClass="myFont" value="Email" style="display:block;"/>
-                    <p:inputText id="email" value="#{userBackingBean.email}" label="email"/>
-
-                    <h:outputText styleClass="myFont" value="Role" style="display:block;"/>
-                    <p:selectCheckboxMenu label="Role" id="menu" multiple="true"
-                                          value="#{userBackingBean.selectedRoles_Strings}">
-                        <f:selectItems value="#{userBackingBean.systemRoles}"/>
-                    </p:selectCheckboxMenu>
+            <h:outputText styleClass="myFont" value="Mobile Number" style="display:block;"/>
+            <p:inputText id="number" value="#{userBackingBean.phoneNumber}" label="number"/>
 
 
-                    <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
-                    <p:inputText id="password" value="#{userBackingBean.password}" label="password"/>
-                    <br/><br/>
+            <h:outputText styleClass="myFont" value="Email" style="display:block;"/>
+            <p:inputText id="email" value="#{userBackingBean.email}" label="email"/>
+
+            <h:outputText styleClass="myFont" value="Role" style="display:block;"/>
+            <p:selectCheckboxMenu label="Role" id="menu" multiple="true" value="#{userBackingBean.selectedRoles_Strings}">
+                <f:selectItems value="#{userBackingBean.systemRoles}" />
+            </p:selectCheckboxMenu>
+
+
+            <h:outputText styleClass="myFont" value="Password" style="display:block;"/>
+            <p:inputText id="password" value="#{userBackingBean.password}" label="password"/>
+            <br/><br/>
                 </h:panelGrid>
 
-                <p:commandButton value="Add"
-                                 ajax="false"
-                                 action="#{userBackingBean.createUser}"
-                                 url="userManagement.xhtml"
-                                 styleClass="aButton"/>
-                <br/>
+            <p:commandButton value="Add"
+                             ajax="false"
+                             action="#{userBackingBean.createUser}"
+                             url="userManagement.xhtml"
+                             styleClass="aButton"/>
+            <br/>
 
             </p:dialog>
         </h:form>

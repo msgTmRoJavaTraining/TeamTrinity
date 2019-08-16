@@ -21,7 +21,7 @@ public class DataGetter implements Serializable {
     }
 
     public List<Bug> getBugs(){
-        return entityManager.createQuery("select bug from Bug bug",Bug.class).getResultList();
+        return entityManager.createQuery("select bug from Bug bug order by bug.targetData desc",Bug.class).getResultList();
     }
 
 }
