@@ -40,7 +40,8 @@
 
         <div class="addBug" >
             <h:form id="addBugForm" scrollable="true" >
-
+                <p:dialog modal="true" header="Add Bug" widgetVar="addBugDialog" showEffect="scale" hideEffect="scale"
+                          styleClass="editBugDialogStyle">
                 <h3 class="title">Edit Bug</h3>
 
                 <h:panelGrid columns="2" columnClasses="label, value">
@@ -79,7 +80,7 @@
                                  ajax="false"
                                  styleClass="aButton"/>
                 <br/>
-
+                </p:dialog>
             </h:form>
         </div>
     </h:body>

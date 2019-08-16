@@ -46,6 +46,7 @@
                              style="width: content-box"
                              selectionMode="single"
                              onRowClick=""
+
                              selection="#{userBackingBean.selectedUser}"
                              rowKey="#{user.name}">
 
@@ -89,8 +90,8 @@
 
 
         <h:form id="addUserForm">
-            <p:dialog modal="true" styleClass="addUserDialogStyle" widgetVar="addUserDialog" showEffect="explode" hideEffect="explode">
-            <h3 class="title" >Add User</h3>
+            <p:dialog modal="true" styleClass="addUserDialogStyle" header="Add User" widgetVar="addUserDialog" showEffect="blind" hideEffect="blind">
+
                 <h:panelGrid columns="2" columnClasses="label, value">
             <h:outputText styleClass="myFont" value="First Name" style="display:block;"/>
             <p:inputText id="firstName" value="#{userBackingBean.firstName}" label="firstName" />

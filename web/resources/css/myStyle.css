@@ -8,14 +8,12 @@
 }
 
 
-
-
 .bugTable{
     position: absolute !important;
-    top: 50%;
-    left: 50%;
-    /* bring your own prefixes */
-    transform: translate(-50%, -45%);
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*!* bring your own prefixes *!*/
+    /*transform: translate(-50%, -45%);*/
     margin: 0 auto;
 }
 
@@ -40,12 +38,11 @@ html,body{
 }
 
 .imagine{
-
-    background-image: url("#{resource['images/bugWallpaper.jpg']}") ;
-    background-size: auto ;
+    background-image: url("#{resource['images/bugss.jpg']}") ;
+    background-size: contain;
     background-color: #121212;
     background-repeat: no-repeat ;
-    background-position: bottom right;
+    background-position: center;
 }
 
 .title{
@@ -75,12 +72,12 @@ form{
 }
 
 .label {
-    width:20%;
+    width:50%;
     padding:4px;
 }
 
 .value {
-    width:80%;
+    width:50%;
     padding:4px;
 }
 .grid {
@@ -107,6 +104,11 @@ form{
 .addUserDialogStyle.ui-dialog .ui-dialog-content{
     height: fit-content;
     width: fit-content;
+
+}
+.addBugDialogStyle.ui-dialog .ui-dialog-content{
+    height: content-box ;
+    width: content-box ;
 
 }
 
