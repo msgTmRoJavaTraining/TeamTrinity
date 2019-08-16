@@ -23,21 +23,6 @@
             </h:form>
         </p:dialog>
 
-
-
-        <h:form id="bugTable">
-            <div class="bugTable">
-                <p:dataTable var="bug"
-                             value="#{bugBackingBean.bugList}"
-                             tableStyle="table-layout: auto;"
-                             resizableColumns="false"
-                             style="width: content-box"
-                             paginator="true" rows="25"
-                             scrollable="true"
-                             scrollHeight="60%"
-                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                             widgetVar="bugTable"
-                             rowKey="#{bug.title}">
             <ui:define name="title">#{msg.pages_title_bugManagement}</ui:define>
             <ui:define name="content">
                 <h:form id="bugTable">
@@ -307,8 +292,4 @@
             </ui:define>
         </ui:composition>
     </h:body>
-</f:view>
-
-
-
 </html>
