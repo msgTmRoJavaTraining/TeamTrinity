@@ -1,16 +1,14 @@
-package backingBean;
+package ejbs;
 
 import com.google.common.io.ByteStreams;
 import entities.Bug;
 import entities.User;
-import org.apache.poi.util.IOUtils;
 import security.WebHelper;
 
 
 import javax.ejb.Stateless;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -19,7 +17,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Stateless
-public class DatabaseBugEJB implements Serializable {
+public class BugEJB implements Serializable {
 
     @PersistenceContext(unitName = "java.training")
     private EntityManager entityManager;

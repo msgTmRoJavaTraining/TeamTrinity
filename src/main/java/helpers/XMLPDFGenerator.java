@@ -1,4 +1,4 @@
-package backingBean;
+package helpers;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;

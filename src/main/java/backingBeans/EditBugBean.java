@@ -1,10 +1,9 @@
-package backingBean;
+package backingBeans;
 
 
+import ejbs.BugEJB;
 import entities.Bug;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.primefaces.model.UploadedFile;
 import security.WebHelper;
 
@@ -23,7 +22,7 @@ import java.io.Serializable;
 public class EditBugBean implements Serializable {
 
     @Inject
-    private DatabaseBugEJB databaseBugEJB;
+    private BugEJB bugEJB;
 
 
     private String title;
@@ -48,6 +47,6 @@ public class EditBugBean implements Serializable {
     public void editBug() throws IOException {
         Bug bug = (Bug) WebHelper.getSession().getAttribute("bug");
         upload();
-        databaseBugEJB.editBug(bug,myFile.getInputstream(),title,description,revision,severity,attachment);
+        bugEJB.editBug(bug,myFile.getInputstream(),title,description,revision,severity,attachment);
     }
 }

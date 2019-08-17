@@ -8,10 +8,6 @@
         <from-view-id>../loginPage.xhtml</from-view-id>
     </navigation-rule>
     <application>
-        <locale-config>
-            <default-locale>en</default-locale>
-            <supported-locale>ro</supported-locale>
-        </locale-config>
         <resource-bundle>
             <base-name>internalization.languages</base-name>
             <var>msg</var>

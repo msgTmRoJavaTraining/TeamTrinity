@@ -1,9 +1,8 @@
-package beans;
+package backingBeans;
 
-import backingBean.DatabaseLoginEJB;
-import entities.Right;
-import entities.Role;
+import ejbs.LoginEJB;
 import entities.User;
+import helpers.LanguagesBundleAccessor;
 import lombok.Data;
 import security.WebHelper;
 import validators.HashingText;
@@ -15,16 +14,16 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @ManagedBean(name = "loginBean")
 @ApplicationScoped
 public class LoginBean implements Serializable {
     @Inject
-    private DatabaseLoginEJB databaseLoginEJB;
+    private LoginEJB loginEJB;
+
+    @Inject
+    private LanguagesBundleAccessor languagesBundleAccessor;
 
     private String username;
     private String password;
@@ -35,7 +34,7 @@ public class LoginBean implements Serializable {
         toBeLoggedInUser = new User();
 
         try {
-            toBeLoggedInUser = databaseLoginEJB.loginUserByUsernamePassword(username, HashingText.getMd5(password));
+            toBeLoggedInUser = loginEJB.loginUserByUsernamePassword(username, HashingText.getMd5(password));
 
             if (toBeLoggedInUser != null && toBeLoggedInUser.getAccountActiveStatus()) {
                 WebHelper.getSession().setAttribute("loggedIn", true);
@@ -43,11 +42,11 @@ public class LoginBean implements Serializable {
 
                 return "homepage";
             } else if( toBeLoggedInUser != null && !toBeLoggedInUser.getAccountActiveStatus()) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "#{msg.dialogMessages_loginPage_accountDeactivated_title}", "#{msg.dialogMessages_loginPage_accountDeactivated_message}"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountDeactivated_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountDeactivated_message")));
                 return "";
             }
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "#{msg.dialogMessages_loginPage_accountNotFound_title}", "#{msg.dialogMessages_loginPage_accountNotFound_message}"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountNotFound_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountNotFound_message")));
         }
 
         return "";

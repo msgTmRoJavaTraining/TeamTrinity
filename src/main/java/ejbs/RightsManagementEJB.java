@@ -1,4 +1,4 @@
-package backingBean;
+package ejbs;
 
 import entities.Right;
 import entities.Role;
@@ -39,6 +39,12 @@ public class RightsManagementEJB {
 
         for(Right r : newRoleRights) {
             entityManager.merge(r);
+        }
+    }
+
+    public void updateSystemRoles(List<Role> systemRoles) {
+        for(Role role : systemRoles) {
+            entityManager.merge(role);
         }
     }
 }

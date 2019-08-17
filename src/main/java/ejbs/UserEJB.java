@@ -1,4 +1,4 @@
-package backingBean;
+package ejbs;
 
 import Enums.NotificationType;
 import entities.*;
@@ -7,16 +7,14 @@ import validators.HashingText;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Stateless
-public class DatabaseUserEJB implements Serializable {
+public class UserEJB implements Serializable {
     private int lastNameIndex = 0, firstNameIndex = 0;
 
     @PersistenceContext(name = "java.training")

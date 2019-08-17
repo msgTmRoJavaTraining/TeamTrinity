@@ -1,4 +1,4 @@
-package beans;
+package backingBeans;
 
 import lombok.Data;
 

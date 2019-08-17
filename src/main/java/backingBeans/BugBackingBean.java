@@ -1,6 +1,9 @@
-package backingBean;
+package backingBeans;
 
+import ejbs.BugEJB;
 import entities.Bug;
+import helpers.DataGetter;
+import helpers.XMLPDFGenerator;
 import lombok.Data;
 import org.primefaces.event.SelectEvent;
 
@@ -9,9 +12,7 @@ import org.primefaces.model.UploadedFile;
 import security.WebHelper;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.annotation.ManagedProperty;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -53,7 +54,7 @@ public class BugBackingBean implements Serializable {
     private Bug selectedBug;
 
     @Inject
-    private DatabaseBugEJB bugEJB;
+    private BugEJB bugEJB;
 
     @Inject
     private XMLPDFGenerator xmlpdfGenerator;

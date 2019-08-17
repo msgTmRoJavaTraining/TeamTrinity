@@ -1,35 +1,33 @@
-package backingBean;
+package backingBeans;
 
 
-import beans.LanguagesBundleAccessor;
-import entities.Right;
+import helpers.DataGetter;
+import ejbs.UserEJB;
 import entities.Role;
 import entities.User;
+import helpers.LanguagesBundleAccessor;
 import lombok.Data;
 import org.primefaces.event.SelectEvent;
 import security.WebHelper;
 import validators.UserValidator;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.io.IOException;
-import javax.xml.bind.ValidationEvent;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@ManagedBean(name = "userBackingBean")
-@SessionScoped
 @Data
+@SessionScoped
+@ManagedBean(name = "userBackingBean")
 public class UserBackingBean implements Serializable {
     @Inject
-    private DatabaseUserEJB userEJB;
+    private UserEJB userEJB;
 
     @Inject
     private DataGetter dataGetter;
@@ -63,7 +61,7 @@ public class UserBackingBean implements Serializable {
 
     public void createUser() {
         if (UserValidator.areInputFieldsValid(firstName, lastName, email, phoneNumber, selectedRoles_Strings, password)) {
-            if(userEJB.createUser(firstName, lastName, email, phoneNumber, selectedRoles_Strings, password)) {
+            if (userEJB.createUser(firstName, lastName, email, phoneNumber, selectedRoles_Strings, password)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_success_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_success_message")));
 
                 try {
@@ -73,7 +71,7 @@ public class UserBackingBean implements Serializable {
                 }
 
             } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_failure_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_failure_message")));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_failure_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_failure_message")));
             }
         }
     }
@@ -82,7 +80,7 @@ public class UserBackingBean implements Serializable {
     }
 
     public void deleteUser() {
-        userEJB.deleteUser(firstName,lastName);
+        userEJB.deleteUser(firstName, lastName);
     }
 
     public void readUser() {

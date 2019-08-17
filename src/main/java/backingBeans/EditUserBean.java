@@ -1,9 +1,10 @@
-package backingBean;
+package backingBeans;
 
 
-import beans.LanguagesBundleAccessor;
+import ejbs.UserEJB;
 import entities.Role;
 import entities.User;
+import helpers.LanguagesBundleAccessor;
 import lombok.Data;
 import security.WebHelper;
 import validators.UserValidator;
@@ -15,11 +16,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 @Data
@@ -33,7 +32,7 @@ public class EditUserBean implements Serializable {
     private UserBackingBean userBackingBean;
 
     @Inject
-    private DatabaseUserEJB databaseUserEJB;
+    private UserEJB userEJB;
 
     @Inject
     private LanguagesBundleAccessor languagesBundleAccessor;
@@ -79,7 +78,7 @@ public class EditUserBean implements Serializable {
 
     public void editUser(List<String> list){
         if(UserValidator.userUpdateValidFields(email, phoneNumber, list)) {
-            if (databaseUserEJB.editUser(userId, email, phoneNumber, list)) {
+            if (userEJB.editUser(userId, email, phoneNumber, list)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_titleSuccess"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageSuccess_1") + name + languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageSuccess_2")));
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_titleFailure"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageFailure") + " " +  name));
@@ -88,7 +87,7 @@ public class EditUserBean implements Serializable {
     }
 
     public void changeAccountActivationStatus() {
-        if(databaseUserEJB.changeAccountActivationStatus(userId)) {
+        if(userEJB.changeAccountActivationStatus(userId)) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChange_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChange_message") + " " + username));
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("userManagement.xhtml");

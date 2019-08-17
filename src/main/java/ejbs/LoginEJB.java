@@ -1,4 +1,4 @@
-package backingBean;
+package ejbs;
 
 import entities.User;
 
@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 import java.io.Serializable;
 
 @Stateless
-public class DatabaseLoginEJB implements Serializable {
+public class LoginEJB implements Serializable {
     @PersistenceContext(name = "java.training")
     private EntityManager entityManager;
 

@@ -1,5 +1,6 @@
-package beans;
+package helpers;
 
+import backingBeans.LanguageBean;
 import lombok.Data;
 
 import javax.annotation.PostConstruct;

@@ -1,4 +1,4 @@
-package beans;
+package backingBeans;
 
 import entities.Right;
 import entities.Role;
@@ -8,7 +8,6 @@ import security.WebHelper;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;

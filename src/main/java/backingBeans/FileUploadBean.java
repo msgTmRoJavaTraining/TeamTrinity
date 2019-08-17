@@ -1,11 +1,8 @@
-package backingBean;
+package backingBeans;
 
 import lombok.Data;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;

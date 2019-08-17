@@ -1,4 +1,4 @@
-package backingBean;
+package helpers;
 
 
 import entities.Bug;
