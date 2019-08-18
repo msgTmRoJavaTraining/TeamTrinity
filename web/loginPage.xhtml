@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
 <f:view locale="#{applicationLanguage.language}">
     <h:head>
-        <title>My Login Page</title>
+        <title>JBugger</title>
         <h:outputStylesheet library="css" name="myStyle.css"/>
     </h:head>
     <h:body>
@@ -24,7 +24,7 @@
                 <br/><br/>
 
                 <p:commandButton value="#{msg['loginPage_login']}" action="#{loginBean.performLogin}"
-                                 ajax = "false"
+                                 ajax="false"
                                  styleClass="aButton"/>
             </h:form>
         </div>

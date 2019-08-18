@@ -3,19 +3,20 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-    <h:body>
-        <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                        xmlns:f="http://java.sun.com/jsf/core"
-                        xmlns:h="http://java.sun.com/jsf/html"
-                        template="/templates/navBarTemplate.xhtml">
+<h:body>
+    <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                    xmlns:h="http://java.sun.com/jsf/html"
+                    template="/templates/navBarTemplate.xhtml">
 
-            <ui:define name="title">#{msg.pages_title_homepage}</ui:define>
+        <ui:define name="title">#{msg.pages_title_homepage}</ui:define>
 
-            <ui:define name="content">
-                <h:outputText styleClass="myFont" value="#{homeBean.userName}" style="display:block;"/>
-            </ui:define>
-        </ui:composition>
-    </h:body>
+        <ui:define name="content">
+            <h:outputText styleClass="myFont" value="#{homeBean.userName}" style="display:block;"/>
+                <p:commandLink class="centered homepageCommandLinks" action="rightsManagement">
+                    <h:outputText value="#{msg.menu_rightsManagement}"/>
+                </p:commandLink>
+        </ui:define>
+    </ui:composition>
+</h:body>
 </html>

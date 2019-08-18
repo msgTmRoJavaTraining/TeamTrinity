@@ -3,11 +3,13 @@ package backingBeans;
 import ejbs.LoginEJB;
 import entities.User;
 import helpers.LanguagesBundleAccessor;
+import helpers.NavigationHelper;
+import helpers.SecurityHelper;
 import lombok.Data;
 import security.WebHelper;
 import validators.HashingText;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -17,7 +19,7 @@ import java.io.Serializable;
 
 @Data
 @ManagedBean(name = "loginBean")
-@ApplicationScoped
+@SessionScoped
 public class LoginBean implements Serializable {
     @Inject
     private LoginEJB loginEJB;
@@ -25,31 +27,59 @@ public class LoginBean implements Serializable {
     @Inject
     private LanguagesBundleAccessor languagesBundleAccessor;
 
+    @Inject
+    private NavigationHelper navigationHelper;
+
+    @Inject
+    private SecurityHelper securityHelper;
+
     private String username;
     private String password;
 
     private User toBeLoggedInUser;
+    private static String lastUsername;
+    private static int loginAttempts = 5;
 
-    public String performLogin() {
+    public void performLogin() {
         toBeLoggedInUser = new User();
 
         try {
-            toBeLoggedInUser = loginEJB.loginUserByUsernamePassword(username, HashingText.getMd5(password));
+            toBeLoggedInUser = loginEJB.doesAccountExist(username);
 
-            if (toBeLoggedInUser != null && toBeLoggedInUser.getAccountActiveStatus()) {
-                WebHelper.getSession().setAttribute("loggedIn", true);
-                WebHelper.getSession().setAttribute("loggedInUser", toBeLoggedInUser);
+            // If username exists
+            if (toBeLoggedInUser != null) {
+                //if password is correct and the account is active
+                if (HashingText.getMd5(password).equals(toBeLoggedInUser.getUserLogin().getPassword()) && toBeLoggedInUser.getAccountActiveStatus()) {
+                    WebHelper.getSession().setAttribute("loggedIn", true);
+                    WebHelper.getSession().setAttribute("loggedInUser", toBeLoggedInUser);
+                    navigationHelper.customRedirectTo("homepage.xhtml");
+                } else if (HashingText.getMd5(password).equals(toBeLoggedInUser.getUserLogin().getPassword()) && !toBeLoggedInUser.getAccountActiveStatus()) {
+                    //if password is correct, but the account is innactive
+                    navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountDeactivated_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountDeactivated_message"));
+                } else if (!HashingText.getMd5(password).equals(toBeLoggedInUser.getUserLogin().getPassword()) && toBeLoggedInUser.getAccountActiveStatus()) {
+                    //if the password is incorrect, but the account is still active
+                    if (loginAttempts == 5) {
+                        lastUsername = username;
+                        navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_wrongPassword_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_loginPage_wrondPassword_message") + loginAttempts);
+                    } else if (username.equals(lastUsername) && loginAttempts > 0) {
+                        navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_wrongPassword_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_loginPage_wrondPassword_message") + loginAttempts);
+                    } else if (username.equals(lastUsername) && loginAttempts == 0) {
+                        loginAttempts = 5;
+                        lastUsername = "";
+                        loginEJB.deactivateAccount(toBeLoggedInUser);
+                        navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialogMessage_loginPage_wrongPassword_accountDeactivated_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_loginPage_wrondPassword_accountDeactivated_message"));
+                    } else {
+                        loginAttempts = 5;
+                        lastUsername = "";
+                    }
 
-                return "homepage";
-            } else if( toBeLoggedInUser != null && !toBeLoggedInUser.getAccountActiveStatus()) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountDeactivated_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountDeactivated_message")));
-                return "";
+                    loginAttempts = loginAttempts - 1;
+                }
             }
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountNotFound_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountNotFound_message")));
+            navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountNotFound_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountNotFound_message"));
+            navigationHelper.customRedirectTo("loginPage.xhtml");
         }
-
-        return "";
     }
 
     public String getUsername() {
