@@ -5,6 +5,8 @@ import ejbs.UserEJB;
 import entities.Role;
 import entities.User;
 import helpers.LanguagesBundleAccessor;
+import helpers.NavigationHelper;
+import helpers.SecurityHelper;
 import lombok.Data;
 import security.WebHelper;
 import validators.UserValidator;
@@ -29,6 +31,9 @@ public class EditUserBean implements Serializable {
     private User selectedUserForEdit;
 
     @Inject
+    private UserValidator userValidator;
+
+    @Inject
     private UserBackingBean userBackingBean;
 
     @Inject
@@ -36,6 +41,14 @@ public class EditUserBean implements Serializable {
 
     @Inject
     private LanguagesBundleAccessor languagesBundleAccessor;
+
+    @Inject
+    private SecurityHelper securityHelper;
+
+    @Inject
+    private NavigationHelper navigationHelper;
+
+    private User loggedInUser;
 
     private String phoneNumber;
     private String email;
@@ -50,6 +63,8 @@ public class EditUserBean implements Serializable {
 
     @PostConstruct
     public void afterStart() {
+        loggedInUser = (User) WebHelper.getSession().getAttribute("loggedInUser");
+
         selectedUserForEdit = (User) WebHelper.getSession().getAttribute("selectedUserForEdit");
 
         phoneNumber = selectedUserForEdit.getPhoneNumber();
@@ -77,25 +92,31 @@ public class EditUserBean implements Serializable {
     }
 
     public void editUser(List<String> list){
-        if(UserValidator.userUpdateValidFields(email, phoneNumber, list)) {
-            if (userEJB.editUser(userId, email, phoneNumber, list)) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_titleSuccess"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageSuccess_1") + name + languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageSuccess_2")));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_titleFailure"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageFailure") + " " +  name));
+        if(securityHelper.checkUserPermissions("USER_MANAGEMENT", loggedInUser)) {
+            if (userValidator.userUpdateValidFields(email, phoneNumber, list)) {
+                if (userEJB.editUser(userId, email, phoneNumber, list)) {
+                    navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_titleSuccess"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageSuccess_1") + name + languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageSuccess_2"));
+                } else {
+                    navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_titleFailure"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageFailure") + " " + name);
+                }
             }
+        } else {
+            navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialogMessage_rightsManagement_changeRights_wrongPermission_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_rightsManagement_changeRights_wrongPermission_message"));
+            navigationHelper.customRedirectTo("homepage.xhtml");
         }
     }
 
     public void changeAccountActivationStatus() {
-        if(userEJB.changeAccountActivationStatus(userId)) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChange_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChange_message") + " " + username));
-            try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("userManagement.xhtml");
-            } catch (IOException e) {
-                e.printStackTrace();
+        if(securityHelper.checkUserPermissions("USER_MANAGEMENT", loggedInUser)) {
+            if (userEJB.changeAccountActivationStatus(userId)) {
+                navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChange_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChange_message"));
+                navigationHelper.customRedirectTo("userManagement.xhtml");
+            } else {
+                navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChangeFailure_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChangeFailure_message") + " " + username);
             }
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChangeFailure_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_accountStatus_statusChangeFailure_message") + " " + username));
+            navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialogMessage_rightsManagement_changeRights_wrongPermission_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_rightsManagement_changeRights_wrongPermission_message"));
+            navigationHelper.customRedirectTo("homepage.xhtml");
         }
     }
 }

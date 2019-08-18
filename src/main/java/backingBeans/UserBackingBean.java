@@ -1,11 +1,13 @@
 package backingBeans;
 
 
-import helpers.DataGetter;
 import ejbs.UserEJB;
 import entities.Role;
 import entities.User;
+import helpers.DataGetter;
 import helpers.LanguagesBundleAccessor;
+import helpers.NavigationHelper;
+import helpers.SecurityHelper;
 import lombok.Data;
 import org.primefaces.event.SelectEvent;
 import security.WebHelper;
@@ -27,10 +29,19 @@ import java.util.List;
 @ManagedBean(name = "userBackingBean")
 public class UserBackingBean implements Serializable {
     @Inject
+    private UserValidator userValidator;
+
+    @Inject
     private UserEJB userEJB;
 
     @Inject
     private DataGetter dataGetter;
+
+    @Inject
+    private NavigationHelper navigationHelper;
+
+    @Inject
+    private SecurityHelper securityHelper;
 
     @Inject
     private LanguagesBundleAccessor languagesBundleAccessor;
@@ -50,8 +61,12 @@ public class UserBackingBean implements Serializable {
     private User selectedUser;
     private String message;
 
+    private User loggedInUser;
+
     @PostConstruct
     public void init() {
+        loggedInUser = (User) WebHelper.getSession().getAttribute("loggedInUser");
+
         systemRoles = new ArrayList<>();
 
         systemRoles = userEJB.getSystemRoles();
@@ -60,33 +75,20 @@ public class UserBackingBean implements Serializable {
     }
 
     public void createUser() {
-        if (UserValidator.areInputFieldsValid(firstName, lastName, email, phoneNumber, selectedRoles_Strings, password)) {
-            if (userEJB.createUser(firstName, lastName, email, phoneNumber, selectedRoles_Strings, password)) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_success_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_success_message")));
-
-                try {
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("userManagement.xhtml");
-                } catch (IOException e) {
-                    e.printStackTrace();
+        if(securityHelper.checkUserPermissions("USER_MANAGEMENT", loggedInUser)) {
+            if (userValidator.areInputFieldsValid(firstName, lastName, email, phoneNumber, selectedRoles_Strings, password)) {
+                if (userEJB.createUser(firstName, lastName, email, phoneNumber, selectedRoles_Strings, password)) {
+                    navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_success_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_success_message"));
+                    navigationHelper.customRedirectTo("userManagement.xhtml");
+                } else {
+                    navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_failure_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_failure_message"));
                 }
-
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_failure_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_userBackingBean_addUser_failure_message")));
             }
+        } else {
+            navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialogMessage_rightsManagement_changeRights_wrongPermission_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_rightsManagement_changeRights_wrongPermission_message"));
+            navigationHelper.customRedirectTo("homepage.xhtml");
         }
     }
-
-    public void updateUser() {
-    }
-
-    public void deleteUser() {
-        userEJB.deleteUser(firstName, lastName);
-    }
-
-    public void readUser() {
-        userEJB.readUser(firstName, lastName);
-    }
-
 
     public void rowSelect(SelectEvent event) throws IOException {
         WebHelper.getSession().setAttribute("selectedUserForEdit", (User) event.getObject());

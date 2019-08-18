@@ -166,23 +166,6 @@ public class UserEJB implements Serializable {
         }
     }
 
-    public void deleteUser(String firstName, String lastName) {
-
-        User user = entityManager.find(User.class, firstName + lastName);
-        user.setActive(false);
-    }
-
-    public User updateUser() {
-
-        return null;
-    }
-
-    public User readUser(String firstName, String lastName) {
-        User user = entityManager.find(User.class, firstName + lastName);
-
-        return user;
-    }
-
     public boolean editUser(int userId, String email, String phoneNumber, List<String> userRoles){
         User toBeEditedUser = entityManager.find(User.class, userId);
 

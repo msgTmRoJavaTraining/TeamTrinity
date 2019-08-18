@@ -1,17 +1,28 @@
 package validators;
 
-import entities.Role;
+import helpers.LanguagesBundleAccessor;
+import helpers.NavigationHelper;
 
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UserValidator {
+@ManagedBean
+@SessionScoped
+public class UserValidator implements Serializable {
+    @Inject
+    private NavigationHelper navigationHelper;
 
-    public static boolean isValidEmail(String email){
+    @Inject
+    private LanguagesBundleAccessor languagesBundleAccessor;
 
+    public boolean isValidEmail(String email) {
         String regex = "^(.+)@msggroup.com$";
 
         Pattern pattern = Pattern.compile(regex);
@@ -20,7 +31,7 @@ public class UserValidator {
         return matcher.matches();
     }
 
-    public static boolean isValidPhoneNumber(String phoneNumber){
+    public boolean isValidPhoneNumber(String phoneNumber) {
 
         String romRegex = "(\\+)40[2-8]{1}[0-9]{8}";
 
@@ -35,58 +46,50 @@ public class UserValidator {
         return romMatcher.matches() || gerMatcher.matches();
     }
 
-    public static boolean areInputFieldsValid(String firstName, String lastName, String email, String telephoneNumber, List<String> roleList, String password) {
-        if(!firstName.isEmpty()) {
-            if(!lastName.isEmpty()) {
-                if(isValidEmail(email)) {
-                    if(isValidPhoneNumber(telephoneNumber)) {
-                        if(roleList.size() > 0) {
-                            if(!password.isEmpty()) {
+    public boolean areInputFieldsValid(String firstName, String lastName, String email, String telephoneNumber, List<String> roleList, String password) {
+        if (!firstName.isEmpty()) {
+            if (!lastName.isEmpty()) {
+                if (isValidEmail(email)) {
+                    if (isValidPhoneNumber(telephoneNumber)) {
+                        if (roleList.size() > 0) {
+                            if (!password.isEmpty()) {
                                 return true;
                             } else {
-                                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong password", "You must enter a password"));
+                                navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_password_title"), languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_password_message"));
                             }
                         } else {
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"User roles missing", "You must assign roles to a user"));
+                            navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_roles_title"), languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_roles_message"));
                         }
                     } else {
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong phone number", "You must enter a valid romanian or german phone number"));
+                        navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_phoneNumber_title"), languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_phoneNumber_message"));
                     }
                 } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong email address", "You must enter a valid email address(ends with @msggroup.com)"));
+                    navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_email_title"), languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_email_message"));
                 }
             } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong last name", "You must enter a last name"));
+                navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_lastName_title"), languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_lastName_message"));
             }
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong first name", "You must enter a first name"));
+            navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_firstName_title"), languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_firstName_message"));
         }
 
         return false;
     }
 
-    public static String getUserName(String firstName,String lastName){
-
-        String tmpUsername = "";
-
-
-        return tmpUsername;
-    }
-
-    public static boolean userUpdateValidFields(String email, String phoneNumber, List<String> userRoles) {
-                if(isValidEmail(email)) {
-                    if(isValidPhoneNumber(phoneNumber)) {
-                        if(userRoles.size() > 0) {
-                            return true;
-                        } else {
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"User roles missing", "You must assign roles to a user"));
-                        }
-                    } else {
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong phone number", "You must enter a valid romanian or german phone number"));
-                    }
+    public boolean userUpdateValidFields(String email, String phoneNumber, List<String> userRoles) {
+        if (isValidEmail(email)) {
+            if (isValidPhoneNumber(phoneNumber)) {
+                if (userRoles.size() > 0) {
+                    return true;
                 } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Wrong email address", "You must enter a valid email address(ends with @msggroup.com)"));
+                    navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_roles_title"), languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_roles_message"));
                 }
+            } else {
+                navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_phoneNumber_title"), languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_phoneNumber_message"));
+            }
+        } else {
+            navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_email_title"), languagesBundleAccessor.getResourceBundleValue("validator_userValidator_inputFields_email_message"));
+        }
 
         return false;
     }
