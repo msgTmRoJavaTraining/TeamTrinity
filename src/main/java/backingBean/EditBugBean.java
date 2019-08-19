@@ -49,8 +49,8 @@ public class EditBugBean implements Serializable {
 
 
         Bug bug = (Bug) WebHelper.getSession().getAttribute("bug");
-        upload();
-        databaseBugEJB.editBug(bug,myFile.getInputstream(),title,description,revision,severity,attachment);
+        //upload();
+        databaseBugEJB.editBug(bug,title,description,revision,severity,attachment);
     }
 
    }
