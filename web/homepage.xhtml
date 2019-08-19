@@ -13,9 +13,20 @@
 
         <ui:define name="content">
             <h:outputText styleClass="myFont" value="#{homeBean.userName}" style="display:block;"/>
-                <p:commandLink class="centered homepageCommandLinks" action="rightsManagement">
-                    <h:outputText value="#{msg.menu_rightsManagement}"/>
-                </p:commandLink>
+                <div class="centered2">
+                        <p:commandLink styleClass="homepageCommandLinks" action="rightsManagement">
+                            <h:outputText value="#{msg.menu_rightsManagement}"/>
+                        </p:commandLink>
+                        <p:commandLink styleClass="homepageCommandLinks" action="userManagement">
+                            <h:outputText value="#{msg.menu_userManagement}"/>
+                        </p:commandLink>
+                        <p:commandLink styleClass="homepageCommandLinks" action="bugManagement">
+                            <h:outputText value="#{msg.menu_bugManagement}"/>
+                        </p:commandLink>
+                        <p:commandLink styleClass="homepageCommandLinks" action="notificationManagement">
+                            <h:outputText value="#{msg.menu_notifications}"/>
+                        </p:commandLink>
+                </div>
         </ui:define>
     </ui:composition>
 </h:body>

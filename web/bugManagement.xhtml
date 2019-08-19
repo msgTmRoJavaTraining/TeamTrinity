@@ -74,7 +74,7 @@
                             <h:outputText value="#{bug.severity}"/>
                         </p:column>
                         <p:column headerText="#{msg.bugManagement_tableHeader_createdBy}" filterBy="#{bug.createdBy}"
-                                  sortBy="#{bug.createdBy}">
+                                  sortBy="#{bug.createdBy.name}">
                             <h:outputText value="#{bug.createdBy.name}"/>
                         </p:column>
                         <p:column headerText="#{msg.bugManagement_tableHeader_status}" filterBy="#{bug.status}"
@@ -82,7 +82,7 @@
                             <h:outputText value="#{bug.status}"/>
                         </p:column>
                         <p:column headerText="#{msg.bugManagement_tableHeader_assignedTo}" filterBy="#{bug.assignedTo}"
-                                  sortBy="#{bug.assignedTo}">
+                                  sortBy="#{bug.assignedTo.name}">
                             <h:outputText value="#{bug.assignedTo.name}"/>
                         </p:column>
                         <p:column headerText="#{msg.bugManagement_tableHeader_attachments}" sortBy="#{bug.assignedTo}">
@@ -167,7 +167,7 @@
                             <h:outputText value="#{bug.severity}"/>
                         </p:column>
                         <p:column headerText="#{msg.bugManagement_tableHeader_createdBy}" filterBy="#{bug.createdBy}"
-                                  sortBy="#{bug.createdBy}">
+                                  sortBy="#{bug.createdBy.name}">
                             <h:outputText value="#{bug.createdBy.name}"/>
                         </p:column>
                         <p:column headerText="#{msg.bugManagement_tableHeader_status}" filterBy="#{bug.status}"
@@ -175,7 +175,7 @@
                             <h:outputText value="#{bug.status}"/>
                         </p:column>
                         <p:column headerText="#{msg.bugManagement_tableHeader_assignedTo}" filterBy="#{bug.assignedTo}"
-                                  sortBy="#{bug.assignedTo}">
+                                  sortBy="#{bug.assignedTo.name}">
                             <h:outputText value="#{bug.assignedTo.name}"/>
                         </p:column>
                         <p:column headerText="#{msg.bugManagement_tableHeader_assignedTo}" filterBy="#{bug.attachment}"
@@ -206,7 +206,6 @@
             </h:form>
 
             <h:form id="addBugForm" enctype="multipart/form-data">
-
                 <p:dialog modal="true" header="#{msg.bugManagement_dialog_add_title}" widgetVar="addBugDialog"
                           showEffect="scale" hideEffect="scale"
                           styleClass="addBugDialogStyle">
@@ -276,40 +275,39 @@
 
                         <h:panelGrid columns="2" columnClasses="label, value">
 
-                            <h:outputText styleClass="myFont" value="Title"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_title}"/>
                             <p:inputText id="title1" value="#{bugBackingBean.title}" required="true" label="title"/>
 
 
-                            <h:outputText styleClass="myFont" value="Description"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_description}"/>
                             <p:inputText id="description1" value="#{bugBackingBean.description}" required="true"
                                          label="description"/>
 
 
-                            <h:outputText styleClass="myFont" value="RevisionVersion"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_revisionVersion}"/>
                             <p:inputText id="RevisionVersion1" value="#{bugBackingBean.revision}" required="true"
                                          label="RevisionVersion"/>
 
-                            <h:outputText styleClass="myFont" value="Severity" style="display:block;"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_severity}" style="display:block;"/>
                             <p:inputText id="severity1" value="#{bugBackingBean.severity}" required="false"
                                          label="severity"/>
 
 
-                            <h:outputText styleClass="myFont" value="Assigned to" style="display:block;"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_assignedTo}" style="display:block;"/>
                             <p:inputText id="assignedTo1" value="#{bugBackingBean.assignedTo}" required="false"
                                          label="assignedTo"/>
 
 
-                            <h:outputText styleClass="myFont" value="Attachment to" style="display:block;"/>
+                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_attachments}" style="display:block;"/>
                             <p:inputText id="attachment" required="false" label="attachment"/>
                             <br/><br/>
                         </h:panelGrid>
 
-
-                        <p:commandButton value="Edit"
+                        <p:commandButton value="#{msg.bugManagement_edit_button_saveChanges}"
                                          action="#{bugBackingBean.editBug}"
                                          ajax="false"
                                          styleClass="aButton"/>
-                        <p:commandButton value="Dezactivate"
+                        <p:commandButton value="#{msg.bugManagement_edit_button_deactivate}"
                                          ajax="false"
                                          styleClass="aButton"/>
                         <br/><br/>
