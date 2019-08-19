@@ -29,25 +29,15 @@
                             rendered="#{homeBean.notifications}"/>
 
                 <f:facet name="options">
-                    <p:commandButton value="#{applicationLanguage.language}" icon="fa fa-fw fa-globe" type="button"
-                                     onclick="PF('languageDialog').show();"/>
-                    <p:commandButton class="stopVerticalAlign" value="#{msg.loginPage_logout}" ajax="false"
-                                     action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
+                    <p:menuButton value="#{homeBean.loggerInUser.name}">
+                        <p:menuitem icon="" value="English" ajax="false" action="#{applicationLanguage.putLanguageToEnglish}"/>
+                        <p:menuitem value="Romanian" ajax="false" action="#{applicationLanguage.putLanguageToRomanian}"/>
+                        <p:separator/>
+                        <p:menuitem ajax="false" action="#{homeBean.logUserOut}" value="#{msg.loginPage_logout}"/>
+                    </p:menuButton>
                 </f:facet>
             </p:menubar>
         </h:form>
-
-        <p:dialog modal="true" header="Language" widgetVar="languageDialog" showEffect="explode" hideEffect="explode"
-                  style="height: fit-content; width: fit-content" position="700,170">
-            <h:form>
-                <p:selectOneMenu id="console" value="#{applicationLanguage.language}"
-                                 onchange="submit()"
-                                 style="margin-right: 10px;">
-                    <f:selectItem itemValue="en" itemLabel="English"/>
-                    <f:selectItem itemValue="ro" itemLabel="Română"/>
-                </p:selectOneMenu>
-            </h:form>
-        </p:dialog>
 
         <ui:insert name="content"/>
     </h:body>
