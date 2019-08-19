@@ -1,6 +1,7 @@
-package backingBean;
+package backingBeans;
 
 
+import ejbs.BugEJB;
 import entities.Bug;
 import lombok.Data;
 import lombok.Getter;
@@ -23,7 +24,7 @@ import java.io.Serializable;
 public class EditBugBean implements Serializable {
 
     @Inject
-    private DatabaseBugEJB databaseBugEJB;
+    private BugEJB databaseBugEJB;
 
 
     private String title;

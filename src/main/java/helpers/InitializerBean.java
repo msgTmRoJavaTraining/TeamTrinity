@@ -1,8 +1,6 @@
 package helpers;
 
-import entities.Bug;
-import entities.Right;
-import entities.Role;
+import entities.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -23,8 +21,25 @@ public class InitializerBean {
 
     @PostConstruct
     public void onStartup() {
-//        addRights();
-//        addRoles();
+
+      //  addRights();
+      //  addRoles();
+
+
+//        User user = new User();
+//        user.setName("Ionut Borozan");
+//        user.setEmail("borozan@msggroup.com");
+//        user.setPhoneNumber("+40760501222");
+//
+//
+//
+//        UserLogin userLogin = new UserLogin();
+//        userLogin.setPassword("steaua");
+//        userLogin.setUser(user);
+//        entityManager.persist(userLogin);
+//        entityManager.persist(user);
+
+
     }
 
     private void addRights() {

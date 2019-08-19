@@ -8,6 +8,7 @@ import security.WebHelper;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -20,23 +21,23 @@ import java.util.stream.Collectors;
 @ManagedBean(name = "homeBean")
 @ApplicationScoped
 public class HomeBean implements Serializable {
-    private boolean rightsManagement = false;
-    private boolean userManagement = false;
-    private boolean bugManagement = false;
+    private boolean rightsManagement = true;
+    private boolean userManagement = true;
+    private boolean bugManagement = true;
     private boolean notifications = true;
 
     List<Role> userRoles;
     List<Right> userRightsBasedOnRoles = new ArrayList<>();
 
     private User loggerInUser = (User) WebHelper.getSession().getAttribute("loggedInUser");
-    private String welcomeMessage = "Welcome to JBugger " + loggerInUser.getName() + ", let the fun begin!";
+    private String welcomeMessage = "Welcome to JBugger " ;//+ //loggerInUser.getName() + ", let the fun begin!";
 
     @Inject
     private LanguageBean languageBean;
 
     @PostConstruct
     public void init() {
-        //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfulyl logged in!", "Welcome " + loggerInUser.getName()));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfulyl logged in!", "Welcome " + loggerInUser.getName()));
         userRoles = loggerInUser.getRoles();
 
         List<Right> temporaryRightsList = new ArrayList<>();

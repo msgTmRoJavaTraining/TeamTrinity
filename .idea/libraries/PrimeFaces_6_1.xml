@@ -1,5 +1,6 @@
 <component name="libraryTable">
-  <library name="PrimeFaces-6.1">
+  <library name="PrimeFaces-6.1" type="jsf-primefaces">
+    <properties version="6.1" />
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/primefaces-6.1.jar!/" />
     </CLASSES>

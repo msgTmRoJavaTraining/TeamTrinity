@@ -46,7 +46,7 @@ public class LoginBean implements Serializable {
         try {
             toBeLoggedInUser = loginEJB.doesAccountExist(username);
 
-            // If username exists
+           //  If username exists
             if (toBeLoggedInUser != null) {
                 //if password is correct and the account is active
                 if (HashingText.getMd5(password).equals(toBeLoggedInUser.getUserLogin().getPassword()) && toBeLoggedInUser.getAccountActiveStatus()) {

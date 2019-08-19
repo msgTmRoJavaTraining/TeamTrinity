@@ -185,7 +185,7 @@
                         </p:column>
                         <p:column>
                             <p:commandButton ajax="false" icon="fa fa-fw fa-edit"
-                                             action="#{loginBean.navigateTo('editBug.xhtml')}"/>
+                                             action="#{bugBackingBean.navigateTo('editBug.xhtml',bug)}"/>
                         </p:column>
 
                         </p:dataTable>
@@ -225,10 +225,6 @@
                         <p:inputText id="RevisionVersion" value="#{bugBackingBean.revision}" required="true"
                                      label="RevisionVersion"/>
 
-                        <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_fixedInVersion}"
-                                      style="display:block;"/>
-                        <p:inputText id="fixedInVersion" value="#{bugBackingBean.fixedInVersion}" required="true"
-                                     label="fixedInVersion"/>
 
                         <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_targetDate}"
                                       style="display:block;"/>
@@ -243,12 +239,6 @@
                             <f:selectItem itemLabel="MEDIUM" itemValue="MEDIUM"/>
                             <f:selectItem itemLabel="HIGH" itemValue="HIGH"/>
                         </p:selectOneMenu>
-
-
-                        <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_createdBy}"/>
-                        <p:inputText id="createdBy" value="#{bugBackingBean.createdBy}" required="false"
-                                     label="createdBy"/>
-
 
                         <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_assignedTo}"/>
                         <p:inputText id="assignedTo" value="#{bugBackingBean.assignedTo}" required="false"
