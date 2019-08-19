@@ -21,25 +21,11 @@
                 <p:menuitem value="#{msg['menu_notifications']}" url="notificationManagement.xhtml" icon="fa fa-fw fa-bell" rendered = "#{homeBean.notifications}"/>
 
                 <f:facet name="options">
-                    <p:panelMenu style="width:300px">
-                            <p:submenu itemLabel="#{homeBean.loggerInUser.name}" >
-                                <p:submenu label="Language" >
-                                    <p:menuitem itemValue="en" itemLabel="English" />
-                                    <p:menuitem itemValue="ro" itemLabel="Română" />
-                                </p:submenu>
-                            <p:menuitem value="#{msg['loginPage_logout']}" ajax="false" action="#{homeBean.logUserOut}"  />
-                        </p:submenu>
-                    </p:panelMenu>
-
-<!--                    <p:selectOneMenu id="user" style="width:150px">-->
-<!--                        <f:selectItem itemLabel="#{homeBean.loggerInUser.name}" itemValue="" noSelectionOption="true" />-->
-<!--                            <f:selectItem itemValue="en" itemLabel="English"/>-->
-<!--                            <f:selectItem itemValue="ro" itemLabel="Română"/>-->
-
-
-<!--                        <f:selectItem><p:commandButton value="#{msg['loginPage_logout']}" ajax="false" action="#{homeBean.logUserOut}"/></f:selectItem>-->
-<!--                    </p:selectOneMenu>-->
-                        </f:facet>
+                    <p:commandButton value="#{applicationLanguage.language}" icon="fa fa-fw fa-globe" type="button"
+                                     onclick="PF('languageDialog').show();"/>
+                    <p:commandButton class="stopVerticalAlign" value="#{msg.loginPage_logout}" ajax="false"
+                                     action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off"/>
+                </f:facet>
                     </p:menubar>
                 </h:form>
 
