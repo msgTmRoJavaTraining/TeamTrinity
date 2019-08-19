@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
-<h:head/>
+
 <h:body styleClass="imagine">
     <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                     xmlns:f="http://java.sun.com/jsf/core"
@@ -25,21 +25,21 @@
 
         <ui:define name="title">#{msg.pages_title_bugManagement}</ui:define>
         <ui:define name="content">
-            <h:form id="bugTable">
-                <div class="bugTable">
-                    <p:dataTable var="bug"
-                                 value="#{bugBackingBean.bugList}"
-                                 tableStyle="table-layout: auto;"
-                                 resizableColumns="true"
-                                 style="width: content-box"
-                                 paginator="true" rows="25"
-                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                 widgetVar="bugTable"
-                                 selectionMode="single"
-                                 selection="#{bugBackingBean.selectedBug}"
-                                 rowKey="#{bug.title}">
 
-                        <p:ajax event="rowSelect" listener="#{bugBackingBean.rowSelect}"/>
+                <h:form id="bugTable">
+                    <div class="bugTable">
+                        <p:dataTable var="bug"
+                                     value="#{bugBackingBean.bugList}"
+                                     tableStyle="table-layout: auto;"
+                                     resizableColumns="false"
+                                     style="width: content-box"
+                                     paginator="true" rows="25"
+                                     scrollable="true"
+                                     scrollHeight="50%"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                     widgetVar="bugTable"
+                                     rowKey="#{bug.title}">
+
 
                         <f:facet name="header">
                             <p:outputPanel>
@@ -93,7 +93,8 @@
                                              onclick="PF('editBugDialog').show();"/>
                         </p:column>
 
-                    </p:dataTable>
+
+                        </p:dataTable>
 
                     <br/>
                     <p:commandButton value="#{msg.bugManagement_button_exportOptions}" type="button"
@@ -105,10 +106,10 @@
                 </div>
             </h:form>
 
-            <h:graphicImage library="css" styleClass="imagine"> </h:graphicImage>
 
 
-            <h:graphicImage library="css" styleClass="imagine"> </h:graphicImage>
+        <h:graphicImage library="css" url="#{resource['images/bugss.jpg']}" styleClass="imagine"> </h:graphicImage>
+
 
 
             <h:form id="pdfAndExcel">
@@ -187,8 +188,8 @@
                                              action="#{loginBean.navigateTo('editBug.xhtml')}"/>
                         </p:column>
 
-                    </p:dataTable>
-                    <br/>
+                        </p:dataTable>
+                        <br/>
 
                     <p:commandButton value="#{msg.bugManagement_dialog_export_button_exportExcel}" ajax="true"
                                      actionListener="#{bugBackingBean.downloadExcel}"
@@ -256,8 +257,10 @@
                                       style="display:block;"/>
                         <p:fileUpload value="#{bugBackingBean.file}" mode="simple" skinSimple="true">
                         </p:fileUpload>
-                    </h:panelGrid>
 
+                            <p:growl id="messages1" showDetail="true"/>
+                            <br/><br/>
+                        </h:panelGrid>
                     <br/><br/>
                     <p:commandButton value="#{msg.bugManagement_dialog_add_button_addBug}"
                                      action="#{bugBackingBean.addBug}"
