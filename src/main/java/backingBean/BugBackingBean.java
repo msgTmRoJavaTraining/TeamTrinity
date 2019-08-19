@@ -5,6 +5,7 @@ import lombok.Data;
 import org.primefaces.event.SelectEvent;
 
 import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import security.WebHelper;
 
@@ -19,6 +20,7 @@ import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -88,6 +90,7 @@ public class BugBackingBean implements Serializable {
     public void rowSelect(SelectEvent event) {
         selectedBugs.add((Bug) event.getObject());
     }
+
     private UploadedFile file;
 
     public void upload() {
@@ -96,6 +99,7 @@ public class BugBackingBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+    
 
     public void downloadPdf(){
         String fileName = "exported_employee.pdf";
