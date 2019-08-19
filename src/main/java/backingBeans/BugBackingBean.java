@@ -100,6 +100,11 @@ public class BugBackingBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
+
+//    public void download(){
+//        InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(file.getFileName());
+//        defaultStreamedContent = new DefaultStreamedContent(stream, "image/jpg/xls/pdf/oc/odf", file.getFileName());
+//    }
     
 
     public void downloadPdf(){

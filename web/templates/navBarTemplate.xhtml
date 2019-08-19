@@ -30,10 +30,10 @@
 
                 <f:facet name="options">
                     <p:menuButton value="#{homeBean.loggerInUser.name}">
-                        <p:menuitem value="English" ajax="false" action="#{applicationLanguage.putLanguageToEnglish}"/>
-                        <p:menuitem value="Romanian" ajax="false" action="#{applicationLanguage.putLanguageToRomanian}"/>
+                        <p:menuitem value="English" ajax="false" icon="fa fa-fw fa-globe" action="#{applicationLanguage.putLanguageToEnglish}"/>
+                        <p:menuitem value="Romanian" ajax="false" icon="fa fa-fw fa-globe" action="#{applicationLanguage.putLanguageToRomanian}"/>
                         <p:separator/>
-                        <p:menuitem ajax="false" action="#{homeBean.logUserOut}" value="#{msg.loginPage_logout}"/>
+                        <p:menuitem ajax="false" action="#{homeBean.logUserOut}" icon="fa fa-fw fa-power-off" value="#{msg.loginPage_logout}"/>
                     </p:menuButton>
                 </f:facet>
             </p:menubar>

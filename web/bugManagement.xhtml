@@ -35,7 +35,7 @@
                                      style="width: content-box"
                                      paginator="true" rows="25"
                                      scrollable="true"
-                                     scrollHeight="50%"
+                                     scrollHeight="300"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                      widgetVar="bugTable"
                                      rowKey="#{bug.title}">
@@ -85,9 +85,11 @@
                                   sortBy="#{bug.assignedTo.name}">
                             <h:outputText value="#{bug.assignedTo.name}"/>
                         </p:column>
-                        <p:column headerText="#{msg.bugManagement_tableHeader_attachments}" sortBy="#{bug.assignedTo}">
-                            <h:outputText value="#{bug.attachment}"/>
-                        </p:column>
+<!--                        <p:column headerText="#{msg.bugManagement_tableHeader_attachments}" sortBy="#{bug.attachment}">-->
+<!--                            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="pi pi-arrow-down">-->
+<!--                                <p:fileDownload value="#{bugBackingBean.defaultStreamedContent}"  />-->
+<!--                            </p:commandButton>-->
+<!--                        </p:column>-->
                         <p:column>
                             <p:commandButton icon="fa fa-fw fa-edit" type="button"
                                              onclick="PF('editBugDialog').show();"/>
