@@ -75,6 +75,9 @@ public class LoginBean implements Serializable {
 
                     loginAttempts = loginAttempts - 1;
                 }
+            } else {
+                navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountNotFound_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountNotFound_message"));
+                navigationHelper.customRedirectTo("loginPage.xhtml");
             }
         } catch (Exception e) {
             navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountNotFound_title"), languagesBundleAccessor.getResourceBundleValue("dialogMessages_loginPage_accountNotFound_message"));
