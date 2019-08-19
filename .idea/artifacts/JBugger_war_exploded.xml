@@ -1,9 +1,12 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="artifact">
-    <output-path>$PROJECT_DIR$/out/artifacts/artifact</output-path>
+  <artifact type="exploded-war" name="JBugger:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/JBugger_war_exploded</output-path>
     <root id="root">
+      <element id="javaee-facet-resources" facet="JBugger/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
+          <element id="module-output" name="JBugger" />
+          <element id="javaee-facet-classes" facet="TeamTrinity/web/Web" />
           <element id="module-output" name="TeamTrinity" />
           <element id="jpa-descriptors" facet="TeamTrinity/jpa/JPA" />
         </element>
@@ -18,10 +21,9 @@
           <element id="library" level="project" name="Maven: org.primefaces:primefaces:7.0" />
         </element>
       </element>
+      <element id="javaee-facet-resources" facet="TeamTrinity/web/Web" />
       <element id="javaee-facet-resources" facet="TeamTrinity/ejb/EJB" />
       <element id="javaee-facet-resources" facet="TeamTrinity/javaeeApplication/javaEEApplication" />
-      <element id="javaee-facet-resources" facet="TeamTrinity/web/Web" />
-      <element id="javaee-facet-resources" facet="TeamTrinity/web/Web2" />
     </root>
   </artifact>
 </component>
