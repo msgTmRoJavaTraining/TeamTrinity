@@ -1,6 +1,7 @@
 package backingBeans;
 
 import ejbs.BugEJB;
+import entities.Attachment;
 import entities.Bug;
 import helpers.DataGetter;
 import helpers.XMLPDFGenerator;
@@ -16,13 +17,13 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,12 +49,15 @@ public class BugBackingBean implements Serializable {
     private String severity;
     private String statusName;
     private String assignedTo;
-    private byte[] attachment;
+//    private byte[] attachment;
     private Date selectedDate;
+    private Attachment attachment;
 
     private List<Bug> bugList;
     private List<Bug> selectedBugs=new ArrayList<>();
     private Bug selectedBug;
+    private Attachment selectedAttachment;
+    private StreamedContent file1;
 
     @Inject
     private BugEJB bugEJB;
@@ -63,6 +67,8 @@ public class BugBackingBean implements Serializable {
 
 
     private DefaultStreamedContent defaultStreamedContent;
+
+
 
     @Inject
     private DataGetter dataGetter;
@@ -103,9 +109,18 @@ public class BugBackingBean implements Serializable {
 
 //    public void download(){
 //        InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(file.getFileName());
-//        defaultStreamedContent = new DefaultStreamedContent(stream, "image/jpg/xls/pdf/oc/odf", file.getFileName());
+//        defaultStreamedContent = new DefaultStreamedContent(stream, "image/jpg/xls/pdf/doc/odf", file.getFileName());
 //    }
-    
+
+
+//    public void download() {
+//        try {
+//
+//            Attachment attachment=bugEJB.find()
+//        }
+//
+//    }
+
 
     public void downloadPdf(){
         String fileName = "exported_employee.pdf";

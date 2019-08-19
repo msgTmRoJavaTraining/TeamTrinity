@@ -1,6 +1,7 @@
 package ejbs;
 
 import com.google.common.io.ByteStreams;
+import entities.Attachment;
 import entities.Bug;
 import entities.User;
 import security.WebHelper;
@@ -24,10 +25,11 @@ public class BugEJB implements Serializable {
 
 
     public Bug createBug(InputStream inputStream, String title, String description, String targetDate, String revision,
-                         String assignedTo, String severity,byte[] attachment) throws IOException {
+                         String assignedTo, String severity, Attachment attachment) throws IOException {
 
         User logInUser = (User) WebHelper.getSession().getAttribute("loggedInUser");
-        attachment= ByteStreams.toByteArray(inputStream);
+        byte[] a = attachment.getAttachment();
+        a = ByteStreams.toByteArray(inputStream);
 
         Bug bug = new Bug();
         bug.setTitle(title);
@@ -71,10 +73,11 @@ public class BugEJB implements Serializable {
     }
 
     public void editBug(Bug bug,InputStream inputStream,String title,String description,String revision,
-                        String severity,byte[] attachment) throws IOException {
+                        String severity,Attachment attachment) throws IOException {
 
 
-        attachment= ByteStreams.toByteArray(inputStream);
+        byte[] a=attachment.getAttachment();
+        a= ByteStreams.toByteArray(inputStream);
 
         bug.setTitle(title);
         bug.setDescription(description);

@@ -30,7 +30,9 @@ public class Bug implements Serializable {
 
     private LocalDate targetData;
 
-    private byte[] attachment;
+
+    @OneToOne
+    private Attachment attachment;
 
     @ManyToOne
     private User createdBy;
@@ -46,7 +48,7 @@ public class Bug implements Serializable {
 //    private List<Attachment> attachments;
 
 
-    public Bug(String title, String description, String revision, LocalDate targetData, User createdBy, String status, User assignedTo,byte[] attachment) {
+    public Bug(String title, String description, String revision, LocalDate targetData, User createdBy, String status, User assignedTo,Attachment attachment) {
         this.title = title;
         this.description = description;
         this.revision = revision;

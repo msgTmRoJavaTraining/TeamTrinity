@@ -2,6 +2,7 @@ package backingBeans;
 
 
 import ejbs.BugEJB;
+import entities.Attachment;
 import entities.Bug;
 import lombok.Data;
 import org.primefaces.model.UploadedFile;
@@ -30,10 +31,9 @@ public class EditBugBean implements Serializable {
     private String revision;
     private String severity;
     private String assignedTo;
-    private byte[] attachment;
+    private Attachment attachment;
 
     private UploadedFile myFile;
-
 
 
     public void upload() {
