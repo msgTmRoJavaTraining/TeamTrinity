@@ -38,11 +38,10 @@ html,body{
 }
 
 .imagine{
-    background-image: url("#{resource['images/bugss.jpg']}") ;
     background-size: contain;
     background-color: #121212;
     background-repeat: no-repeat ;
-    background-position: center;
+    background-position: bottom right;
 }
 
 .title{
