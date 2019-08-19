@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-ear" name="TeamTrinity:ear exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/TeamTrinity_ear_exploded</output-path>
-    <root id="root">
-      <element id="javaee-facet-resources" facet="TeamTrinity/javaeeApplication/javaEEApplication" />
-    </root>
-  </artifact>
-</component>

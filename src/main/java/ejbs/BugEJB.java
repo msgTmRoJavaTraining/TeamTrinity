@@ -12,9 +12,12 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.io.*;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Stateless
 public class BugEJB implements Serializable {
@@ -70,31 +73,21 @@ public class BugEJB implements Serializable {
         return bug;
     }
 
-    public void editBug(Bug bug,InputStream inputStream,String title,String description,String revision,
-                        String severity,byte[] attachment) throws IOException {
-
-
-        attachment= ByteStreams.toByteArray(inputStream);
-
-        bug.setTitle(title);
-        bug.setDescription(description);
-        bug.setRevision(revision);
-        bug.setSeverity(severity);
-        bug.setAttachment(attachment);
-
-        entityManager.merge(bug);
+    public void editBugMonday(Bug toBeEdittedBug) {
+        entityManager.merge(toBeEdittedBug);
     }
 
-    public User readUser(String name){
+    public List<String> getAllAvailableUsersForBugHandling(User currentSetUser) {
+        TypedQuery<String> query = entityManager.createQuery("select user.userLogin.username from User as user", String.class);
+        //query.setParameter("currentSetUserId", currentSetUser.getId());
 
-        User user = entityManager.find(User.class,name);
-
-        return user;
+        return query.getResultList();
     }
 
-    public User updateUser(){
+    public User getUserByUsername(String username) {
+        TypedQuery<User> query = entityManager.createQuery("select user from User as user where user.userLogin.username = :givenUsername", User.class);
+        query.setParameter("givenUsername", username);
 
-        //will be completed wednesday 07.08.2019
-        return null;
+        return query.getSingleResult();
     }
 }

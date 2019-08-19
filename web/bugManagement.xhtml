@@ -26,20 +26,19 @@
         <ui:define name="title">#{msg.pages_title_bugManagement}</ui:define>
         <ui:define name="content">
 
-                <h:form id="bugTable">
-                    <div class="bugTable">
-                        <p:dataTable var="bug"
-                                     value="#{bugBackingBean.bugList}"
-                                     tableStyle="table-layout: auto;"
-                                     resizableColumns="false"
-                                     style="width: content-box"
-                                     paginator="true" rows="25"
-                                     scrollable="true"
-                                     scrollHeight="50%"
-                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                     widgetVar="bugTable"
-                                     rowKey="#{bug.title}">
-
+            <h:form id="bugTable">
+                <div class="bugTable">
+                    <p:dataTable var="bug"
+                                 value="#{bugBackingBean.bugList}"
+                                 tableStyle="table-layout: auto;"
+                                 resizableColumns="false"
+                                 style="width: content-box;"
+                                 paginator="true" rows="25"
+                                 scrollable="true"
+                                 scrollHeight="300px"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 widgetVar="bugTable"
+                                 rowKey="#{bug.title}">
 
                         <f:facet name="header">
                             <p:outputPanel>
@@ -89,12 +88,10 @@
                             <h:outputText value="#{bug.attachment}"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton icon="fa fa-fw fa-edit" type="button"
-                                             onclick="PF('editBugDialog').show();"/>
+                            <p:commandButton ajax="false" icon="fa fa-fw fa-edit"
+                                                 action="#{bugBackingBean.navigateTo('editBug.xhtml', bug)}"/>
                         </p:column>
-
-
-                        </p:dataTable>
+                    </p:dataTable>
 
                     <br/>
                     <p:commandButton value="#{msg.bugManagement_button_exportOptions}" type="button"
@@ -106,10 +103,7 @@
                 </div>
             </h:form>
 
-
-
-        <h:graphicImage library="css" url="#{resource['images/bugss.jpg']}" styleClass="imagine"> </h:graphicImage>
-
+            <h:graphicImage library="css" url="#{resource['images/bugss.jpg']}" styleClass="imagine"> </h:graphicImage>
 
 
             <h:form id="pdfAndExcel">
@@ -188,8 +182,8 @@
                                              action="#{loginBean.navigateTo('editBug.xhtml')}"/>
                         </p:column>
 
-                        </p:dataTable>
-                        <br/>
+                    </p:dataTable>
+                    <br/>
 
                     <p:commandButton value="#{msg.bugManagement_dialog_export_button_exportExcel}" ajax="true"
                                      actionListener="#{bugBackingBean.downloadExcel}"
@@ -241,6 +235,7 @@
                             <f:selectItem itemLabel="LOW" itemValue="LOW"/>
                             <f:selectItem itemLabel="MEDIUM" itemValue="MEDIUM"/>
                             <f:selectItem itemLabel="HIGH" itemValue="HIGH"/>
+                            <f:selectItem itemLabel="CRITICAL" itemValue="CRITICAL"/>
                         </p:selectOneMenu>
 
 
@@ -258,9 +253,9 @@
                         <p:fileUpload value="#{bugBackingBean.file}" mode="simple" skinSimple="true">
                         </p:fileUpload>
 
-                            <p:growl id="messages1" showDetail="true"/>
-                            <br/><br/>
-                        </h:panelGrid>
+                        <p:growl id="messages1" showDetail="true"/>
+                        <br/><br/>
+                    </h:panelGrid>
                     <br/><br/>
                     <p:commandButton value="#{msg.bugManagement_dialog_add_button_addBug}"
                                      action="#{bugBackingBean.addBug}"
@@ -268,54 +263,6 @@
                                      url="bugManagement.xhtml"
                                      styleClass="aButton"/>
                 </p:dialog>
-            </h:form>
-
-            <h:form id="editBugForm" scrollable="true">
-                <div>
-                    <p:dialog modal="true" header="Edit Bug" widgetVar="editBugDialog" showEffect="scale"
-                              hideEffect="scale"
-                              styleClass="addUserDialogStyle">
-
-                        <h:panelGrid columns="2" columnClasses="label, value">
-
-                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_title}"/>
-                            <p:inputText id="title1" value="#{bugBackingBean.title}" required="true" label="title"/>
-
-
-                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_description}"/>
-                            <p:inputText id="description1" value="#{bugBackingBean.description}" required="true"
-                                         label="description"/>
-
-
-                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_revisionVersion}"/>
-                            <p:inputText id="RevisionVersion1" value="#{bugBackingBean.revision}" required="true"
-                                         label="RevisionVersion"/>
-
-                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_severity}" style="display:block;"/>
-                            <p:inputText id="severity1" value="#{bugBackingBean.severity}" required="false"
-                                         label="severity"/>
-
-
-                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_assignedTo}" style="display:block;"/>
-                            <p:inputText id="assignedTo1" value="#{bugBackingBean.assignedTo}" required="false"
-                                         label="assignedTo"/>
-
-
-                            <h:outputText styleClass="myFont" value="#{msg.bugManagement_tableHeader_attachments}" style="display:block;"/>
-                            <p:inputText id="attachment" required="false" label="attachment"/>
-                            <br/><br/>
-                        </h:panelGrid>
-
-                        <p:commandButton value="#{msg.bugManagement_edit_button_saveChanges}"
-                                         action="#{bugBackingBean.editBug}"
-                                         ajax="false"
-                                         styleClass="aButton"/>
-                        <p:commandButton value="#{msg.bugManagement_edit_button_deactivate}"
-                                         ajax="false"
-                                         styleClass="aButton"/>
-                        <br/><br/>
-                    </p:dialog>
-                </div>
             </h:form>
         </ui:define>
     </ui:composition>

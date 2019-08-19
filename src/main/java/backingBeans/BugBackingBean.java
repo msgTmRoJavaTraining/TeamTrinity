@@ -2,7 +2,9 @@ package backingBeans;
 
 import ejbs.BugEJB;
 import entities.Bug;
+import entities.User;
 import helpers.DataGetter;
+import helpers.NavigationHelper;
 import helpers.XMLPDFGenerator;
 import lombok.Data;
 import org.primefaces.event.SelectEvent;
@@ -32,7 +34,6 @@ import java.util.List;
 @ManagedBean(name = "bugBackingBean")
 @SessionScoped
 public class BugBackingBean implements Serializable {
-
     @NotNull
     private String title;
 
@@ -54,6 +55,9 @@ public class BugBackingBean implements Serializable {
     private List<Bug> bugList;
     private List<Bug> selectedBugs=new ArrayList<>();
     private Bug selectedBug;
+
+    @Inject
+    private NavigationHelper navigationHelper;
 
     @Inject
     private BugEJB bugEJB;
@@ -109,16 +113,24 @@ public class BugBackingBean implements Serializable {
     public void downloadExcel(){
         String fileName="employees.xls";
         defaultStreamedContent =new DefaultStreamedContent(xmlpdfGenerator.objToExcel(selectedBugs), FacesContext.getCurrentInstance().getExternalContext().getMimeType(fileName), fileName);
-
     }
 
-    public void navigateTo(String page,Bug bug){
+    public void navigateTo(String page, Bug bug){
         WebHelper.getSession().setAttribute("bug",bug);
+
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect(page);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public void navigateTo2(String page){
+//        WebHelper.getSession().setAttribute("bug",bug);
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(page);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
