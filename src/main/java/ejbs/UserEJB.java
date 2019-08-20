@@ -2,11 +2,15 @@ package ejbs;
 
 import Enums.NotificationType;
 import entities.*;
+import helpers.SecurityHelper;
+import security.WebHelper;
 import validators.HashingText;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -19,6 +23,9 @@ public class UserEJB implements Serializable {
 
     @PersistenceContext(name = "java.training")
     private EntityManager entityManager;
+
+    @Inject
+    private SecurityHelper securityHelper;
 
     public List<Role> getSystemRoles() {
         return entityManager.createQuery("select role.roleName from Role role", Role.class).getResultList();
@@ -168,19 +175,30 @@ public class UserEJB implements Serializable {
 
     public boolean editUser(int userId, String email, String phoneNumber, List<String> userRoles){
         User toBeEditedUser = entityManager.find(User.class, userId);
-
+        User loggedInUser =  (User) WebHelper.getSession().getAttribute("loggedInUser");
+        String oldDates = toBeEditedUser.getEmail()+" "+toBeEditedUser.getPhoneNumber();
+        String newDates = email+" "+phoneNumber;
         List<Role> selectedUserRoles = new ArrayList<>();
         for (String selectedRole : userRoles) {
             Role selectedRole_Role = getRoleByString(selectedRole);
             selectedUserRoles.add(selectedRole_Role);
         }
+        Notification actualNotificatiom = new Notification();
+        actualNotificatiom.setNotificationType("USER_UPDATED");
+        actualNotificatiom.setDescriprion("old"+oldDates+" new"+newDates);
+        actualNotificatiom.setCreationDate(LocalDateTime.now());
 
         toBeEditedUser.setEmail(email);
         toBeEditedUser.setPhoneNumber(phoneNumber);
         toBeEditedUser.setRoles(selectedUserRoles);
+        toBeEditedUser.getNotifications().add(actualNotificatiom);
+        loggedInUser.getNotifications().add(actualNotificatiom);
+
 
         try {
+            entityManager.persist(actualNotificatiom);
             entityManager.merge(toBeEditedUser);
+            entityManager.merge(loggedInUser);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -191,9 +209,32 @@ public class UserEJB implements Serializable {
     public boolean changeAccountActivationStatus(int userId) {
         User toBeDeactivatedUser = entityManager.find(User.class, userId);
 
+        Query userManagementQuery = entityManager.createQuery("select user from User user");
+        List<User> userList = userManagementQuery.getResultList();
+
+        Notification notification = new Notification();
+
+        notification.setCreationDate(LocalDateTime.now());
+        notification.setNotificationType("USER_DELETED");
+        notification.setDescriprion(toBeDeactivatedUser.toString());
+        entityManager.persist(notification);
+
+
+
+
+
+
         toBeDeactivatedUser.setActive(!toBeDeactivatedUser.getAccountActiveStatus());
         try {
+
             entityManager.merge(toBeDeactivatedUser);
+            for(User u:userList)
+                if(securityHelper.checkUserPermissions("USER_MANAGEMENT",u)&&u.getAccountActiveStatus()) {
+                    u.getNotifications().add(notification);
+                    entityManager.merge(u);
+                }
+
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();

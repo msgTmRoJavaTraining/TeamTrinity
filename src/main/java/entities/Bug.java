@@ -1,14 +1,11 @@
 package entities;
 
-import Enums.SeverityName;
-import Enums.StatusName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Data
@@ -56,7 +53,14 @@ public class Bug implements Serializable {
         this.assignedTo = assignedTo;
         this.attachment=attachment;
 
+    }
 
+    @Override
+    public String toString(){
+
+        return "BUG:"+"Title:"+this.title+" Description:"+this.description+" Target date:"+
+                this.targetData+" Created By:"+this.createdBy+"Status:"+this.status+
+                "Assigned TO:"+ this.assignedTo;
     }
 
 
