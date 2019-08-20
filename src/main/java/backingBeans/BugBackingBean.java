@@ -102,21 +102,6 @@ public class BugBackingBean implements Serializable {
         }
     }
 
-//    public void download(){
-//        InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream(file.getFileName());
-//        defaultStreamedContent = new DefaultStreamedContent(stream, "image/jpg/xls/pdf/doc/odf", file.getFileName());
-//    }
-
-
-//    public void download() {
-//        try {
-//
-//            Attachment attachment=bugEJB.find()
-//        }
-//
-//    }
-
-
     public void downloadPdf(){
         String fileName = "exported_employee.pdf";
         defaultStreamedContent =new DefaultStreamedContent(xmlpdfGenerator.objToPdf(selectedBugs), FacesContext.getCurrentInstance().getExternalContext().getMimeType(fileName), fileName);
