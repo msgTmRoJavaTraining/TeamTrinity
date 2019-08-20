@@ -75,7 +75,7 @@ public class User implements Serializable {
     @Override
     public String toString(){
 
-        return "NUME:"+this.name+" EMAIL:"+this.email+" PHONE NUMBER:"
-                +this.phoneNumber;
+        return "NUME: "+this.name+" EMAIL: "+this.email+" PHONE NUMBER: "
+                +this.phoneNumber + " USERNAME: " + this.userLogin.getUsername();
     }
 }

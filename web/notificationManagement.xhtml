@@ -8,11 +8,50 @@
         <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                         xmlns:f="http://java.sun.com/jsf/core"
                         xmlns:h="http://java.sun.com/jsf/html"
+                        xmlns:p="http://primefaces.org/ui"
                         template="/templates/navBarTemplate.xhtml">
 
             <ui:define name="title">#{msg.menu_notifications}</ui:define>
             <ui:define name="content">
-                <h:outputText styleClass="myFont" value="Notifications Page" style="display:block;"/>
+                <h:form id="notificationTable">
+                    <div class="notificationTable">
+                        <p:dataTable var="notification"
+                                     value="#{notificationsBackingBean.notificationList}"
+                                     tableStyle="table-layout: auto;"
+                                     resizableColumns="false"
+                                     style="width: content-box"
+                                     paginator="true" rows="25"
+                                     scrollable="true"
+                                     scrollHeight="60%"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                     widgetVar="bugTable"
+                                     rowKey="#{notification.description}">
+
+
+                            <f:facet name="header">
+                                <p:outputPanel>
+                                    <h:outputText value="#{msg.bugManagement_tableHeader_searchAllFields}"/>
+                                    <p:inputText id="globalFilter" onkeyup="PF('bugTable').filter()" style="width:150px"
+                                                 placeholder="#{msg.bugManagement_tableHeader_searchHere}"/>
+                                </p:outputPanel>
+                            </f:facet>
+
+                            <p:column headerText="#{msg.bugManagement_tableHeader_title}" filterBy="#{notification.descriprion}"
+                                      sortBy="#{notification.descriprion}">
+                                <h:outputText value="#{notification.descriprion}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_description}"
+                                      filterBy="#{notification.creationDate}" sortBy="#{notification.creationDate}">
+                                <h:outputText value="#{notification.creationDate}"/>
+                            </p:column>
+                            <p:column headerText="#{msg.bugManagement_tableHeader_revisionVersion}"
+                                      filterBy="#{notification.notificationType}" sortBy="#{notification.notificationType}">
+                                <h:outputText value="#{notification.notificationType}"/>
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>

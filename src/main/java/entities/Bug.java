@@ -55,4 +55,20 @@ public class Bug implements Serializable {
         this.assignedTo = assignedTo;
         this.attachment=attachment;
     }
+
+    @Override
+    public String toString() {
+        return
+                "Title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", revision='" + revision + '\'' +
+                ", fixedInVersion='" + fixedInVersion + '\'' +
+                ", targetData=" + targetData +
+                ", attachment=" + attachment.getFileName() +
+                ", createdBy=" + createdBy.getUserLogin().getUsername() +
+                ", status='" + status + '\'' +
+                ", severity='" + severity + '\'' +
+                ", assignedTo=" + assignedTo.getUserLogin().getUsername() +
+                '}';
+    }
 }

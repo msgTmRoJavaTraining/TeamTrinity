@@ -3,6 +3,7 @@ package ejbs;
 import com.google.common.io.ByteStreams;
 import entities.Attachment;
 import entities.Bug;
+import entities.Notification;
 import entities.User;
 import security.WebHelper;
 
@@ -17,6 +18,7 @@ import javax.persistence.TypedQuery;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -45,12 +47,39 @@ public class BugEJB implements Serializable {
         toBeCreatedBug.setAssignedTo(assignedToBugUser);
         toBeCreatedBug.setAttachment(attachment);
 
-        System.out.println(toBeCreatedBug.toString());
+        Notification actualNotification = new Notification();
+        actualNotification.setNotificationType("BUG_UPDATED");
+        actualNotification.setDescriprion(toBeCreatedBug.toString());
+        actualNotification.setCreationDate(LocalDateTime.now());
+        actualNotification.setBug(toBeCreatedBug);
 
         entityManager.persist(toBeCreatedBug);
+
+        entityManager.persist(actualNotification);
+
+        loggedInUser.getNotifications().add(actualNotification);
+        entityManager.merge(loggedInUser);
+
+        assignedToBugUser.getNotifications().add(actualNotification);
+        entityManager.merge(assignedToBugUser);
     }
 
     public void editBugMonday(Bug toBeEdittedBug) {
+        Notification actualNotification = new Notification();
+        actualNotification.setCreationDate(LocalDateTime.now());
+        actualNotification.setNotificationType("BUG_STATUS_UPDATED");
+        actualNotification.setDescriprion(toBeEdittedBug.toString());
+
+        entityManager.persist(actualNotification);
+
+        User createdByUser = toBeEdittedBug.getCreatedBy();
+        createdByUser.getNotifications().add(actualNotification);
+        entityManager.merge(createdByUser);
+
+        User assignedToUser = toBeEdittedBug.getAssignedTo();
+        assignedToUser.getNotifications().add(actualNotification);
+        entityManager.merge(assignedToUser);
+
         entityManager.merge(toBeEdittedBug);
     }
 

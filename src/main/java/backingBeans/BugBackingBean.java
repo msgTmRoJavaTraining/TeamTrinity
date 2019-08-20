@@ -187,7 +187,7 @@ public class BugBackingBean implements Serializable {
             String fileName = "exported_employee.pdf";
             defaultStreamedContent = new DefaultStreamedContent(xmlpdfGenerator.objToPdf(selectedBugs), FacesContext.getCurrentInstance().getExternalContext().getMimeType(fileName), fileName);
         } catch (Exception e) {
-            navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, "HEYY", "HASDASDSA");
+            navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_WARN, "No rows selected", "Please select some rows for pdf conversion");
         }
     }
 

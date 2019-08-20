@@ -2,16 +2,21 @@ package ejbs;
 
 import Enums.NotificationType;
 import entities.*;
+import helpers.SecurityHelper;
+import security.WebHelper;
 import validators.HashingText;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateless
 public class UserEJB implements Serializable {
@@ -19,6 +24,9 @@ public class UserEJB implements Serializable {
 
     @PersistenceContext(name = "java.training")
     private EntityManager entityManager;
+
+    @Inject
+    private SecurityHelper securityHelper;
 
     public List<Role> getSystemRoles() {
         return entityManager.createQuery("select role.roleName from Role role", Role.class).getResultList();
@@ -153,7 +161,7 @@ public class UserEJB implements Serializable {
             Notification not = new Notification();
             not.setNotificationType(NotificationType.WELCOME_NEW_USER.toString());
             not.setCreationDate(LocalDateTime.now());
-             not.setDescriprion(user.toString());
+            not.setDescriprion(user.toString());
             user.getNotifications().add(not);
 
             entityManager.persist(not);
@@ -168,6 +176,9 @@ public class UserEJB implements Serializable {
 
     public boolean editUser(int userId, String email, String phoneNumber, List<String> userRoles){
         User toBeEditedUser = entityManager.find(User.class, userId);
+        User loggedInUser = (User) WebHelper.getSession().getAttribute("loggedInUser");
+        String oldData = toBeEditedUser.getEmail() + " " + toBeEditedUser.getPhoneNumber() + " " + toBeEditedUser.getRoles().stream().map(Role::getRoleName).collect(Collectors.joining());
+
 
         List<Role> selectedUserRoles = new ArrayList<>();
         for (String selectedRole : userRoles) {
@@ -175,11 +186,25 @@ public class UserEJB implements Serializable {
             selectedUserRoles.add(selectedRole_Role);
         }
 
+        String newData = email + " " + phoneNumber + " " + selectedUserRoles;
+
+        Notification actualNotification = new Notification();
+        actualNotification.setNotificationType("USER_UPDATED");
+        actualNotification.setDescriprion("Old data: " + oldData + "\nNew data: " + newData);
+        actualNotification.setCreationDate(LocalDateTime.now());
+
         toBeEditedUser.setEmail(email);
         toBeEditedUser.setPhoneNumber(phoneNumber);
         toBeEditedUser.setRoles(selectedUserRoles);
 
+        toBeEditedUser.getNotifications().add(actualNotification);
+        loggedInUser.getNotifications().add(actualNotification);
+
         try {
+            entityManager.persist(actualNotification);
+
+            entityManager.merge(loggedInUser);
+
             entityManager.merge(toBeEditedUser);
             return true;
         } catch (Exception e) {
@@ -191,9 +216,26 @@ public class UserEJB implements Serializable {
     public boolean changeAccountActivationStatus(int userId) {
         User toBeDeactivatedUser = entityManager.find(User.class, userId);
 
+        TypedQuery<User> userManagementQuery = entityManager.createQuery("select user from User as user", User.class);
+        List<User> usersResultList = userManagementQuery.getResultList();
+
+        Notification actualNotification = new Notification();
+        actualNotification.setCreationDate(LocalDateTime.now());
+        actualNotification.setNotificationType("USER_DELETED");
+        actualNotification.setDescriprion(toBeDeactivatedUser.toString());
+
         toBeDeactivatedUser.setActive(!toBeDeactivatedUser.getAccountActiveStatus());
         try {
+            entityManager.persist(actualNotification);
+
             entityManager.merge(toBeDeactivatedUser);
+
+            for(User u : usersResultList) {
+                if(securityHelper.checkUserPermissions("USER_MANAGEMENT", u) && u.getAccountActiveStatus()) {
+                    u.getNotifications().add(actualNotification);
+                    entityManager.merge(u);
+                }
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();
