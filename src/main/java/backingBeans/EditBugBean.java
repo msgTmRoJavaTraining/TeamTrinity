@@ -106,10 +106,15 @@ public class EditBugBean implements Serializable {
                     editBug.setSeverity(severity);
                     editBug.setAssignedTo(bugEJB.getUserByUsername(assignedTo));
 
-                    if(editBug.getRevision().endsWith(".9")) {
-                        editBug.setRevision(String.valueOf(new DecimalFormat("#.#").format(Double.parseDouble(revision.split("\\.")[0]) + 1.0)));    //revision += 1.0 (3.9 -> 4.0)
+                    if(status.equals("FIXED")) {
+                        editBug.setRevision(revision);
+                        editBug.setFixedInVersion(revision);
                     } else {
-                        editBug.setRevision(String.valueOf(new DecimalFormat("#.#").format(Double.parseDouble(revision) + 0.1)));    //revision += 0.1
+                        if (editBug.getRevision().endsWith(".9")) {
+                            editBug.setRevision(String.valueOf(new DecimalFormat("#.#").format(Double.parseDouble(revision.split("\\.")[0]) + 1.0)));    //revision += 1.0 (3.9 -> 4.0)
+                        } else {
+                            editBug.setRevision(String.valueOf(new DecimalFormat("#.#").format(Double.parseDouble(revision) + 0.1)));    //revision += 0.1
+                        }
                     }
 
                     bugEJB.editBugMonday(editBug);

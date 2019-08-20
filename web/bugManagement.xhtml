@@ -217,7 +217,7 @@
 
                         <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_targetDate}"
                                       style="display:block;"/>
-                        <p:calendar id="popup" value="#{bugBackingBean.selectedDate}" pattern="dd/MM/yyyy">
+                        <p:calendar id="popup" value="#{bugBackingBean.selectedDate}" pattern="dd/MM/yyyy" autocomplete="off">
                             <p:ajax event="dateSelect" listener="#{bugBackingBean.onDateSelect}"/>
                         </p:calendar>
 

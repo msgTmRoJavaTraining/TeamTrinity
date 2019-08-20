@@ -95,7 +95,7 @@ public class EditUserBean implements Serializable {
         if(securityHelper.checkUserPermissions("USER_MANAGEMENT", loggedInUser)) {
             if (userValidator.userUpdateValidFields(email, phoneNumber, list)) {
                 if (userEJB.editUser(userId, email, phoneNumber, list)) {
-                    navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_titleSuccess"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageSuccess_1") + name + languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageSuccess_2"));
+                    navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_titleSuccess"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageSuccess_1") + " " + name + " " + languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageSuccess_2"));
                 } else {
                     navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_WARN, languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_titleFailure"), languagesBundleAccessor.getResourceBundleValue("dialogMessage_editUserBean_update_messageFailure") + " " + name);
                 }

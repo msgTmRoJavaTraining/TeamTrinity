@@ -14,16 +14,16 @@
         <ui:define name="content">
             <h:outputText styleClass="myFont" value="#{homeBean.userName}" style="display:block;"/>
                 <div class="centered2">
-                        <p:commandLink styleClass="homepageCommandLinks" action="rightsManagement">
+                        <p:commandLink styleClass="homepageCommandLinks" action="rightsManagement" rendered="#{homeBean.rightsManagement}">
                             <h:outputText value="#{msg.menu_rightsManagement}"/>
                         </p:commandLink>
-                        <p:commandLink styleClass="homepageCommandLinks" action="userManagement">
+                        <p:commandLink styleClass="homepageCommandLinks" action="userManagement" rendered="#{homeBean.userManagement}">
                             <h:outputText value="#{msg.menu_userManagement}"/>
                         </p:commandLink>
-                        <p:commandLink styleClass="homepageCommandLinks" action="bugManagement">
+                        <p:commandLink styleClass="homepageCommandLinks" action="bugManagement" rendered="#{homeBean.bugManagement}">
                             <h:outputText value="#{msg.menu_bugManagement}"/>
                         </p:commandLink>
-                        <p:commandLink styleClass="homepageCommandLinks" action="notificationManagement">
+                        <p:commandLink styleClass="homepageCommandLinks" action="notificationManagement" rendered="#{homeBean.notifications}">
                             <h:outputText value="#{msg.menu_notifications}"/>
                         </p:commandLink>
                 </div>
