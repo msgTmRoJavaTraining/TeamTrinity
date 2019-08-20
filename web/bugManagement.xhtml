@@ -109,7 +109,7 @@
 
                     <br/>
                     <p:commandButton value="#{msg.bugManagement_button_exportOptions}" type="button"
-                                     onclick="PF('pdfAndExcel').show();"/>
+                                     onclick="PF('pdfAndExcel').show();" rendered="#{bugBackingBean.hasExportRights}"/>
 
                     <p:commandButton value="#{msg.bugManagement_button_addBug}" type="button"
                                      onclick="PF('addBugDialog').show();"/>
@@ -255,6 +255,8 @@
                                      styleClass="aButton"/>
                 </p:dialog>
             </h:form>
+
+            <h:graphicImage library="css" url="#{resource['images/bugs.jpg']}" styleClass="imagine" />
         </ui:define>
     </ui:composition>
 </h:body>

@@ -22,7 +22,7 @@
                                      style="width: content-box"
                                      paginator="true" rows="25"
                                      scrollable="true"
-                                     scrollHeight="60%"
+                                     scrollHeight="300"
                                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                      widgetVar="bugTable"
                                      rowKey="#{notification.description}">
@@ -52,6 +52,8 @@
                         </p:dataTable>
                     </div>
                 </h:form>
+
+                <h:graphicImage library="css" url="#{resource['images/notif.jpg']}" styleClass="imagine" />
             </ui:define>
         </ui:composition>
     </h:body>

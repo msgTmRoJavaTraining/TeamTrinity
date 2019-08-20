@@ -16,33 +16,33 @@
                 <div class="centered">
                     <h:form id="registerForm">
                         <h:panelGrid columns="2" columnClasses="label, value">
-                            <h:outputText styleClass="myFont" value="Name"/>
+                            <h:outputText styleClass="myFont" value="#{msg.userManagement_tableHeader_name}"/>
                             <p:inputText id="name" value="#{editUserBean.name}" disabled="true" label="number"/>
 
-                            <h:outputText styleClass="myFont" value="Username"/>
+                            <h:outputText styleClass="myFont" value="#{msg.loginPage_userName}"/>
                             <p:inputText id="username" value="#{editUserBean.username}" disabled="true" required="false"
                                          label="password"/>
 
-                            <h:outputText styleClass="myFont" value="Mobile Number"/>
+                            <h:outputText styleClass="myFont" value="#{msg.userManagement_dialog_label_mobileNumber}"/>
                             <p:inputText id="number" value="#{editUserBean.phoneNumber}" required="true" label="number"/>
 
-                            <h:outputText styleClass="myFont" value="Email"/>
+                            <h:outputText styleClass="myFont" value="#{msg.userManagement_dialog_label_email}"/>
                             <p:inputText id="email" value="#{editUserBean.email}" required="true" label="email"/>
 
-                            <h:outputText styleClass="myFont" value="Roles"/>
+                            <h:outputText styleClass="myFont" value="#{msg.userManagement_dialog_label_role}"/>
                             <p:selectCheckboxMenu label="User roles" id="selectRolesMenu" multiple="true"
                                                   value="#{editUserBean.userSelectedRoles}">
                                 <f:selectItems value="#{editUserBean.systemRoles}"/>
                             </p:selectCheckboxMenu>
-
                         </h:panelGrid>
 
                         <br/>
-                        <p:commandButton value="Save changes"
+                        <p:commandButton value="#{msg.bugManagement_edit_button_saveChanges}"
                                          ajax="false"
                                          action="#{editUserBean.editUser(editUserBean.userSelectedRoles)}"
                                          styleClass="aButton"/>
                     </h:form>
+                    <br/>
                     <h:form>
                         <p:commandButton value="#{editUserBean.accountActivationStatus}"
                                          ajax="false"

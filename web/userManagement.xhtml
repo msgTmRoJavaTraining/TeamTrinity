@@ -62,9 +62,6 @@
                 </div>
             </h:form>
 
-            <h:graphicImage library="css" url="#{resource['images/user.jpg']}" styleClass="imagine"> </h:graphicImage>
-
-
             <h:form id="addUserForm">
                 <p:dialog modal="true" styleClass="addUserDialogStyle" widgetVar="addUserDialog" showEffect="blind"
                           hideEffect="blind" header="#{msg.userManagement_dialog_title}">
@@ -105,6 +102,8 @@
                                      styleClass="aButton"/>
                 </p:dialog>
             </h:form>
+
+            <h:graphicImage library="css" url="#{resource['images/user.jpg']}" styleClass="imagine" />
         </ui:define>
     </ui:composition>
 </h:body>

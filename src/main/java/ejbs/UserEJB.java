@@ -131,6 +131,8 @@ public class UserEJB implements Serializable {
     }
 
     public boolean createUser(String firstName, String lastName, String email, String phoneNumber, List<String> selectedRoles_Strings, String password) {
+        User loggedInUser = (User) WebHelper.getSession().getAttribute("loggedInUser");
+
         int generateUserNameCalledTimes = 0;
         if (checkAlreadyExistingUser(email, phoneNumber)) {
             String username;
@@ -150,21 +152,24 @@ public class UserEJB implements Serializable {
             user.setPhoneNumber(phoneNumber);
             user.setRoles(selectedRoles_Role);
             user.setActive(true);
-            user.setUserLogin(userLogin);
 
             do {
                 username = generateUsername(firstName.toLowerCase(), lastName.toLowerCase(), generateUserNameCalledTimes++);
             } while (!doesUsernameAlreadyExist(username));
 
             userLogin.setUsername(username);
+            user.setUserLogin(userLogin);
 
             Notification not = new Notification();
             not.setNotificationType(NotificationType.WELCOME_NEW_USER.toString());
             not.setCreationDate(LocalDateTime.now());
             not.setDescriprion(user.toString());
             user.getNotifications().add(not);
+            loggedInUser.getNotifications().add(not);
 
             entityManager.persist(not);
+            entityManager.merge(loggedInUser);
+
             entityManager.persist(userLogin);
             entityManager.persist(user);
 

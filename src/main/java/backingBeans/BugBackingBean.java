@@ -70,6 +70,8 @@ public class BugBackingBean implements Serializable {
 
     private List<String> availableAssignedToUserList;
 
+    private boolean hasExportRights = false;
+
     @PostConstruct
     public void init() {
         bugList = dataGetter.getBugs();
@@ -78,6 +80,10 @@ public class BugBackingBean implements Serializable {
         format = new SimpleDateFormat("dd/MM/yyyy");
 
         availableAssignedToUserList = bugEJB.getAllAvailableUsersForBugHandling();
+
+        if(securityHelper.checkUserPermissions("BUG_EXPORT_PDF", loggedInUser)) {
+            hasExportRights = true;
+        }
     }
 
     public void addBug2() {
@@ -92,6 +98,7 @@ public class BugBackingBean implements Serializable {
                             bugEJB.createBug2(loggedInUser, title, description, revision, selectedDate, severity, assignedTo, bugAttachemnt);
 
                             navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_addSuccessful_title"), languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_addSuccessful_message"));
+                            navigationHelper.customRedirectTo("bugManagement.xhtml");
                         } catch (Exception e) {
                             navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_targetDateCheck_title"), languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_targetDateCheck_message"));
                         }

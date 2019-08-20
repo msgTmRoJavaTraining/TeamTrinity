@@ -139,3 +139,21 @@ form{
     color: rgb(255, 179, 0);
     size: 32px;
 }
+
+.centered3 {
+    width: fit-content;
+    height: fit-content;
+    position: absolute; !important;
+    top: 12%;
+    left: 43%;
+    margin: 0 auto;
+}
+
+.imagine {
+    width: 10%;
+    height: 18%;
+    position: absolute !important;
+    bottom: 1%;
+    right: 1%;
+    margin: 0 auto;
+}
