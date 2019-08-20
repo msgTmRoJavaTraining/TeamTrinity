@@ -91,15 +91,15 @@ public class BugBackingBean implements Serializable {
                 if (!description.isEmpty() && description.length() >= 10) {
                     if (!revision.isEmpty() && revision.matches("[0-9].[0-9]")) {
                         try {
-                            if (!targetDate.isEmpty()) {
-                                
+                            //if (!targetDate.isEmpty()) {
+                                bugEJB.createBug2(loggedInUser, title, description, revision, selectedDate, severity, assignedTo);
 
                                 navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_INFO, languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_addSuccessful_title"), languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_addSuccessful_message"));
-                            } else {
-                                navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, targetDate + " " + languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_targetDateCheck_title"), languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_targetDateCheck_message"));
-                            }
-                        } catch (NullPointerException e) {
-                            navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, "1: " + languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_targetDateCheck_title"), languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_targetDateCheck_message"));
+//                            } else {
+//                                navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, targetDate + " " + languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_targetDateCheck_title"), languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_targetDateCheck_message"));
+//                            }
+                        } catch (Exception e) {
+                            navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_targetDateCheck_title"), languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_targetDateCheck_message"));
                         }
                     } else {
                         navigationHelper.showGrowlMessage(FacesMessage.SEVERITY_ERROR, languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_revisionCheck_title"), languagesBundleAccessor.getResourceBundleValue("dialog_bugBackingBean_addBug_revisionCheck_message"));

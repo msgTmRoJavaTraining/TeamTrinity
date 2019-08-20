@@ -16,7 +16,9 @@ import javax.persistence.TypedQuery;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -69,6 +71,29 @@ public class BugEJB implements Serializable {
         }
 
         return bug;
+    }
+
+    public void createBug2(User loggedInUser, String bugTitle, String bugDescription, String bugVersionRevision, Date bugTargetDate, String bugSeverity, String bugAssignedTo) {
+        Bug toBeCreatedBug = new Bug();
+
+        //Find assignedToUser
+        User assignedToBugUser = getUserByUsername(bugAssignedTo);
+
+        //Create new bug
+        toBeCreatedBug.setTitle(bugTitle);
+        toBeCreatedBug.setDescription(bugDescription);
+        toBeCreatedBug.setRevision(bugVersionRevision);
+        toBeCreatedBug.setFixedInVersion("Unknown");
+        toBeCreatedBug.setStatus("NEW");
+        toBeCreatedBug.setSeverity(bugSeverity);
+        toBeCreatedBug.setTargetData(bugTargetDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        toBeCreatedBug.setCreatedBy(loggedInUser);
+        toBeCreatedBug.setAssignedTo(assignedToBugUser);
+        toBeCreatedBug.setAttachment(null);
+
+        System.out.println(toBeCreatedBug.toString());
+
+        toBeCreatedBug = null;
     }
 
     public void editBugMonday(Bug toBeEdittedBug) {
