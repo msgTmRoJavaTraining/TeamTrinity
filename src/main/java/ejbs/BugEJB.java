@@ -21,13 +21,11 @@ import java.util.List;
 
 @Stateless
 public class BugEJB implements Serializable {
-
     @PersistenceContext(unitName = "java.training")
     private EntityManager entityManager;
 
-
     public Bug createBug(InputStream inputStream, String title, String description, String targetDate, String revision,
-                         String assignedTo, String severity,byte[] attachment) throws IOException {
+                         String assignedTo, String severity, byte[] attachment) throws IOException {
 
         User logInUser = (User) WebHelper.getSession().getAttribute("loggedInUser");
         attachment= ByteStreams.toByteArray(inputStream);
@@ -77,9 +75,8 @@ public class BugEJB implements Serializable {
         entityManager.merge(toBeEdittedBug);
     }
 
-    public List<String> getAllAvailableUsersForBugHandling(User currentSetUser) {
+    public List<String> getAllAvailableUsersForBugHandling() {
         TypedQuery<String> query = entityManager.createQuery("select user.userLogin.username from User as user", String.class);
-        //query.setParameter("currentSetUserId", currentSetUser.getId());
 
         return query.getResultList();
     }

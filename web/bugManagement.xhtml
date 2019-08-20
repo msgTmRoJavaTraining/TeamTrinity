@@ -96,10 +96,9 @@
                     <br/>
                     <p:commandButton value="#{msg.bugManagement_button_exportOptions}" type="button"
                                      onclick="PF('pdfAndExcel').show();"/>
-                    <br/><br/>
+
                     <p:commandButton value="#{msg.bugManagement_button_addBug}" type="button"
                                      onclick="PF('addBugDialog').show();"/>
-                    <br/>
                 </div>
             </h:form>
 
@@ -190,7 +189,7 @@
                                      onclick="PrimeFaces.monitorDownload(start,stop)">
                         <p:fileDownload value="#{bugBackingBean.defaultStreamedContent}"/>
                     </p:commandButton>
-                    <br/><br/>
+
                     <p:commandButton value="#{msg.bugManagement_dialog_export_button_exportPDF}" ajax="true"
                                      actionListener="#{bugBackingBean.downloadPdf}"
                                      onclick="PrimeFaces.monitorDownload(start,stop)">
@@ -202,65 +201,48 @@
 
             <h:form id="addBugForm" enctype="multipart/form-data">
                 <p:dialog modal="true" header="#{msg.bugManagement_dialog_add_title}" widgetVar="addBugDialog"
-                          showEffect="scale" hideEffect="scale"
+                          showEffect="blind" hideEffect="blind"
                           styleClass="addBugDialogStyle">
                     <h:panelGrid columns="2" columnClasses="label,value">
 
                         <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_bugTitle}"/>
-                        <p:inputText id="title" value="#{bugBackingBean.title}" required="true" label="title"/>
+                        <p:inputText id="title" value="#{bugBackingBean.title}" label="title"/>
 
                         <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_description}"/>
-                        <p:inputText id="description" value="#{bugBackingBean.description}" required="true"
-                                     label="description"/>
+                        <p:inputText id="description" value="#{bugBackingBean.description}" label="description"/>
 
                         <h:outputText styleClass="myFont"
                                       value="#{msg.bugManagement_dialog_add_label_revisionVersion}"/>
-                        <p:inputText id="RevisionVersion" value="#{bugBackingBean.revision}" required="true"
-                                     label="RevisionVersion"/>
-
-                        <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_fixedInVersion}"
-                                      style="display:block;"/>
-                        <p:inputText id="fixedInVersion" value="#{bugBackingBean.fixedInVersion}" required="true"
-                                     label="fixedInVersion"/>
+                        <p:inputText id="RevisionVersion" value="#{bugBackingBean.revision}" label="RevisionVersion"/>
 
                         <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_targetDate}"
                                       style="display:block;"/>
-                        <p:calendar id="popup" value="#{bugBackingBean.selectedDate}" pattern="dd/MM/yyyy">
+                        <p:calendar id="popup" value="#{bugBackingBean.targetDate}" pattern="dd/MM/yyyy">
                             <p:ajax event="dateSelect" listener="#{bugBackingBean.onDateSelect}"/>
                         </p:calendar>
 
                         <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_severity}"/>
                         <p:selectOneMenu id="severity" value="#{bugBackingBean.severity}" style="min-width: 176px">
-                            <f:selectItem itemLabel="" itemValue=""/>
                             <f:selectItem itemLabel="LOW" itemValue="LOW"/>
                             <f:selectItem itemLabel="MEDIUM" itemValue="MEDIUM"/>
                             <f:selectItem itemLabel="HIGH" itemValue="HIGH"/>
                             <f:selectItem itemLabel="CRITICAL" itemValue="CRITICAL"/>
                         </p:selectOneMenu>
 
-
-                        <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_createdBy}"/>
-                        <p:inputText id="createdBy" value="#{bugBackingBean.createdBy}" required="false"
-                                     label="createdBy"/>
-
-
                         <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_assignedTo}"/>
-                        <p:inputText id="assignedTo" value="#{bugBackingBean.assignedTo}" required="false"
-                                     label="assignedTo"/>
+                        <p:selectOneMenu id="availableAssignedTo" value="#{bugBackingBean.assignedTo}" style="min-width: 176px">
+                            <f:selectItems value="#{bugBackingBean.availableAssignedToUserList}"/>
+                        </p:selectOneMenu>
 
                         <h:outputText styleClass="myFont" value="#{msg.bugManagement_dialog_add_label_attachments}"
                                       style="display:block;"/>
                         <p:fileUpload value="#{bugBackingBean.file}" mode="simple" skinSimple="true">
                         </p:fileUpload>
-
-                        <p:growl id="messages1" showDetail="true"/>
-                        <br/><br/>
                     </h:panelGrid>
                     <br/><br/>
                     <p:commandButton value="#{msg.bugManagement_dialog_add_button_addBug}"
-                                     action="#{bugBackingBean.addBug}"
+                                     action="#{bugBackingBean.addBug2}"
                                      ajax="false"
-                                     url="bugManagement.xhtml"
                                      styleClass="aButton"/>
                 </p:dialog>
             </h:form>

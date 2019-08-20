@@ -27,13 +27,12 @@
                 <p:menuitem value="#{msg['menu_notifications']}" url="notificationManagement.xhtml"
                             icon="fa fa-fw fa-bell"
                             rendered="#{homeBean.notifications}"/>
-
                 <f:facet name="options">
                     <p:menuButton value="#{homeBean.loggerInUser.name}">
-                        <p:menuitem value="English" ajax="false" action="#{applicationLanguage.putLanguageToEnglish}"/>
-                        <p:menuitem value="Romanian" ajax="false" action="#{applicationLanguage.putLanguageToRomanian}"/>
+                        <p:menuitem value="English" ajax="false" action="#{applicationLanguage.putLanguageToEnglish}" icon="fa fa-fw fa-language"/>
+                        <p:menuitem value="Romana" ajax="false" action="#{applicationLanguage.putLanguageToRomanian}" icon="fa fa-fw fa-language"/>
                         <p:separator/>
-                        <p:menuitem ajax="false" action="#{homeBean.logUserOut}" value="#{msg.loginPage_logout}"/>
+                        <p:menuitem ajax="false" action="#{homeBean.logUserOut}" value="#{msg.loginPage_logout}" icon="fa fa-fw fa-power-off"/>
                     </p:menuButton>
                 </f:facet>
             </p:menubar>
