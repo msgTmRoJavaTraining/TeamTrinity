@@ -36,7 +36,6 @@ public class EditBugBean implements Serializable {
     private UploadedFile myFile;
 
 
-
     public void upload() {
         if(myFile != null) {
             FacesMessage message = new FacesMessage("#{msg.dialogMessages_editBug_attachments_upload_title}", myFile.getFileName() + " #{msg.dialogMessages_editBug_attachments_upload_messages}");

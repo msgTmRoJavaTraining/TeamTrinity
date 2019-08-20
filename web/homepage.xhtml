@@ -9,13 +9,26 @@
                     xmlns:h="http://java.sun.com/jsf/html"
                     template="/templates/navBarTemplate.xhtml">
 
-        <ui:define name="title">#{msg.pages_title_homepage}</ui:define>
+<!--        <ui:define name="title">#{msg.pages_title_homepage}</ui:define>-->
 
         <ui:define name="content">
-            <h:outputText styleClass="myFont" value="#{homeBean.userName}" style="display:block;"/>
-                <p:commandLink class="centered homepageCommandLinks" action="rightsManagement">
-                    <h:outputText value="#{msg.menu_rightsManagement}"/>
-                </p:commandLink>
+            <h:graphicImage library="css" url="#{resource['images/Jbugger.png']}" styleClass="centered3"/>
+
+<!--            <h:outputText styleClass="myFont" value="#{homeBean.userName}" style="display:block;"/>-->
+                <div class="centered2">
+                        <p:commandLink styleClass="homepageCommandLinks" action="rightsManagement">
+                            <h:outputText value="#{msg.menu_rightsManagement}"/>
+                        </p:commandLink>
+                        <p:commandLink styleClass="homepageCommandLinks" action="userManagement">
+                            <h:outputText value="#{msg.menu_userManagement}"/>
+                        </p:commandLink>
+                        <p:commandLink styleClass="homepageCommandLinks" action="bugManagement">
+                            <h:outputText value="#{msg.menu_bugManagement}"/>
+                        </p:commandLink>
+                        <p:commandLink styleClass="homepageCommandLinks" action="notificationManagement">
+                            <h:outputText value="#{msg.menu_notifications}"/>
+                        </p:commandLink>
+                </div>
         </ui:define>
     </ui:composition>
 </h:body>

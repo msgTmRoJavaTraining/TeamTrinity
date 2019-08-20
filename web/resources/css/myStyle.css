@@ -7,15 +7,11 @@
     margin: 0 auto;
 }
 
-
 .bugTable{
     position: absolute !important;
-    /*top: 50%;*/
-    /*left: 50%;*/
-    /*!* bring your own prefixes *!*/
-    /*transform: translate(-50%, -45%);*/
     margin: 0 auto;
 }
+
 
 .addBug{
     position: absolute !important;
@@ -38,11 +34,14 @@ html,body{
 }
 
 .imagine{
-    background-image: url("#{resource['images/bugss.jpg']}") ;
-    background-size: contain;
-    background-color: #121212;
-    background-repeat: no-repeat ;
-    background-position: center;
+    width: 10%;
+    height: 18%;
+    position: absolute !important;
+    bottom: 1%;
+    right: 1%;
+    /* bring your own prefixes */
+    /*transform: translate(0%, 0%);*/
+    margin: 0 auto;
 }
 
 .title{
@@ -112,9 +111,31 @@ form{
 
 }
 
+.centered2 {
+    width: max-content;
+    height: max-content;
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+}
+
+.centered3 {
+    width: fit-content;
+    height: fit-content;
+    position: absolute !important;
+    top: 12%;
+    left:43%;
+    /* bring your own prefixes */
+    /*transform: translate(0%, 0%);*/
+    margin: 0 auto;
+}
+
 .homepageCommandLinks {
-    padding: 4%;
-    margin: 2%;
+    padding: 40px;
+    margin: 12px;
     border: 1px solid goldenrod;
     border-radius: 30px;
     color: goldenrod;
@@ -122,14 +143,11 @@ form{
 }
 
 .homepageCommandLinks:hover {
-    padding: 4%;
-    margin: 2%;
+    padding: 40px;
+    margin: 12px;
     border: 2px solid rgb(255, 179, 0);
     border-radius: 30px;
     box-shadow: 0 0 5px rgb(255, 179, 0);
     color: rgb(255, 179, 0);
     size: 32px;
 }
-
-
-

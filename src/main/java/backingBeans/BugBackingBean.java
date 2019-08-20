@@ -20,9 +20,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,9 +49,12 @@ public class BugBackingBean implements Serializable {
     private byte[] attachment;
     private Date selectedDate;
 
+
     private List<Bug> bugList;
     private List<Bug> selectedBugs=new ArrayList<>();
     private Bug selectedBug;
+
+    private StreamedContent file1;
 
     @Inject
     private BugEJB bugEJB;
@@ -63,6 +64,8 @@ public class BugBackingBean implements Serializable {
 
 
     private DefaultStreamedContent defaultStreamedContent;
+
+
 
     @Inject
     private DataGetter dataGetter;
@@ -77,8 +80,6 @@ public class BugBackingBean implements Serializable {
 
     public void addBug() throws IOException {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
-//      fileUploadBean.upload();
         upload();
         bugEJB.createBug(file.getInputstream(), title,description,format.format(selectedDate),revision,assignedTo,severity,attachment);
     }
@@ -100,7 +101,6 @@ public class BugBackingBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
-    
 
     public void downloadPdf(){
         String fileName = "exported_employee.pdf";
