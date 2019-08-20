@@ -33,4 +33,14 @@ public class LanguageBean implements Serializable {
         language = selectedLanguage;
         cookieHelper.setCookie("JBuggerLanguageCookie", selectedLanguage, 60 * 60 * 24 * 30 * 12);    //setat pentru 1 an
     }
+
+    public void putLanguageToEnglish() {
+        language = "en";
+        cookieHelper.setCookie("JBuggerLanguageCookie", "en", 60 * 60 * 24 * 30 * 12);    //setat pentru 1 an
+    }
+
+    public void putLanguageToRomanian() {
+        language = "ro";
+        cookieHelper.setCookie("JBuggerLanguageCookie", "ro", 60 * 60 * 24 * 30 * 12);    //setat pentru 1 an
+    }
 }
