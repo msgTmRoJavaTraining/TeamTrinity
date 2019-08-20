@@ -29,4 +29,8 @@ public class NotificationsBackingBean {
         notificationList = user.getNotifications();
     }
 
+    public void deleteOlderThan30Days(){
+
+    }
+
 }

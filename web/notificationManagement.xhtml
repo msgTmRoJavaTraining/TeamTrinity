@@ -14,9 +14,8 @@
 
             <ui:define name="title">#{msg.menu_notifications}</ui:define>
             <ui:define name="content">
-                <h:outputText styleClass="myFont" value="Notifications Page" style="display:block;"/>
-            </ui:define>
-        </ui:composition>
+
+
 
         <h:form id="notificationTable">
         <div class="notificationTable">
@@ -27,7 +26,7 @@
                      style="width: content-box"
                      paginator="true" rows="25"
                      scrollable="true"
-                     scrollHeight="60%"
+                     scrollHeight="300"
                      paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                      widgetVar="bugTable"
                      rowKey="#{notification.description}">
@@ -58,6 +57,7 @@
         </div>
         </h:form>
 
-
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>

@@ -2,6 +2,7 @@ package ejbs;
 
 import com.google.common.io.ByteStreams;
 import entities.Bug;
+import entities.Notification;
 import entities.User;
 import security.WebHelper;
 
@@ -14,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Stateless
@@ -29,12 +31,26 @@ public class BugEJB implements Serializable {
         User logInUser = (User) WebHelper.getSession().getAttribute("loggedInUser");
         attachment= ByteStreams.toByteArray(inputStream);
 
+
+
+
         Bug bug = new Bug();
         bug.setTitle(title);
         bug.setDescription(description);
         bug.setRevision(revision);
         bug.setStatus("NEW");
         bug.setAttachment(attachment);
+
+
+        Notification notification = new Notification();
+        notification.setNotificationType("BUG_UPDATED");
+        notification.setDescriprion(bug.toString());
+        notification.setCreationDate(LocalDateTime.now());
+        notification.setBug(bug);
+        entityManager.persist(notification);
+        logInUser.getNotifications().add(notification);
+        entityManager.merge(logInUser);
+
 
         try {
 
@@ -44,6 +60,8 @@ public class BugEJB implements Serializable {
                 Query queryAssignedTo = entityManager.createQuery("select user from User user where user.name=:assignedTo");
                 queryAssignedTo.setParameter("assignedTo", assignedTo);
                 User user1 = (User) queryAssignedTo.getSingleResult();
+                user1.getNotifications().add(notification);
+                entityManager.merge(user1);
                 bug.setAssignedTo(user1);
                 bug.setSeverity(severity);
 
