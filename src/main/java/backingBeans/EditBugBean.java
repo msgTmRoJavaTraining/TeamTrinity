@@ -1,7 +1,9 @@
 package backingBeans;
 
 
+import com.google.common.io.ByteStreams;
 import ejbs.BugEJB;
+import entities.Attachment;
 import entities.Bug;
 import entities.User;
 import helpers.LanguagesBundleAccessor;
@@ -16,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.Serializable;
@@ -55,8 +58,6 @@ public class EditBugBean implements Serializable {
     private List<String> severityList;
     private List<String> availableAssignedToUserList;
     private byte[] attachment;
-
-    private UploadedFile myFile;
 
     @PostConstruct
     public void init() {

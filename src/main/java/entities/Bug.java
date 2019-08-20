@@ -15,7 +15,6 @@ import java.util.List;
 @Table(name = "bugs")
 @NoArgsConstructor
 public class Bug implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -30,7 +29,7 @@ public class Bug implements Serializable {
 
     private LocalDate targetData;
 
-    private byte[] attachment;
+    private Attachment attachment;
 
     @ManyToOne
     private User createdBy;
@@ -46,7 +45,7 @@ public class Bug implements Serializable {
 //    private List<Attachment> attachments;
 
 
-    public Bug(String title, String description, String revision, LocalDate targetData, User createdBy, String status, User assignedTo,byte[] attachment) {
+    public Bug(String title, String description, String revision, LocalDate targetData, User createdBy, String status, User assignedTo, Attachment attachment) {
         this.title = title;
         this.description = description;
         this.revision = revision;
@@ -55,9 +54,5 @@ public class Bug implements Serializable {
         this.status = status;
         this.assignedTo = assignedTo;
         this.attachment=attachment;
-
-
     }
-
-
 }

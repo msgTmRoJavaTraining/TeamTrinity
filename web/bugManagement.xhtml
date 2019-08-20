@@ -26,6 +26,18 @@
         <ui:define name="title">#{msg.pages_title_bugManagement}</ui:define>
         <ui:define name="content">
 
+            <script type="text/javascript">
+                //<![CDATA[
+                function start() {
+                    PF('statusDialog').show();
+                }
+
+                function stop() {
+                    PF('statusDialog').hide();
+                }
+                //]]>
+            </script>
+
             <h:form id="bugTable">
                 <div class="bugTable">
                     <p:dataTable var="bug"
@@ -85,7 +97,9 @@
                             <h:outputText value="#{bug.assignedTo.name}"/>
                         </p:column>
                         <p:column headerText="#{msg.bugManagement_tableHeader_attachments}" sortBy="#{bug.assignedTo}">
-                            <h:outputText value="#{bug.attachment}"/>
+                            <p:commandButton value="#{bug.attachment.fileName}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="pi pi-arrow-down">
+                                <p:fileDownload value="#{bugBackingBean.downloadAttachment(bug)}" />
+                            </p:commandButton>
                         </p:column>
                         <p:column>
                             <p:commandButton ajax="false" icon="fa fa-fw fa-edit"
@@ -117,7 +131,7 @@
                                  paginator="true" rows="25"
                                  selectionMode="multiple"
                                  scrollable="true"
-                                 scrollHeight="60%"
+                                 scrollHeight="300"
                                  onRowClick=""
                                  selection="#{bugBackingBean.selectedBugs}"
                                  paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -172,15 +186,10 @@
                                   sortBy="#{bug.assignedTo.name}">
                             <h:outputText value="#{bug.assignedTo.name}"/>
                         </p:column>
-                        <p:column headerText="#{msg.bugManagement_tableHeader_assignedTo}" filterBy="#{bug.attachment}"
-                                  sortBy="#{bug.attachment}">
-                            <h:outputText value="#{bug.attachment}"/>
+                        <p:column headerText="#{msg.bugManagement_tableHeader_assignedTo}" filterBy="#{bug.attachment.fileName}"
+                                  sortBy="#{bug.attachment.fileName}">
+                            <h:outputText value="#{bug.attachment.fileName}"/>
                         </p:column>
-                        <p:column>
-                            <p:commandButton ajax="false" icon="fa fa-fw fa-edit"
-                                             action="#{loginBean.navigateTo('editBug.xhtml')}"/>
-                        </p:column>
-
                     </p:dataTable>
                     <br/>
 
