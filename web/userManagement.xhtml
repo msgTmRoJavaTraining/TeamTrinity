@@ -13,17 +13,18 @@
         <ui:define name="title">#{msg.pages_title_userManagement}</ui:define>
 
         <ui:define name="content">
-            <h:form id="form1">
+            <h:form id="user">
                 <div class="centered">
                     <p:dataTable var="user"
                                  widgetVar="usersTable"
                                  value="#{userBackingBean.userList}"
                                  tableStyle="table-layout: auto;"
-                                 resizableColumns="true"
                                  style="width: content-box"
+                                 resizableColumns="false"
+                                 scrollable="true"
+                                 scrollHeight="300"
                                  selectionMode="single"
                                  onRowClick=""
-
                                  selection="#{userBackingBean.selectedUser}"
                                  rowKey="#{user.name}">
 
@@ -63,7 +64,7 @@
                 </div>
             </h:form>
 
-            <h:graphicImage library="css" url="#{resource['images/user.jpg']}" styleClass="imagine"> </h:graphicImage>
+
 
 
             <h:form id="addUserForm">
@@ -106,6 +107,9 @@
                                      styleClass="aButton"/>
                 </p:dialog>
             </h:form>
+
+            <h:graphicImage library="css" url="#{resource['images/user.jpg']}" styleClass="imagine"> </h:graphicImage>
+
         </ui:define>
     </ui:composition>
 </h:body>

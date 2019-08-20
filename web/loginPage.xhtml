@@ -16,11 +16,11 @@
             <h:form id="loginForm">
                 <h3 class="title">JBugger</h3>
                 <h:outputText styleClass="myFont" value="#{msg['loginPage_userName']}" style="display:block;"/>
-                <p:inputText id="username" value="#{loginBean.username}" required="true" label="username"/>
+                <p:inputText id="username" style="width: 200px;height: 30px;" value="#{loginBean.username}" required="true" label="username"/>
                 <br/><br/>
 
                 <h:outputText styleClass="myFont" value="#{msg['loginPage_userPassword']}" style="display:block;"/>
-                <p:password id="password" value="#{loginBean.password}" required="true" label="password"/>
+                <p:password id="password" style="width: 200px;height: 30px;" value="#{loginBean.password}" required="true" label="password"/>
                 <br/><br/>
 
                 <p:commandButton value="#{msg['loginPage_login']}" action="#{loginBean.performLogin}"

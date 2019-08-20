@@ -9,12 +9,9 @@
 
 .bugTable{
     position: absolute !important;
-    /*top: 50%;*/
-    /*left: 50%;*/
-    /*!* bring your own prefixes *!*/
-    /*transform: translate(-50%, -45%);*/
     margin: 0 auto;
 }
+
 
 .addBug{
     position: absolute !important;
@@ -37,10 +34,14 @@ html,body{
 }
 
 .imagine{
-    background-size: contain;
-    background-color: #121212;
-    background-repeat: no-repeat ;
-    background-position: bottom right;
+    width: 10%;
+    height: 18%;
+    position: absolute !important;
+    bottom: 1%;
+    right: 1%;
+    /* bring your own prefixes */
+    /*transform: translate(0%, 0%);*/
+    margin: 0 auto;
 }
 
 .title{
@@ -118,6 +119,17 @@ form{
     left: 50%;
     /* bring your own prefixes */
     transform: translate(-50%, -50%);
+    margin: 0 auto;
+}
+
+.centered3 {
+    width: fit-content;
+    height: fit-content;
+    position: absolute !important;
+    top: 12%;
+    left:43%;
+    /* bring your own prefixes */
+    /*transform: translate(0%, 0%);*/
     margin: 0 auto;
 }
 

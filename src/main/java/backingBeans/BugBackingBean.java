@@ -1,7 +1,6 @@
 package backingBeans;
 
 import ejbs.BugEJB;
-import entities.Attachment;
 import entities.Bug;
 import helpers.DataGetter;
 import helpers.XMLPDFGenerator;
@@ -17,10 +16,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.*;
@@ -49,14 +46,14 @@ public class BugBackingBean implements Serializable {
     private String severity;
     private String statusName;
     private String assignedTo;
-//    private byte[] attachment;
+    private byte[] attachment;
     private Date selectedDate;
-    private Attachment attachment;
+
 
     private List<Bug> bugList;
     private List<Bug> selectedBugs=new ArrayList<>();
     private Bug selectedBug;
-    private Attachment selectedAttachment;
+
     private StreamedContent file1;
 
     @Inject
@@ -83,8 +80,6 @@ public class BugBackingBean implements Serializable {
 
     public void addBug() throws IOException {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
-//      fileUploadBean.upload();
         upload();
         bugEJB.createBug(file.getInputstream(), title,description,format.format(selectedDate),revision,assignedTo,severity,attachment);
     }
